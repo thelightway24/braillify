@@ -1,3 +1,5 @@
+use crate::{math_symbol_shortcut::is_math_symbol_char, symbol_shortcut::is_symbol_char};
+
 /// Character in Korean
 #[derive(Debug)]
 pub struct KoreanChar {
@@ -55,6 +57,7 @@ pub enum CharType {
     English(char),
     Number(char),
     Symbol(char),
+    MathSymbol(char),
     Space,
 }
 
@@ -66,8 +69,11 @@ impl CharType {
         if c.is_ascii_digit() {
             return Ok(Self::Number(c));
         }
-        if c.is_ascii_punctuation() {
+        if is_symbol_char(c) {
             return Ok(Self::Symbol(c));
+        }
+        if is_math_symbol_char(c) {
+            return Ok(Self::MathSymbol(c));
         }
         let code = c as u32;
         if 0x3131 <= code && code <= 0x3163 {

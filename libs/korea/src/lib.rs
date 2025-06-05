@@ -16,6 +16,7 @@ mod english;
 mod jauem;
 mod korean_char;
 mod korean_part;
+mod math_symbol_shortcut;
 mod moeum;
 mod number;
 mod rule;
@@ -38,7 +39,7 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
         })
     });
 
-    for (i, word) in words.into_iter().enumerate() {
+    for (idx, word) in words.iter().enumerate() {
         if let Some(code) = word_shortcut::encode_word_shortcut(word) {
             result.extend(code);
         } else {
@@ -181,6 +182,28 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                     CharType::Space => {
                         result.push(0);
                     }
+                    CharType::MathSymbol(c) => {
+                        if (i == 0
+                            && idx > 0
+                            && words[idx - 1]
+                                .chars()
+                                .any(|c| (0xAC00 <= c as u32 && c as u32 <= 0xD7A3)))
+                            || (i > 0
+                                && word_chars[..i]
+                                    .iter()
+                                    .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3)))
+                        {
+                            result.push(0);
+                        }
+                        result.extend(math_symbol_shortcut::encode_char_math_symbol_shortcut(c)?);
+                        if i < word_len - 1
+                            && word_chars[i..]
+                                .iter()
+                                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3))
+                        {
+                            result.push(0);
+                        }
+                    }
                 }
                 if !c.is_numeric() {
                     is_number = false;
@@ -199,7 +222,7 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                 }
             }
         }
-        if i != word_count - 1 {
+        if idx != word_count - 1 {
             result.push(0);
         }
     }
@@ -234,6 +257,10 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(
+            encode_to_unicode("5개−3개=2개").unwrap(),
+            "⠼⠑⠈⠗⠀⠔⠀⠼⠉⠈⠗⠀⠒⠒⠀⠼⠃⠈⠗"
+        );
         assert_eq!(encode_to_unicode("소화액").unwrap(), "⠠⠥⠚⠧⠤⠗⠁");
         assert_eq!(encode_to_unicode("X").unwrap(), "⠠⠭");
         assert_eq!(encode_to_unicode("껐").unwrap(), "⠠⠈⠎⠌");
