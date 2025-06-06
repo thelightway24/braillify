@@ -54,12 +54,11 @@ def main():
             with open(output_file, "w", encoding="utf-8") as output_file:
                 writer = csv.writer(output_file)
                 with open(test_file, "r", encoding="utf-8") as file:
-                    reader = csv.reader(file)
-                    for row in reader:
+                    for row in file.readlines():
+                        row = row.strip()
                         time.sleep(0.7)
                         pane.type_keys(
-                            row[0]
-                            .replace(" ", "{SPACE}")
+                            row.replace(" ", "{SPACE}")
                             .replace("(", "{(}")
                             .replace(")", "{)}"),
                             pause=0.05,
@@ -87,11 +86,9 @@ def main():
 
                         main_window.set_focus()
                         time.sleep(0.7)
-                        writer.writerow(
-                            [row[0], output_text, output_num, output_braille]
-                        )
+                        writer.writerow([row, output_text, output_num, output_braille])
 
-                        pane.type_keys("{BACKSPACE}" * len(row[0]))
+                        pane.type_keys("{BACKSPACE}" * len(row))
                         while output.get_value() != "":
                             pane.type_keys("{BACKSPACE}")
 
