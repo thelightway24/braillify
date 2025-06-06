@@ -331,7 +331,10 @@ mod test {
             let path = entry.path();
             if path.extension().unwrap_or_default() == "csv" {
                 let file = File::open(&path).unwrap();
-                let reader = csv::Reader::from_reader(file);
+                let reader = csv::ReaderBuilder::new()
+                    .has_headers(false)
+                    .from_reader(file);
+
                 let filename = path.file_name().unwrap().to_string_lossy();
                 let mut file_total = 0;
                 let mut file_failed = 0;
@@ -429,32 +432,34 @@ mod test {
                 }
                 println!();
             }
-            println!("\n파일별 테스트 결과:");
-            println!("=================");
-            for (filename, (file_total, file_failed)) in file_stats {
-                let success_rate =
-                    ((file_total - file_failed) as f64 / file_total as f64 * 100.0) as i32;
-                let color = if success_rate == 100 {
-                    "\x1b[32m" // 초록색
-                } else if success_rate == 0 {
-                    "\x1b[31m" // 빨간색
-                } else {
-                    "\x1b[33m" // 주황색
-                };
-                println!(
-                    "{}: {}개 중 {}개 성공 (성공률: {}{}%\x1b[0m)",
-                    filename,
-                    file_total,
-                    file_total - file_failed,
-                    color,
-                    success_rate
-                );
-            }
-            println!("\n전체 테스트 결과 요약:");
-            println!("=================");
-            println!("총 테스트 케이스: {}", total);
-            println!("성공: {}", total - failed);
-            println!("실패: {}", failed);
+        }
+        println!("\n파일별 테스트 결과:");
+        println!("=================");
+        for (filename, (file_total, file_failed)) in file_stats {
+            let success_rate =
+                ((file_total - file_failed) as f64 / file_total as f64 * 100.0) as i32;
+            let color = if success_rate == 100 {
+                "\x1b[32m" // 초록색
+            } else if success_rate == 0 {
+                "\x1b[31m" // 빨간색
+            } else {
+                "\x1b[33m" // 주황색
+            };
+            println!(
+                "{}: {}개 중 {}개 성공 (성공률: {}{}%\x1b[0m)",
+                filename,
+                file_total,
+                file_total - file_failed,
+                color,
+                success_rate
+            );
+        }
+        println!("\n전체 테스트 결과 요약:");
+        println!("=================");
+        println!("총 테스트 케이스: {}", total);
+        println!("성공: {}", total - failed);
+        println!("실패: {}", failed);
+        if failed > 0 {
             panic!(
                 "{}개 중 {}개의 테스트 케이스가 실패했습니다.",
                 total, failed
