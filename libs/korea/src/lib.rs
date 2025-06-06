@@ -38,31 +38,53 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                 || (0xAC00 <= c as u32 && c as u32 <= 0xD7A3);
         })
     });
+    let mut triple_big_english = false;
 
     for (idx, word) in words.iter().enumerate() {
-        if let Some(code) = word_shortcut::encode_word_shortcut(word) {
+        if let Some((_, code, rest)) = word_shortcut::split_word_shortcut(word) {
             result.extend(code);
+            if !rest.is_empty() {
+                result.extend(encode(rest.as_str())?);
+            }
         } else {
             let word_chars = word.chars().collect::<Vec<char>>();
             let word_len = word_chars.len();
             let is_all_uppercase = word_chars.iter().all(|c| c.is_uppercase());
-            if is_all_uppercase && word_len >= 2 {
-                // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단
-                // 어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
-                // ⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
-                // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
-                result.push(32);
-                result.push(32);
+
+            if english_indicator && !is_english && word_chars[0].is_ascii_alphabetic() {
+                // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
+                result.push(52);
+            }
+
+            if is_all_uppercase && !triple_big_english {
+                if (idx == 0 || !words[idx - 1].chars().all(|c| c.is_ascii_alphabetic()))
+                    && word_count - idx > 2
+                    && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic())
+                    && words[idx + 2].chars().all(|c| c.is_ascii_alphabetic())
+                {
+                    triple_big_english = true;
+                    result.push(32);
+                    result.push(32);
+                    result.push(32);
+                } else if word_len >= 2 {
+                    // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단
+                    // 어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
+                    // ⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
+                    // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
+                    result.push(32);
+                    result.push(32);
+                }
             }
 
             let mut is_number = false;
             let mut is_big_english = false;
-            let mut over_three_big_english = false;
+            // let mut over_three_big_english = false;
 
             for (i, c) in word_chars.iter().enumerate() {
                 let char_type = CharType::new(*c)?;
 
-                if !c.is_ascii_alphabetic() {
+                if english_indicator && i > 0 && !c.is_ascii_alphabetic() {
+                    // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
                     if is_english {
                         result.push(50);
                     }
@@ -79,9 +101,11 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                             result.push(0);
                         }
 
-                        if *c == '팠' || *c == '껐' {
+                        // "겄"의 경우 4항으로 해석해야 하지만 "것 + ㅅ" 으로 해석될 여지가 있으므로 예외처리
+                        if ['팠', '껐', '셩', '쎵', '졍', '쪙', '쳥', '겄'].contains(c) {
                             // 14항 [붙임] "팠"을 적을 때에는 "ㅏ"를 생략하지 않고 적는다.
                             // 16항 [붙임] ‘껐’을 적을 때에는 ‘꺼’와 받침 ‘ㅆ’ 약자를 어울러 적는다.
+                            // 제17항 ‘성, 썽, 정, 쩡, 청’을 적을 때에는 ‘ㅅ, ㅆ, ㅈ, ㅉ, ㅊ’ 다음에 ‘영’ 의 약자 ⠻을 적어 나타낸다. -> 그러므로 셩, 쪙 등 [ㅅ, ㅆ, ㅈ, ㅉ, ㅊ] + 영의 경우 초, 중, 종성 모두 결합
                             let (cho0, cho1) = split_korean_jauem(korean.cho)?;
                             if cho1.is_some() {
                                 // 쌍자음 경우의 수
@@ -139,10 +163,6 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                         }
                     }
                     CharType::English(c) => {
-                        if english_indicator && !is_english {
-                            // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
-                            result.push(52);
-                        }
                         if (!is_all_uppercase || word_len < 2)
                             && !is_big_english
                             && c.is_uppercase()
@@ -152,17 +172,12 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                             // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
                             is_big_english = true;
 
-                            let mut big_english_count = 0;
-                            for idx in 0..std::cmp::min(word_len - i, 3) {
+                            for idx in 0..std::cmp::min(word_len - i, 2) {
                                 if word_chars[i + idx].is_uppercase() {
                                     result.push(32);
-                                    big_english_count += 1;
                                 } else {
                                     break;
                                 }
-                            }
-                            if big_english_count > 3 {
-                                over_three_big_english = true;
                             }
                         }
                         is_english = true;
@@ -170,28 +185,35 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                     }
                     CharType::Number(c) => {
                         if !is_number {
-                            // 제40항 숫자는 수표 ⠼을 앞세워 다음과 같이 적는다.
-                            result.push(60);
+                            // 제43항 숫자 사이에 마침표, 쉼표, 연결표가 붙어 나올 때에는 뒤의 숫자에 수표를 적지 않는다.
+                            if !(i > 0 && ['.', ','].contains(&word_chars[i - 1])) {
+                                // 제40항 숫자는 수표 ⠼을 앞세워 다음과 같이 적는다.
+                                result.push(60);
+                            }
                             is_number = true;
                         }
                         result.extend(number::encode_number(c));
                     }
                     CharType::Symbol(c) => {
-                        result.extend(symbol_shortcut::encode_char_symbol_shortcut(c)?);
+                        if c == ','
+                            && is_number
+                            && i < word_len - 1
+                            && word_chars[i + 1].is_numeric()
+                        {
+                            // 제41항 숫자 사이에 붙어 나오는 쉼표와 자릿점은 ⠂으로 적는다.
+                            result.push(2);
+                        } else {
+                            result.extend(symbol_shortcut::encode_char_symbol_shortcut(c)?);
+                        }
                     }
                     CharType::Space => {
                         result.push(0);
                     }
                     CharType::MathSymbol(c) => {
-                        if (i == 0
-                            && idx > 0
-                            && words[idx - 1]
-                                .chars()
-                                .any(|c| (0xAC00 <= c as u32 && c as u32 <= 0xD7A3)))
-                            || (i > 0
-                                && word_chars[..i]
-                                    .iter()
-                                    .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3)))
+                        if i > 0
+                            && word_chars[..i]
+                                .iter()
+                                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3))
                         {
                             result.push(0);
                         }
@@ -210,19 +232,28 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                 }
                 if c.is_ascii_alphabetic() && !c.is_uppercase() {
                     is_big_english = false;
-                    if over_three_big_english && !is_all_uppercase {
-                        // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ,을 그 앞에 적고, 단
-                        // 어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
-                        // ,,을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
-                        // 앞에 대문자 구절표 ,,,을 적고, 마지막 단어 뒤에 대문자 종료표 ,'을 적는다.
-                        result.push(32);
-                        result.push(4);
-                    }
-                    over_three_big_english = false;
                 }
             }
         }
+
+        if triple_big_english {
+            if !(word_count - idx > 1 && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic())) {
+                // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
+                // ⠠⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
+                // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
+                result.push(32);
+                result.push(4);
+            }
+        }
         if idx != word_count - 1 {
+            if english_indicator && !words[idx + 1].chars().next().unwrap().is_ascii_alphabetic() {
+                // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
+                if is_english {
+                    result.push(50);
+                }
+                is_english = false;
+            }
+
             result.push(0);
         }
     }
@@ -257,6 +288,31 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(encode_to_unicode("걲").unwrap(), "⠈⠹⠁");
+        assert_eq!(encode_to_unicode("겄").unwrap(), "⠈⠎⠌");
+        assert_eq!(encode_to_unicode("kg").unwrap(), "⠅⠛");
+        assert_eq!(encode_to_unicode("(kg)").unwrap(), "⠦⠄⠅⠛⠠⠴");
+        assert_eq!(
+            encode_to_unicode("나루 + 배 = 나룻배").unwrap(),
+            "⠉⠐⠍⠀⠢⠀⠘⠗⠀⠒⠒⠀⠉⠐⠍⠄⠘⠗"
+        );
+        assert_eq!(
+            encode_to_unicode("02-2669-9775~6").unwrap(),
+            "⠼⠚⠃⠤⠼⠃⠋⠋⠊⠤⠼⠊⠛⠛⠑⠈⠔⠼⠋"
+        );
+        assert_eq!(
+            encode_to_unicode("WELCOME TO KOREA").unwrap(),
+            "⠠⠠⠠⠺⠑⠇⠉⠕⠍⠑⠀⠞⠕⠀⠅⠕⠗⠑⠁⠠⠄"
+        );
+        assert_eq!(encode_to_unicode("SNS에서").unwrap(), "⠴⠠⠠⠎⠝⠎⠲⠝⠠⠎");
+        assert_eq!(encode_to_unicode("ATM").unwrap(), "⠠⠠⠁⠞⠍");
+        assert_eq!(encode_to_unicode("ATM 기기").unwrap(), "⠴⠠⠠⠁⠞⠍⠲⠀⠈⠕⠈⠕");
+        assert_eq!(encode_to_unicode("1,000").unwrap(), "⠼⠁⠂⠚⠚⠚");
+        assert_eq!(encode_to_unicode("0.48").unwrap(), "⠼⠚⠲⠙⠓");
+        assert_eq!(
+            encode_to_unicode("820718-2036794").unwrap(),
+            "⠼⠓⠃⠚⠛⠁⠓⠤⠼⠃⠚⠉⠋⠛⠊⠙"
+        );
         assert_eq!(
             encode_to_unicode("5개−3개=2개").unwrap(),
             "⠼⠑⠈⠗⠀⠔⠀⠼⠉⠈⠗⠀⠒⠒⠀⠼⠃⠈⠗"

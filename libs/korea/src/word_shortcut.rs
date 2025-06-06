@@ -16,6 +16,15 @@ pub fn encode_word_shortcut(text: &str) -> Option<&'static [u8]> {
     SHORTCUT_MAP.get(&text).cloned()
 }
 
+pub fn split_word_shortcut(text: &str) -> Option<(&'static str, &'static [u8], String)> {
+    for (key, value) in SHORTCUT_MAP.entries() {
+        if text.starts_with(key) {
+            return Some((key, value, text[key.len()..].to_string()));
+        }
+    }
+    None
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
