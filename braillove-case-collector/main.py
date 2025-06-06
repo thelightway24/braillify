@@ -56,7 +56,7 @@ def main():
                 with open(test_file, "r", encoding="utf-8") as file:
                     for row in file.readlines():
                         row = row.strip()
-                        time.sleep(0.7)
+                        time.sleep(0.3)
                         pane.type_keys(
                             row.replace(" ", "{SPACE}")
                             .replace("(", "{(}")
@@ -64,7 +64,7 @@ def main():
                             pause=0.05,
                         )
 
-                        time.sleep(1)
+                        time.sleep(0.3)
 
                         # output 에서 read text 가져오기
                         output_text = output.get_value()
@@ -85,7 +85,7 @@ def main():
                                     raise Exception(f"오류: {output_text[i]}")
 
                         main_window.set_focus()
-                        time.sleep(0.7)
+                        time.sleep(0.3)
                         writer.writerow([row, output_text, output_num, output_braille])
 
                         pane.type_keys("{BACKSPACE}" * len(row))
