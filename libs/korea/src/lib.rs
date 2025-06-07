@@ -50,6 +50,9 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
             let word_chars = word.chars().collect::<Vec<char>>();
             let word_len = word_chars.len();
             let is_all_uppercase = word_chars.iter().all(|c| c.is_uppercase());
+            let has_korean_char = word_chars
+                .iter()
+                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3));
 
             if english_indicator && !is_english && word_chars[0].is_ascii_alphabetic() {
                 // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
@@ -155,9 +158,15 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                                     result.push(63);
                                     result.extend(jauem::jongseong::encode_jongseong(c)?);
                                 } else {
-                                    // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
-                                    result.push(56);
-                                    result.extend(korean_part::encode_korean_part(c)?);
+                                    if has_korean_char {
+                                        // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
+                                        result.push(56);
+                                        result.extend(korean_part::encode_korean_part(c)?);
+                                    } else {
+                                        // 8항 - 단독으로 쓰인 자모
+                                        result.push(63);
+                                        result.extend(jauem::jongseong::encode_jongseong(c)?);
+                                    }
                                 }
                             }
                         }
@@ -288,6 +297,7 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(encode_to_unicode("삼각형 ㄱㄴㄷ").unwrap(), "⠇⠢⠫⠁⠚⠻⠀⠿⠁⠿⠒⠿⠔");
         assert_eq!(encode_to_unicode("걲").unwrap(), "⠈⠹⠁");
         assert_eq!(encode_to_unicode("겄").unwrap(), "⠈⠎⠌");
         assert_eq!(encode_to_unicode("kg").unwrap(), "⠅⠛");
