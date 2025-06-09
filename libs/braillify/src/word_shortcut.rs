@@ -12,10 +12,6 @@ pub static SHORTCUT_MAP: phf::Map<&'static str, &'static [u8]> = phf_map! {
     "그리하여" => &[decode_unicode('⠁'), decode_unicode('⠱')],
 };
 
-pub fn encode_word_shortcut(text: &str) -> Option<&'static [u8]> {
-    SHORTCUT_MAP.get(&text).cloned()
-}
-
 pub fn split_word_shortcut(text: &str) -> Option<(&'static str, &'static [u8], String)> {
     for (key, value) in SHORTCUT_MAP.entries() {
         if text.starts_with(key) {
@@ -32,8 +28,12 @@ mod test {
     #[test]
     pub fn test_encode_word_shortcut() {
         assert_eq!(
-            encode_word_shortcut("그래서").unwrap(),
-            &[decode_unicode('⠁'), decode_unicode('⠎')]
+            split_word_shortcut("그래서").unwrap(),
+            (
+                "그래서",
+                &[decode_unicode('⠁'), decode_unicode('⠎')][..],
+                "".to_string()
+            )
         );
     }
 }

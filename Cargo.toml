@@ -1,5 +1,5 @@
 [workspace]
-members = ["libs/*"]
+members = ["libs/*", "packages/*"]
 
 [workspace.package]
 version = "0.1.0"

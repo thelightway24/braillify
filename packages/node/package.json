@@ -1,0 +1,47 @@
+{
+  "name": "braillify",
+  "description": "Braillify is a library for converting text to braille.",
+  "repository": "https://github.com/dev-five-git/braillify",
+  "author": "devfive",
+  "license": "Apache-2.0",
+  "homepage": "https://braillify.com",
+  "bugs": {
+    "url": "https://github.com/dev-five-git/braillify/issues",
+    "email": "contact@devfive.kr"
+  },
+  "keywords": [
+    "braillify",
+    "braille",
+    "braille-converter",
+    "braille-to-text",
+    "text-to-braille",
+    "wasm"
+  ],
+  "version": "1.0.0",
+  "scripts": {
+    "build": "wasm-pack build --target nodejs --out-dir ./pkg --out-name index && node script.js",
+    "test": "wasm-pack test --node"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "main": "./pkg/index.js",
+  "module": "./pkg/index.js",
+  "files": [
+    "pkg/index.d.ts",
+    "pkg/index.js",
+    "pkg/package.json",
+    "pkg/index_bg.wasm",
+    "pkg/index_bg.wasm.d.ts"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./pkg/index.js",
+      "require": "./pkg/index.js",
+      "types": "./pkg/index.d.ts"
+    }
+  },
+  "types": "./pkg/index.d.ts"
+}
