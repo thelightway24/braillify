@@ -34,6 +34,8 @@ static SHORTCUT_MAP: phf::Map<char, &'static [u8]> = phf_map! {
     '〉' => &[decode_unicode('⠶'), decode_unicode('⠂')],
     '《' => &[decode_unicode('⠰'), decode_unicode('⠶')],
     '》' => &[decode_unicode('⠶'), decode_unicode('⠆')],
+    '‘' => &[decode_unicode('⠠'), decode_unicode('⠦')],
+    '’' => &[decode_unicode('⠴'), decode_unicode('⠄')],
     '-' => &[decode_unicode('⠤')],
 };
 

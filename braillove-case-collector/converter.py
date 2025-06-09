@@ -3,7 +3,7 @@ braille = "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖
 
 
 def main():
-    while inp := input():
+    while inp := input().lower():
         output_num = ""
         output_braille = ""
         for i in range(len(inp)):

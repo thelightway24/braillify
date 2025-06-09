@@ -7,6 +7,7 @@ use crate::{
     jauem::jongseong::encode_jongseong,
     korean_char::encode_korean_char,
     rule::{rule_11, rule_12},
+    rule_en::{rule_en_10_4, rule_en_10_6},
     split::split_korean_jauem,
 };
 
@@ -20,6 +21,7 @@ mod math_symbol_shortcut;
 mod moeum;
 mod number;
 mod rule;
+mod rule_en;
 mod split;
 mod symbol_shortcut;
 mod unicode;
@@ -41,6 +43,8 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
     let mut triple_big_english = false;
 
     for (idx, word) in words.iter().enumerate() {
+        let mut skip_count = 0;
+
         if let Some((_, code, rest)) = word_shortcut::split_word_shortcut(word) {
             result.extend(code);
             if !rest.is_empty() {
@@ -56,6 +60,8 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
 
             if english_indicator && !is_english && word_chars[0].is_ascii_alphabetic() {
                 // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
+
+                is_english = true;
                 result.push(52);
             }
 
@@ -84,11 +90,17 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
             // let mut over_three_big_english = false;
 
             for (i, c) in word_chars.iter().enumerate() {
+                if skip_count > 0 {
+                    skip_count -= 1;
+                    continue;
+                }
+
                 let char_type = CharType::new(*c)?;
 
                 if english_indicator && i > 0 && !c.is_ascii_alphabetic() {
                     // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
-                    if is_english {
+                    if is_english && !['"', ')', '('].contains(c) {
+                        // 제34항 로마자가 따옴표나 괄호 등으로 묶일 때에는 로마자 종료표를 적지 않는다.
                         result.push(50);
                     }
                     is_english = false;
@@ -153,25 +165,45 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                                 }
                             }
                             _ => {
-                                if i == 0 && word_len > 1 && word_chars[1] == '자' {
+                                if (i == 0 && word_len > 1 && word_chars[1] == '자')
+                                    || ((i == 0
+                                        || (i > 0
+                                            && matches!(
+                                                CharType::new(word_chars[i - 1])?,
+                                                CharType::Symbol(_)
+                                            )))
+                                        && (word_len - 1 == i
+                                            || (i < word_len - 1
+                                                && matches!(
+                                                    CharType::new(word_chars[i + 1])?,
+                                                    CharType::Symbol(_)
+                                                ))))
+                                {
                                     // 8항 - 단독으로 쓰인 자모
                                     result.push(63);
-                                    result.extend(jauem::jongseong::encode_jongseong(c)?);
+                                    result.extend(korean_part::encode_korean_part(c)?);
                                 } else {
                                     if has_korean_char {
                                         // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
                                         result.push(56);
                                         result.extend(korean_part::encode_korean_part(c)?);
                                     } else {
+                                        // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
                                         // 8항 - 단독으로 쓰인 자모
                                         result.push(63);
-                                        result.extend(jauem::jongseong::encode_jongseong(c)?);
+                                        result.extend(korean_part::encode_korean_part(c)?);
                                     }
                                 }
                             }
                         }
                     }
                     CharType::English(c) => {
+                        if english_indicator && !is_english {
+                            // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
+
+                            result.push(52);
+                        }
+
                         if (!is_all_uppercase || word_len < 2)
                             && !is_big_english
                             && c.is_uppercase()
@@ -189,8 +221,29 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                                 }
                             }
                         }
+                        if !is_english || i == 0 {
+                            if let Some((code, len)) = rule_en_10_6(
+                                &word_chars[i..].iter().collect::<String>().to_lowercase(),
+                            ) {
+                                result.push(code);
+                                skip_count = len;
+                            } else if let Some((code, len)) = rule_en_10_4(
+                                &word_chars[i..].iter().collect::<String>().to_lowercase(),
+                            ) {
+                                result.push(code);
+                                skip_count = len;
+                            } else {
+                                result.push(english::encode_english(c)?);
+                            }
+                        } else if let Some((code, len)) =
+                            rule_en_10_4(&word_chars[i..].iter().collect::<String>().to_lowercase())
+                        {
+                            result.push(code);
+                            skip_count = len;
+                        } else {
+                            result.push(english::encode_english(c)?);
+                        }
                         is_english = true;
-                        result.push(english::encode_english(c)?);
                     }
                     CharType::Number(c) => {
                         if !is_number {
@@ -227,12 +280,23 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                             result.push(0);
                         }
                         result.extend(math_symbol_shortcut::encode_char_math_symbol_shortcut(c)?);
-                        if i < word_len - 1
-                            && word_chars[i..]
-                                .iter()
-                                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3))
-                        {
-                            result.push(0);
+                        if i < word_len - 1 {
+                            let mut korean = vec![];
+                            for wc in word_chars[i..].iter() {
+                                if 0xAC00 <= *wc as u32 && *wc as u32 <= 0xD7A3 {
+                                    korean.push(*wc);
+                                } else if !korean.is_empty() {
+                                    break;
+                                }
+                            }
+                            if !korean.is_empty() {
+                                // 조사일 경우, 수 뒤에 올 경우 구분하는 것으로 판단
+                                if !["과", "와", "이다", "하고", "이랑", "와", "랑", "아니다"]
+                                    .contains(&korean.iter().collect::<String>().as_str())
+                                {
+                                    result.push(0);
+                                }
+                            }
                         }
                     }
                 }
@@ -297,6 +361,27 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(encode_to_unicode("BMI(지수)").unwrap(), "⠴⠠⠠⠃⠍⠊⠦⠄⠨⠕⠠⠍⠠⠴");
+        assert_eq!(encode_to_unicode("지수(BMI)").unwrap(), "⠨⠕⠠⠍⠦⠄⠴⠠⠠⠃⠍⠊⠠⠴");
+        assert_eq!(
+            encode_to_unicode("체질량 지수(BMI)").unwrap(),
+            "⠰⠝⠨⠕⠂⠐⠜⠶⠀⠨⠕⠠⠍⠦⠄⠴⠠⠠⠃⠍⠊⠠⠴"
+        );
+        assert_eq!(
+            encode_to_unicode("Roma [ㄹㄹ로마]").unwrap(),
+            "⠴⠠⠗⠕⠍⠁⠲⠀⠦⠆⠸⠂⠸⠂⠐⠥⠑⠰⠴"
+        );
+        assert_eq!(
+            encode_to_unicode("‘ㅖ’로 적는다.").unwrap(),
+            "⠠⠦⠿⠌⠴⠄⠐⠥⠀⠨⠹⠉⠵⠊⠲"
+        );
+        assert_eq!(encode_to_unicode("Contents").unwrap(), "⠠⠒⠞⠢⠞⠎");
+
+        assert_eq!(
+            encode_to_unicode("Table of Contents").unwrap(),
+            "⠠⠞⠁⠃⠇⠑⠀⠷⠀⠠⠒⠞⠢⠞⠎"
+        );
+        assert_eq!(encode_to_unicode("bonjour").unwrap(), "⠃⠕⠝⠚⠳⠗");
         assert_eq!(encode_to_unicode("삼각형 ㄱㄴㄷ").unwrap(), "⠇⠢⠫⠁⠚⠻⠀⠿⠁⠿⠒⠿⠔");
         assert_eq!(encode_to_unicode("걲").unwrap(), "⠈⠹⠁");
         assert_eq!(encode_to_unicode("겄").unwrap(), "⠈⠎⠌");
