@@ -1,10 +1,8 @@
-import { css } from '@devup-ui/react'
 import { SVGProps } from 'react'
 
 export default function IconKakao({ ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      className={css({ color: '$text' })}
       fill="none"
       height="24"
       viewBox="0 0 24 24"

@@ -5,8 +5,12 @@ import IconDiscord from '@/components/icons/IconDiscord'
 export default function HomePage() {
   return (
     <VStack alignItems="center" bg="$background" position="relative">
-      <Box px="80px" py="100px">
+      <Box
+        px={['16px', null, '30px', '80px']}
+        py={['40px', null, null, '100px']}
+      >
         <Image
+          display={['none', null, null, 'block']}
           h="1019px"
           pos="absolute"
           right="47.172px"
@@ -15,9 +19,15 @@ export default function HomePage() {
           w="236.82798767089844px"
         />
         <VStack gap="80px" position="relative" zIndex="1">
-          <VStack alignItems="flex-start">
-            <Image h="341px" mb="60px" src="/images/home/hero.svg" />
-            <VStack gap="40px">
+          <VStack alignItems={['center', null, null, 'flex-start']}>
+            <Image
+              h={[null, null, '288px', '341px']}
+              mb={['30px', null, null, '60px']}
+              objectFit="contain"
+              src="/images/home/hero.svg"
+              w={['100%', null]}
+            />
+            <VStack gap={['20px', null, null, '40px']}>
               <Text color="$text" typography="mainText">
                 실시간 한글 점역 라이브러리
               </Text>
@@ -25,11 +35,10 @@ export default function HomePage() {
                 alignItems="center"
                 bg="#2B2B2B"
                 borderRadius="1000px"
-                h="70px"
                 justifyContent="space-between"
-                px="40px"
-                py="20px"
-                w="300px"
+                px={['20px', null, null, '40px']}
+                py={['16px', null, null, '20px']}
+                w={['240px', null, null, '300px']}
               >
                 <Text color="#FFF" typography="buttonLg">
                   지금 시작하기
@@ -43,14 +52,19 @@ export default function HomePage() {
               </Flex>
             </VStack>
           </VStack>
-          <Flex alignItems="center" gap="30px" h="500px">
+          <Flex
+            alignItems="center"
+            flexDirection={['column', null, null, 'row']}
+            gap={['12px', null, null, '30px']}
+            h={['auto', null, null, '500px']}
+          >
             <Flex
               bg="$containerBackground"
-              borderRadius="30px"
+              borderRadius={['16px', null, null, '30px']}
               flex="1"
               gap="10px"
               h="100%"
-              p="40px"
+              p={['16px', null, null, '40px']}
             >
               <Text color="$text" opacity="0.5" typography="braille">
                 braillify는 한글 점역을 빠르고 안정적으로 처리하는 Rust 기반
@@ -59,14 +73,26 @@ export default function HomePage() {
                 입력해 직접 확인해보세요!
               </Text>
             </Flex>
-            <Image src="/images/home/translate-arrow.svg" w="50px" />
+            <Flex>
+              <Image
+                display={['none', null, null, 'block']}
+                mr="10px"
+                src="/images/home/translate-arrow-circle.svg"
+                w="16px"
+              />
+              <Image
+                src="/images/home/translate-arrow.svg"
+                transform={['rotate(0deg)', null, null, 'rotate(-90deg)']}
+                w={['16px', null, null, '24px']}
+              />
+            </Flex>
             <Flex
               bg="$containerBackground"
-              borderRadius="30px"
+              borderRadius={['16px', null, null, '30px']}
               flex="1"
               gap="10px"
               h="100%"
-              p="40px"
+              p={['16px', null, null, '40px']}
             >
               <Text
                 color="$text"
@@ -81,7 +107,12 @@ export default function HomePage() {
           </Flex>
         </VStack>
       </Box>
-      <Flex gap="80px" maxW="1760px" px="60px" py="80px">
+      <Flex
+        flexDirection={['column', null, null, 'row']}
+        gap="80px"
+        px={['16px', null, null, '60px']}
+        py={['30px', null, null, '80px']}
+      >
         <VStack gap="20px">
           <Flex gap="16px">
             <Text color="$text" typography="title">
@@ -102,7 +133,8 @@ export default function HomePage() {
             borderBottom="1px solid $text"
             borderTop="1px solid $text"
             gap="50px"
-            p="50px"
+            p={['16px', null, null, '50px']}
+            position="relative"
           >
             <VStack flex="1" gap="12px">
               <Text color="$text" typography="featureCount">
@@ -123,10 +155,18 @@ export default function HomePage() {
               aspectRatio="1/1"
               bg="$text"
               borderRadius="50%"
-              boxSize="16px"
+              boxSize={['12px', null, null, '16px']}
+              position={['absolute', null, null, 'static']}
+              right="20px"
+              top="20px"
             />
           </Flex>
-          <Flex borderBottom="1px solid $text" gap="50px" p="50px">
+          <Flex
+            borderBottom="1px solid $text"
+            gap="50px"
+            p={['16px', null, null, '50px']}
+            position="relative"
+          >
             <VStack flex="1" gap="12px">
               <Text color="$text" typography="featureCount">
                 02
@@ -146,10 +186,18 @@ export default function HomePage() {
               aspectRatio="1/1"
               bg="$text"
               borderRadius="50%"
-              boxSize="16px"
+              boxSize={['12px', null, null, '16px']}
+              position={['absolute', null, null, 'static']}
+              right="20px"
+              top="20px"
             />
           </Flex>
-          <Flex borderBottom="1px solid $text" gap="50px" p="50px">
+          <Flex
+            borderBottom="1px solid $text"
+            gap="50px"
+            p={['16px', null, null, '50px']}
+            position="relative"
+          >
             <VStack flex="1" gap="12px">
               <Text color="$text" typography="featureCount">
                 03
@@ -170,31 +218,44 @@ export default function HomePage() {
               aspectRatio="1/1"
               bg="$text"
               borderRadius="50%"
-              boxSize="16px"
+              boxSize={['12px', null, null, '16px']}
+              position={['absolute', null, null, 'static']}
+              right="20px"
+              top="20px"
             />
           </Flex>
         </VStack>
       </Flex>
-      <Flex data-testid="community" gap="100px" px="80px" py="100px" w="100%">
+      <Flex gap="100px" px={['16px', null, null, '80px']} py="100px" w="100%">
         <Flex
+          alignItems={['center', null, null, 'flex-start']}
           bg="url(/images/home/texture.png)"
           bgPosition="center"
           bgSize="cover"
-          borderRadius="40px"
+          borderRadius={['20px', null, null, '40px']}
           flex="1"
+          flexDirection={['column', null, null, 'row']}
           justifyContent="space-between"
           position="relative"
-          px="100px"
-          py="80px"
+          px={['50px', null, null, '100px']}
+          py={['30px', null, null, '80px']}
+          w="100%"
         >
           <VStack gap="20px">
-            <Flex gap="16px">
-              <Text color="#FFF" typography="title">
+            <Flex
+              gap="16px"
+              justifyContent={['center', null, null, 'flex-start']}
+            >
+              <Text color="#FFF" typography="title" whiteSpace="nowrap">
                 공식 커뮤니티 참여하기
               </Text>
               <Box aspectRatio="1/1" bg="#FFF" borderRadius="50%" h="16px" />
             </Flex>
-            <Text color="#FFF" typography="bodyLg">
+            <Text
+              color="#FFF"
+              textAlign={['center', null, null, 'left']}
+              typography="bodyLg"
+            >
               braillify의 커뮤니티에 참여해
               <br /> 점자와 세상, 모두를 연결하는 여정을 시작해보세요.
             </Text>

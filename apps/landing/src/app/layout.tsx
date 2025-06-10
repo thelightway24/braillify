@@ -1,6 +1,5 @@
 import './globals.css'
 
-import { Box } from '@devup-ui/react'
 import type { Metadata } from 'next'
 
 import Footer from '@/components/Footer'
@@ -20,7 +19,6 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <Header />
-        <Box h="100px" />
         {children}
         <Footer />
       </body>
