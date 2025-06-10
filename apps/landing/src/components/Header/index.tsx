@@ -28,11 +28,13 @@ export default function Header() {
         position="relative"
         px="40px"
       >
-        <Image
-          aspectRatio="122.87/50.00"
-          h="50px"
-          src="/images/home/hero.svg"
-        />
+        <Link href="/">
+          <Image
+            aspectRatio="122.87/50.00"
+            h="50px"
+            src="/images/home/hero.svg"
+          />
+        </Link>
 
         <Flex alignItems="center" gap="40px">
           <Link href="/docs">
