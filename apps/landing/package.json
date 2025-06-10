@@ -9,15 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "@devup-ui/react": "^1.0.1",
+    "braillify": "workspace:*",
     "next": "15.3.3",
-    "braillify": "workspace:*"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@devup-ui/next-plugin": "^1.0.1",
     "@types/node": "^22",
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "typescript": "^5"
   }
 }
