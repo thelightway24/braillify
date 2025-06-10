@@ -1,8 +1,13 @@
 import { DevupUI } from '@devup-ui/next-plugin'
-import type { NextConfig } from 'next'
+import createMDX from '@next/mdx'
 
-const nextConfig: NextConfig = {
-  /* config options here */
-}
+const withMDX = createMDX({})
 
-export default DevupUI(nextConfig)
+export default withMDX(
+  DevupUI(
+    {
+      pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    },
+    {},
+  ),
+)
