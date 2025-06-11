@@ -37,7 +37,12 @@ export default function Header() {
       >
         <Flex
           alignItems="center"
-          bg={isIntersecting ? 'transparent' : '$containerBackground'}
+          bg={[
+            '$containerBackground',
+            null,
+            null,
+            isIntersecting ? 'transparent' : '$containerBackground',
+          ]}
           borderRadius={['10px', null, null, '20px']}
           flex="1"
           h="100%"
@@ -100,15 +105,15 @@ export default function Header() {
             </Link>
             <ThemeSwitch />
           </Flex>
-        </Flex>
-        <Flex
-          alignItems="center"
-          display={['flex', null, null, 'none']}
-          gap="10px"
-        >
-          <MobileMenuButton>
-            <IconHamburger />
-          </MobileMenuButton>
+          <Flex
+            alignItems="center"
+            display={['flex', null, null, 'none']}
+            gap="10px"
+          >
+            <MobileMenuButton>
+              <IconHamburger />
+            </MobileMenuButton>
+          </Flex>
         </Flex>
       </Box>
       <Box ref={headerRef} h={['60px', null, null, '100px']} />
