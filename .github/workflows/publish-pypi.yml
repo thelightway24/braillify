@@ -2,7 +2,9 @@ name: Publish Package to pypi
 
 on:
   release:
-    types: [published]
+    types: [released]
+  workflow_dispatch:
+
 permissions: write-all
 
 jobs:
