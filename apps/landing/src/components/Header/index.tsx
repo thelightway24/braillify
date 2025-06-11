@@ -44,11 +44,17 @@ export default function Header() {
           <Flex
             alignItems="center"
             display={['none', null, null, 'flex']}
-            gap="10px"
+            gap="32px"
           >
-            <IconGithub />
-            <IconDiscord />
-            <IconKakao />
+            <Link href="https://github.com/dev-five-git/braillify">
+              <IconGithub />
+            </Link>
+            <Link href="#">
+              <IconDiscord />
+            </Link>
+            <Link href="#">
+              <IconKakao />
+            </Link>
             <IconColorTheme />
           </Flex>
           <Flex

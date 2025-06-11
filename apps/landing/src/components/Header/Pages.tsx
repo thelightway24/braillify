@@ -33,16 +33,18 @@ export default function Pages() {
           <Text>테스트 케이스</Text>
         </Flex>
       </Link>
-      <Flex alignItems="center" gap="10px" p="40px">
-        <Box
-          aspectRatio="1/1"
-          bg={pathname.startsWith('/team') ? '$text' : 'transparent'}
-          border="1px solid $text"
-          borderRadius="50%"
-          h="12px"
-        />
-        <Text>팀 소개</Text>
-      </Flex>
+      <Link href="/team">
+        <Flex alignItems="center" gap="10px" p="40px">
+          <Box
+            aspectRatio="1/1"
+            bg={pathname.startsWith('/team') ? '$text' : 'transparent'}
+            border="1px solid $text"
+            borderRadius="50%"
+            h="12px"
+          />
+          <Text>팀 소개</Text>
+        </Flex>
+      </Link>
     </Flex>
   )
 }
