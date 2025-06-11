@@ -38,3 +38,4 @@ npm install braillify # node
 ```bash
 pip install braillify # python
 ```
+[crates.io 바로가기](https://crates.io/crates/braillify)
