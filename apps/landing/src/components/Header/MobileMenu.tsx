@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Center, Flex, Image, Text, VStack } from '@devup-ui/react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import IconColorTheme from '../icons/IconColorTheme'
 import IconDiscord from '../icons/IconDiscord'
@@ -9,6 +9,7 @@ import IconGithub from '../icons/IconGithub'
 import IconKakao from '../icons/IconKakao'
 import MobileMenuProvider, {
   MobileMenuItem,
+  MobileMenuItemBox,
   MobileMenuSubItem,
 } from './MobileMenuProvider'
 
@@ -16,6 +17,7 @@ export default function MobileMenu() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const menuOpen = searchParams.get('menuOpen')
+  const pathname = usePathname()
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function MobileMenu() {
           bg="$containerBackground"
           h="100vh"
           inset="0"
-          position="absolute"
+          position="fixed"
           w="100%"
           zIndex="100"
         >
@@ -59,153 +61,276 @@ export default function MobileMenu() {
             </MobileMenuItem>
             <MobileMenuSubItem>
               <VStack bg="$background" px="16px" typography="docsMenu">
-                <Box onClick={() => router.push(`/docs/overview`)} p="10px">
-                  <Text opacity="0.8">개요</Text>
-                </Box>
-                <Box onClick={() => router.push(`/docs/installation`)} p="10px">
-                  <Text opacity="0.8">설치</Text>
-                </Box>
+                <MobileMenuItemBox
+                  onClick={() => router.push(`/docs/overview`)}
+                  selected={pathname === '/docs/overview'}
+                >
+                  <Flex
+                    alignItems="center"
+                    gap="10px"
+                    justifyContent="space-between"
+                    w="100%"
+                  >
+                    <Text>개요</Text>
+                    <Image
+                      alt="arrow icon"
+                      boxSize="16px"
+                      src="/images/docs/menu-arrow.svg"
+                    />
+                  </Flex>
+                </MobileMenuItemBox>
+                <MobileMenuItemBox
+                  onClick={() => router.push(`/docs/installation`)}
+                  selected={pathname === '/docs/installation'}
+                >
+                  <Flex
+                    alignItems="center"
+                    gap="10px"
+                    justifyContent="space-between"
+                    w="100%"
+                  >
+                    <Text>설치</Text>
+                    <Image
+                      alt="arrow icon"
+                      boxSize="16px"
+                      src="/images/docs/menu-arrow.svg"
+                    />
+                  </Flex>
+                </MobileMenuItemBox>
                 <MobileMenuProvider>
                   <MobileMenuItem>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <Box p="10px">
-                        <Text opacity="0.8">개념</Text>
-                      </Box>
-                      <Image
-                        alt="arrow icon"
-                        boxSize="16px"
-                        src="/images/docs/menu-arrow.svg"
-                      />
-                    </Flex>
+                    <MobileMenuItemBox
+                      selected={pathname.startsWith('/docs/concept')}
+                    >
+                      <Flex
+                        alignItems="center"
+                        gap="10px"
+                        justifyContent="space-between"
+                        w="100%"
+                      >
+                        <Text>개념</Text>
+                        <Image
+                          alt="arrow icon"
+                          boxSize="16px"
+                          src="/images/docs/menu-arrow.svg"
+                        />
+                      </Flex>
+                    </MobileMenuItemBox>
                   </MobileMenuItem>
                   <MobileMenuSubItem>
-                    <VStack borderLeft="1px solid $border" ml="10px">
-                      <Box
+                    <VStack
+                      borderLeft="1px solid $border"
+                      gap="4px"
+                      ml="10px"
+                      mt="4px"
+                      paddingLeft="8px"
+                    >
+                      <MobileMenuItemBox
                         onClick={() =>
                           router.push(`/docs/concept/utility-first`)
                         }
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/concept/utility-first',
+                        )}
                       >
-                        <Text opacity="0.8">유틸리티 퍼스트</Text>
-                      </Box>
-                      <Box
+                        <Flex
+                          alignItems="center"
+                          gap="10px"
+                          justifyContent="space-between"
+                          w="100%"
+                        >
+                          <Text>유틸리티 퍼스트</Text>
+                        </Flex>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
                         onClick={() =>
                           router.push(`/docs/concept/hybrid-approach`)
                         }
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/concept/hybrid-approach',
+                        )}
                       >
-                        <Text opacity="0.8">하이브리드 접근 방식</Text>
-                      </Box>
-                      <Box
+                        <Flex
+                          alignItems="center"
+                          gap="10px"
+                          justifyContent="space-between"
+                          w="100%"
+                        >
+                          <Text>하이브리드 접근 방식</Text>
+                        </Flex>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
                         onClick={() =>
                           router.push(`/docs/concept/headless-components`)
                         }
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/concept/headless-components',
+                        )}
                       >
-                        <Text opacity="0.8">헤드리스 컴포넌트</Text>
-                      </Box>
+                        <Text opacity="0.8">하이브리드 접근 방식</Text>
+                      </MobileMenuItemBox>
                     </VStack>
                   </MobileMenuSubItem>
                 </MobileMenuProvider>
                 <MobileMenuProvider>
                   <MobileMenuItem>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <Box p="10px">
-                        <Text opacity="0.8">구성요소</Text>
-                      </Box>
-                      <Image
-                        alt="arrow icon"
-                        boxSize="16px"
-                        src="/images/docs/menu-arrow.svg"
-                      />
-                    </Flex>
+                    <MobileMenuItemBox
+                      selected={pathname.startsWith('/docs/components')}
+                    >
+                      <Flex
+                        alignItems="center"
+                        gap="10px"
+                        justifyContent="space-between"
+                        w="100%"
+                      >
+                        <Text>구성요소</Text>
+                        <Image
+                          alt="arrow icon"
+                          boxSize="16px"
+                          src="/images/docs/menu-arrow.svg"
+                        />
+                      </Flex>
+                    </MobileMenuItemBox>
                   </MobileMenuItem>
                   <MobileMenuSubItem>
-                    <VStack borderLeft="1px solid $border" ml="10px">
-                      <Box
+                    <VStack
+                      borderLeft="1px solid $border"
+                      ml="10px"
+                      mt="4px"
+                      paddingLeft="8px"
+                    >
+                      <MobileMenuItemBox
                         onClick={() => router.push(`/docs/components/icon`)}
-                        p="10px"
+                        selected={pathname.startsWith('/docs/components/icon')}
                       >
-                        <Text opacity="0.8">아이콘</Text>
-                      </Box>
+                        <Text>아이콘</Text>
+                      </MobileMenuItemBox>
                     </VStack>
                   </MobileMenuSubItem>
                 </MobileMenuProvider>
                 <MobileMenuProvider>
                   <MobileMenuItem>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <Box p="10px">
-                        <Text opacity="0.8">API</Text>
-                      </Box>
-                      <Image
-                        alt="arrow icon"
-                        boxSize="16px"
-                        src="/images/docs/menu-arrow.svg"
-                      />
-                    </Flex>
+                    <MobileMenuItemBox
+                      selected={pathname.startsWith('/docs/api')}
+                    >
+                      <Flex
+                        alignItems="center"
+                        gap="10px"
+                        justifyContent="space-between"
+                        w="100%"
+                      >
+                        <Text>API</Text>
+                        <Image
+                          alt="arrow icon"
+                          boxSize="16px"
+                          src="/images/docs/menu-arrow.svg"
+                        />
+                      </Flex>
+                    </MobileMenuItemBox>
                   </MobileMenuItem>
                   <MobileMenuSubItem>
-                    <VStack borderLeft="1px solid $border" ml="10px">
-                      <Box p="10px">
-                        <Text opacity="0.8">스타일이 지정됨</Text>
-                      </Box>
-                      <Box p="10px">
-                        <Text opacity="0.8">CSS</Text>
-                      </Box>
+                    <VStack
+                      borderLeft="1px solid $border"
+                      ml="10px"
+                      mt="4px"
+                      paddingLeft="8px"
+                    >
+                      <MobileMenuItemBox
+                        onClick={() => router.push(`/docs/api/style-props`)}
+                        selected={pathname.startsWith('/docs/api/style-props')}
+                      >
+                        <Text>스타일이 지정됨</Text>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
+                        onClick={() => router.push(`/docs/api/css`)}
+                        selected={pathname.startsWith('/docs/api/css')}
+                      >
+                        <Text>CSS</Text>
+                      </MobileMenuItemBox>
                     </VStack>
                   </MobileMenuSubItem>
                 </MobileMenuProvider>
                 <MobileMenuProvider>
                   <MobileMenuItem>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <Box p="10px">
-                        <Text opacity="0.8">테마</Text>
-                      </Box>
-                      <Image
-                        alt="arrow icon"
-                        boxSize="16px"
-                        src="/images/docs/menu-arrow.svg"
-                      />
-                    </Flex>
+                    <MobileMenuItemBox
+                      selected={pathname.startsWith('/docs/theme')}
+                    >
+                      <Flex
+                        alignItems="center"
+                        gap="10px"
+                        justifyContent="space-between"
+                        w="100%"
+                      >
+                        <Text>테마</Text>
+                        <Image
+                          alt="arrow icon"
+                          boxSize="16px"
+                          src="/images/docs/menu-arrow.svg"
+                        />
+                      </Flex>
+                    </MobileMenuItemBox>
                   </MobileMenuItem>
                   <MobileMenuSubItem>
-                    <VStack borderLeft="1px solid $border" ml="10px">
-                      <Box
+                    <VStack
+                      borderLeft="1px solid $border"
+                      ml="10px"
+                      mt="4px"
+                      paddingLeft="8px"
+                    >
+                      <MobileMenuItemBox
                         onClick={() => router.push(`/docs/theme/custom-theme`)}
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/theme/custom-theme',
+                        )}
                       >
-                        <Text opacity="0.8">테마 사용자 정의</Text>
-                      </Box>
-                      <Box
+                        <Text>테마 사용자 정의</Text>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
                         onClick={() => router.push(`/docs/theme/theme-tokens`)}
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/theme/theme-tokens',
+                        )}
                       >
-                        <Text opacity="0.8">테마 토큰</Text>
-                      </Box>
-                      <Box
+                        <Text>테마 토큰</Text>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
                         onClick={() => router.push(`/docs/theme/breakpoints`)}
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/theme/breakpoints',
+                        )}
                       >
-                        <Text opacity="0.8">중단점</Text>
-                      </Box>
-                      <Box
+                        <Text>중단점</Text>
+                      </MobileMenuItemBox>
+                      <MobileMenuItemBox
                         onClick={() =>
                           router.push(`/docs/theme/component-themes`)
                         }
-                        p="10px"
+                        selected={pathname.startsWith(
+                          '/docs/theme/component-themes',
+                        )}
                       >
-                        <Text opacity="0.8">구성 요소 테마</Text>
-                      </Box>
+                        <Text>구성 요소 테마</Text>
+                      </MobileMenuItemBox>
                     </VStack>
                   </MobileMenuSubItem>
                 </MobileMenuProvider>
               </VStack>
             </MobileMenuSubItem>
           </MobileMenuProvider>
-          <Box borderBottom="1px solid $border" px="16px" py="20px">
+          <Box
+            borderBottom="1px solid $border"
+            onClick={() => router.push(`/test-case`)}
+            px="16px"
+            py="20px"
+          >
             <Text typography="button">테스트 케이스</Text>
           </Box>
-          <Box borderBottom="1px solid $border" px="16px" py="20px">
+          <Box
+            borderBottom="1px solid $border"
+            onClick={() => router.push(`/team`)}
+            px="16px"
+            py="20px"
+          >
             <Text typography="button">팀 소개</Text>
           </Box>
         </VStack>

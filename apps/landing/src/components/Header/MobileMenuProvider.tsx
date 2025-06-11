@@ -1,6 +1,6 @@
 'use client'
 
-import { Box } from '@devup-ui/react'
+import { Box, Flex } from '@devup-ui/react'
 import {
   createContext,
   Dispatch,
@@ -45,6 +45,31 @@ export const MobileMenuSubItem = ({
   const { isOpen } = useMobileMenu()
 
   return isOpen ? children : null
+}
+
+export const MobileMenuItemBox = ({
+  selected,
+  children,
+  onClick,
+}: {
+  selected: boolean
+  children: React.ReactNode
+  onClick?: () => void
+}) => {
+  return (
+    <Flex
+      alignItems="center"
+      bg={selected ? '$menuActive' : 'transparent'}
+      borderRadius="6px"
+      gap="10px"
+      onClick={onClick}
+      opacity={selected ? 1 : 0.8}
+      p="10px"
+    >
+      {selected && <Box bg="$primary" borderRadius="50%" boxSize="8px" />}
+      {children}
+    </Flex>
+  )
 }
 
 export default function MobileMenuProvider({
