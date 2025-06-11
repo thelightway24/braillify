@@ -15,7 +15,7 @@ export default function HomePage() {
         w="100%"
       >
         <Image
-          display={['none', null, null, 'block']}
+          display={['none', null, null, null, 'block']}
           h="1019px"
           pos="absolute"
           right="47.172px"
