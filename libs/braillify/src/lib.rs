@@ -504,7 +504,7 @@ mod test {
             .collect();
         let missing_keys = rule_map_keys.difference(&file_keys).collect::<Vec<_>>();
         let extra_keys = file_keys.difference(&rule_map_keys).collect::<Vec<_>>();
-        if !missing_keys.is_empty() || extra_keys.len() != 1 {
+        if !missing_keys.is_empty() || !extra_keys.is_empty() {
             panic!("rule_map.json 파일이 올바르지 않습니다.");
         }
 
