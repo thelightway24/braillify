@@ -49,7 +49,7 @@ jobs:
           pnpm lint
           pnpm test
       - name: Build Landing
-        run: pnpm -F landing build
+        run: pnpm build:landing
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
