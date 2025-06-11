@@ -1,4 +1,4 @@
-import { Box, Grid, Text, VStack } from '@devup-ui/react'
+import { Box, Flex, Text, VStack } from '@devup-ui/react'
 
 import TeamMemberCard from '@/components/team/TeamMemberCard'
 
@@ -21,42 +21,39 @@ export default function TeamPage() {
         </Text>
       </VStack>
       <Box bg="$text" h="1px" />
-      <Grid
-        gap="20px"
-        gridTemplateColumns={[
-          'repeat(1, 1fr)',
-          null,
-          'repeat(2, 1fr)',
-          'repeat(4, 1fr)',
-        ]}
-        overflowX="auto"
-        px={[null, null, null, '20px']}
-      >
-        <TeamMemberCard
-          bgImage="/images/team/image-01.jpg"
-          name="Gildong Hong"
-          position="FULL-STACK"
-          profileImage="/images/team/profile-01.jpg"
-        />
-        <TeamMemberCard
-          bgImage="/images/team/image-02.jpg"
-          name="Jieun Lee"
-          position="FRONT-END"
-          profileImage="/images/team/profile-02.jpg"
-        />
-        <TeamMemberCard
-          bgImage="/images/team/image-03.jpg"
-          name="Chunhyang Seong"
-          position="BACK-END"
-          profileImage="/images/team/profile-03.jpg"
-        />
-        <TeamMemberCard
-          bgImage="/images/team/image-03.jpg"
-          name="Chunhyang Seong"
-          position="BACK-END"
-          profileImage="/images/team/profile-03.jpg"
-        />
-      </Grid>
+      <Flex justifyContent="center" w="100%">
+        <Flex
+          flexWrap="wrap"
+          gap="20px"
+          justifyContent="center"
+          px={[null, null, null, '20px']}
+        >
+          <TeamMemberCard
+            bgImage="/images/team/image-01.jpg"
+            name="Gildong Hong"
+            position="FULL-STACK"
+            profileImage="/images/team/profile-01.jpg"
+          />
+          <TeamMemberCard
+            bgImage="/images/team/image-02.jpg"
+            name="Jieun Lee"
+            position="FRONT-END"
+            profileImage="/images/team/profile-02.jpg"
+          />
+          <TeamMemberCard
+            bgImage="/images/team/image-03.jpg"
+            name="Chunhyang Seong"
+            position="BACK-END"
+            profileImage="/images/team/profile-03.jpg"
+          />
+          <TeamMemberCard
+            bgImage="/images/team/image-03.jpg"
+            name="Chunhyang Seong"
+            position="BACK-END"
+            profileImage="/images/team/profile-03.jpg"
+          />
+        </Flex>
+      </Flex>
     </VStack>
   )
 }
