@@ -1,15 +1,18 @@
 import { Box, Button, Flex } from '@devup-ui/react'
 import Link from 'next/link'
+import { HTMLAttributeAnchorTarget } from 'react'
 
 export default function PillButton({
   href,
   children,
+  target = '_self',
 }: {
   href: string
+  target?: HTMLAttributeAnchorTarget
   children: React.ReactNode
 }) {
   return (
-    <Link href={href} scroll={false}>
+    <Link href={href} scroll={false} target={target}>
       <Button bg="transparent" border="none" cursor="pointer" role="group">
         <Flex
           alignItems="center"

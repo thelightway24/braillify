@@ -207,7 +207,10 @@ export default function HomePage() {
             </Text>
           </VStack>
           <VStack gap="20px" justifyContent="center" pt="80px">
-            <PillButton href="https://open.kakao.com/o/gzeq4eBh">
+            <PillButton
+              href="https://open.kakao.com/o/gzeq4eBh"
+              target="_blank"
+            >
               <Flex gap="16px">
                 <IconKakao color="#FFF" />
                 <Text color="#FFF" typography="button">
@@ -215,7 +218,7 @@ export default function HomePage() {
                 </Text>
               </Flex>
             </PillButton>
-            <PillButton href="https://discord.gg/8zjcGc7cWh">
+            <PillButton href="https://discord.gg/8zjcGc7cWh" target="_blank">
               <Flex gap="16px">
                 <IconDiscord color="#FFF" />
                 <Text color="#FFF" typography="button">
