@@ -2,7 +2,13 @@ import { Box, Flex, Text, VStack } from '@devup-ui/react'
 
 export default function TestCasePage() {
   return (
-    <VStack flex="1" gap="40px" minH="50vh" px="60px" py="40px">
+    <VStack
+      flex="1"
+      gap={['30px', null, null, '40px']}
+      minH="100vh"
+      px={['16px', null, null, '60px']}
+      py={['30px', null, null, '40px']}
+    >
       <VStack gap="20px">
         <Text color="$title" typography="docsTitle">
           테스트 케이스
@@ -14,62 +20,111 @@ export default function TestCasePage() {
       </VStack>
       <Box bg="$text" h="1px" />
       <VStack gap="8px">
-        <Flex justifyContent="space-between" px="20px">
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-          <Box
-            aspectRatio="1/1"
-            bg="$text"
-            borderRadius="100px"
-            boxSize="16px"
-          />
-        </Flex>
+        {Array.from({ length: 20 }).map((_, index) => (
+          <VStack key={index} gap="8px">
+            <Flex
+              justifyContent="space-between"
+              px={[null, null, null, '20px']}
+            >
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+              <Box
+                aspectRatio="1/1"
+                bg="$text"
+                borderRadius="100px"
+                boxSize="16px"
+              />
+            </Flex>
+          </VStack>
+        ))}
       </VStack>
     </VStack>
   )
