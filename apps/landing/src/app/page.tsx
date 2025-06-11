@@ -36,7 +36,7 @@ export default function HomePage() {
               w={['100%', null, null, '838px']}
             />
             <VStack
-              alignItems="center"
+              alignItems={['center', null, null, 'flex-start']}
               gap={['20px', null, null, '40px']}
               w="100%"
             >
