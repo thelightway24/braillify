@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Center, Flex, Text } from '@devup-ui/react'
+import { Box, Center, css, Flex, Text } from '@devup-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -22,7 +22,12 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
         transform={isIntersecting ? 'translateX(0)' : 'translateX(50%)'}
         transition="all 0.3s ease"
       >
-        <Link href="/docs/overview">
+        <Link
+          className={css({
+            color: 'inherit',
+          })}
+          href="/docs/overview"
+        >
           <Flex alignItems="center" p="40px">
             <Center gap="10px" role="group">
               <Box
@@ -43,7 +48,12 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
             </Center>
           </Flex>
         </Link>
-        <Link href="/test-case">
+        <Link
+          className={css({
+            color: 'inherit',
+          })}
+          href="/test-case"
+        >
           <Flex alignItems="center" p="40px">
             <Center gap="10px" role="group">
               <Box
@@ -64,7 +74,12 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
             </Center>
           </Flex>
         </Link>
-        <Link href="/team">
+        <Link
+          className={css({
+            color: 'inherit',
+          })}
+          href="/team"
+        >
           <Flex alignItems="center" p="40px">
             <Center gap="10px" role="group">
               <Box

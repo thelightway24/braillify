@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Center, Flex, Image, Text, VStack } from '@devup-ui/react'
+import { Box, Center, Flex, Text, VStack } from '@devup-ui/react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -129,223 +129,19 @@ export default function MobileMenu() {
                     <Text>설치</Text>
                   </Flex>
                 </MobileMenuItemBox>
-                <MobileMenuProvider>
-                  <MobileMenuItem>
-                    <MobileMenuItemBox
-                      selected={pathname.startsWith('/docs/concept')}
-                    >
-                      <Flex
-                        alignItems="center"
-                        gap="10px"
-                        justifyContent="space-between"
-                        w="100%"
-                      >
-                        <Text>개념</Text>
-                        <Image
-                          alt="arrow icon"
-                          boxSize="16px"
-                          src="/images/docs/menu-arrow.svg"
-                        />
-                      </Flex>
-                    </MobileMenuItemBox>
-                  </MobileMenuItem>
-                  <MobileMenuSubItem>
-                    <VStack
-                      borderLeft="1px solid $border"
-                      gap="4px"
-                      ml="10px"
-                      mt="4px"
-                      paddingLeft="8px"
-                    >
-                      <MobileMenuItemBox
-                        onClick={() =>
-                          router.push(`/docs/concept/utility-first`)
-                        }
-                        selected={pathname.startsWith(
-                          '/docs/concept/utility-first',
-                        )}
-                      >
-                        <Flex
-                          alignItems="center"
-                          gap="10px"
-                          justifyContent="space-between"
-                          w="100%"
-                        >
-                          <Text>유틸리티 퍼스트</Text>
-                        </Flex>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() =>
-                          router.push(`/docs/concept/hybrid-approach`)
-                        }
-                        selected={pathname.startsWith(
-                          '/docs/concept/hybrid-approach',
-                        )}
-                      >
-                        <Flex
-                          alignItems="center"
-                          gap="10px"
-                          justifyContent="space-between"
-                          w="100%"
-                        >
-                          <Text>하이브리드 접근 방식</Text>
-                        </Flex>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() =>
-                          router.push(`/docs/concept/headless-components`)
-                        }
-                        selected={pathname.startsWith(
-                          '/docs/concept/headless-components',
-                        )}
-                      >
-                        <Text opacity="0.8">하이브리드 접근 방식</Text>
-                      </MobileMenuItemBox>
-                    </VStack>
-                  </MobileMenuSubItem>
-                </MobileMenuProvider>
-                <MobileMenuProvider>
-                  <MobileMenuItem>
-                    <MobileMenuItemBox
-                      selected={pathname.startsWith('/docs/components')}
-                    >
-                      <Flex
-                        alignItems="center"
-                        gap="10px"
-                        justifyContent="space-between"
-                        w="100%"
-                      >
-                        <Text>구성요소</Text>
-                        <Image
-                          alt="arrow icon"
-                          boxSize="16px"
-                          src="/images/docs/menu-arrow.svg"
-                        />
-                      </Flex>
-                    </MobileMenuItemBox>
-                  </MobileMenuItem>
-                  <MobileMenuSubItem>
-                    <VStack
-                      borderLeft="1px solid $border"
-                      ml="10px"
-                      mt="4px"
-                      paddingLeft="8px"
-                    >
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/components/icon`)}
-                        selected={pathname.startsWith('/docs/components/icon')}
-                      >
-                        <Text>아이콘</Text>
-                      </MobileMenuItemBox>
-                    </VStack>
-                  </MobileMenuSubItem>
-                </MobileMenuProvider>
-                <MobileMenuProvider>
-                  <MobileMenuItem>
-                    <MobileMenuItemBox
-                      selected={pathname.startsWith('/docs/api')}
-                    >
-                      <Flex
-                        alignItems="center"
-                        gap="10px"
-                        justifyContent="space-between"
-                        w="100%"
-                      >
-                        <Text>API</Text>
-                        <Image
-                          alt="arrow icon"
-                          boxSize="16px"
-                          src="/images/docs/menu-arrow.svg"
-                        />
-                      </Flex>
-                    </MobileMenuItemBox>
-                  </MobileMenuItem>
-                  <MobileMenuSubItem>
-                    <VStack
-                      borderLeft="1px solid $border"
-                      ml="10px"
-                      mt="4px"
-                      paddingLeft="8px"
-                    >
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/api/style-props`)}
-                        selected={pathname.startsWith('/docs/api/style-props')}
-                      >
-                        <Text>스타일이 지정됨</Text>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/api/css`)}
-                        selected={pathname.startsWith('/docs/api/css')}
-                      >
-                        <Text>CSS</Text>
-                      </MobileMenuItemBox>
-                    </VStack>
-                  </MobileMenuSubItem>
-                </MobileMenuProvider>
-                <MobileMenuProvider>
-                  <MobileMenuItem>
-                    <MobileMenuItemBox
-                      selected={pathname.startsWith('/docs/theme')}
-                    >
-                      <Flex
-                        alignItems="center"
-                        gap="10px"
-                        justifyContent="space-between"
-                        w="100%"
-                      >
-                        <Text>테마</Text>
-                        <Image
-                          alt="arrow icon"
-                          boxSize="16px"
-                          src="/images/docs/menu-arrow.svg"
-                        />
-                      </Flex>
-                    </MobileMenuItemBox>
-                  </MobileMenuItem>
-                  <MobileMenuSubItem>
-                    <VStack
-                      borderLeft="1px solid $border"
-                      ml="10px"
-                      mt="4px"
-                      paddingLeft="8px"
-                    >
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/theme/custom-theme`)}
-                        selected={pathname.startsWith(
-                          '/docs/theme/custom-theme',
-                        )}
-                      >
-                        <Text>테마 사용자 정의</Text>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/theme/theme-tokens`)}
-                        selected={pathname.startsWith(
-                          '/docs/theme/theme-tokens',
-                        )}
-                      >
-                        <Text>테마 토큰</Text>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() => router.push(`/docs/theme/breakpoints`)}
-                        selected={pathname.startsWith(
-                          '/docs/theme/breakpoints',
-                        )}
-                      >
-                        <Text>중단점</Text>
-                      </MobileMenuItemBox>
-                      <MobileMenuItemBox
-                        onClick={() =>
-                          router.push(`/docs/theme/component-themes`)
-                        }
-                        selected={pathname.startsWith(
-                          '/docs/theme/component-themes',
-                        )}
-                      >
-                        <Text>구성 요소 테마</Text>
-                      </MobileMenuItemBox>
-                    </VStack>
-                  </MobileMenuSubItem>
-                </MobileMenuProvider>
+                <MobileMenuItemBox
+                  onClick={() => router.push(`/docs/api`)}
+                  selected={pathname === '/docs/api'}
+                >
+                  <Flex
+                    alignItems="center"
+                    gap="10px"
+                    justifyContent="space-between"
+                    w="100%"
+                  >
+                    <Text>API</Text>
+                  </Flex>
+                </MobileMenuItemBox>
               </VStack>
             </MobileMenuSubItem>
           </MobileMenuProvider>

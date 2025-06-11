@@ -1,6 +1,6 @@
 import './globals.css'
 
-import { ThemeScript } from '@devup-ui/react'
+import { Box, css, ThemeScript } from '@devup-ui/react'
 import type { Metadata } from 'next'
 
 import Footer from '@/components/Footer'
@@ -25,9 +25,27 @@ export default function RootLayout({
         <meta content="Braillify" property="og:description" />
         <meta content="https://braillify.kr/og.png" property="og:image" />
       </head>
-      <body>
-        <Header />
-        {children}
+      <body
+        className={css({
+          background: '#373634',
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+          fontFamily: 'Spoqa Han Sans Neo, Arial, Helvetica, sans-serif',
+          selectors: {
+            '& a': {
+              color: '$link',
+              textDecoration: 'none',
+            },
+            '& *::placeholder': {
+              fontFamily: 'Spoqa Han Sans Neo, Arial, Helvetica, sans-serif',
+            },
+          },
+        })}
+      >
+        <Box bg="$background">
+          <Header />
+          {children}
+        </Box>
         <Footer />
       </body>
     </html>

@@ -17,13 +17,15 @@
     "braillify": "workspace:*",
     "next": "15.3.3",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-syntax-highlighter": "15.6.1"
   },
   "devDependencies": {
     "@devup-ui/next-plugin": "^1.0.2",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/react-syntax-highlighter": "^15.5.13"
   }
 }

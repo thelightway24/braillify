@@ -1,16 +1,16 @@
-// import SyntaxHighlighter from 'react-syntax-highlighter'
-// import Light from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark-reasonable'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import Light from 'react-syntax-highlighter/dist/esm/styles/hljs/atom-one-dark-reasonable'
 
 export const Code = ({
-  // language,
+  language,
   value,
 }: {
-  // language: string
+  language: string
   value: string
 }) => {
   return (
-    // <SyntaxHighlighter language={language} style={Light}>
-    <>{value}</>
-    // </SyntaxHighlighter>
+    <SyntaxHighlighter language={language} style={Light}>
+      {value}
+    </SyntaxHighlighter>
   )
 }

@@ -22,7 +22,7 @@ export default function Footer() {
         사업자등록번호: 868-86-03159 |
         <Box as="br" display={['block', null, null, 'none']} />
         주소: 경기 고양시 덕양구 마상로140번길 81 4층
-        <br /> Copyright © 2021-2024 데브파이브. All Rights Reserved.
+        <br /> Copyright © 2021-2023 데브파이브. All Rights Reserved.
       </Text>
     </Flex>
   )

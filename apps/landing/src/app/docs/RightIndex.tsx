@@ -30,7 +30,7 @@ function IndexMenu({
         color={selected ? '$primary' : '$text'}
         flex="1"
         opacity={selected ? '0.8' : '0.6'}
-        typography="caption"
+        typography="docsCaption"
       >
         {children}
       </Text>
@@ -40,7 +40,7 @@ function IndexMenu({
 
 export function RightIndex() {
   const pathname = usePathname()
-  const editUrl = `https://github.com/dev-five-git/devup-ui/tree/main/apps/landing/src/app/(detail)/docs${pathname.split('docs')[1]}/page.mdx`
+  const editUrl = `https://github.com/dev-five-git/braillify/tree/main/apps/landing/src/app/docs${pathname.split('docs')[1]}/page.mdx`
   const [menus, setMenus] = useState<
     {
       text: string
@@ -71,7 +71,7 @@ export function RightIndex() {
     <VStack gap="16px" p="20px 16px" w="200px">
       <VStack>
         <Flex alignItems="center" gap="10px" py="6px">
-          <Text color="$text" flex="1" typography="captionBold">
+          <Text color="$text" flex="1" typography="docsCaptionBold">
             내용
           </Text>
         </Flex>
