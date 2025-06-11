@@ -1,17 +1,15 @@
 'use client'
 
 import { Box, Center, Flex, Image, Text, VStack } from '@devup-ui/react'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-import IconColorTheme from '../icons/IconColorTheme'
-import IconDiscord from '../icons/IconDiscord'
-import IconGithub from '../icons/IconGithub'
-import IconKakao from '../icons/IconKakao'
 import MobileMenuProvider, {
   MobileMenuItem,
   MobileMenuItemBox,
   MobileMenuSubItem,
 } from './MobileMenuProvider'
+import ThemeSwitch from './ThemeSwitch'
 
 export default function MobileMenu() {
   const router = useRouter()
@@ -24,6 +22,7 @@ export default function MobileMenu() {
       {menuOpen === 'true' && (
         <VStack
           bg="$containerBackground"
+          color="$text"
           h="100vh"
           inset="0"
           position="fixed"
@@ -35,23 +34,63 @@ export default function MobileMenu() {
             justifyContent="space-between"
             w="100%"
           >
-            <Flex alignItems="center" h="100%">
+            <Flex alignItems="center">
+              <Link href="https://github.com/dev-five-git/braillify">
+                <Center px="10px" py="13px">
+                  <Box
+                    bg="$text"
+                    boxSize="24px"
+                    h={['32px', null, null, '50px']}
+                    maskImage="url(/images/github.svg)"
+                    maskPosition="center"
+                    maskRepeat="no-repeat"
+                    maskSize="contain"
+                    zIndex="1"
+                  />
+                </Center>
+              </Link>
+              <Link href="#">
+                <Center px="10px" py="13px">
+                  <Box
+                    bg="$text"
+                    boxSize="24px"
+                    h={['32px', null, null, '50px']}
+                    maskImage="url(/images/discord.svg)"
+                    maskPosition="center"
+                    maskRepeat="no-repeat"
+                    maskSize="contain"
+                    zIndex="1"
+                  />
+                </Center>
+              </Link>
+              <Link href="#">
+                <Center px="10px" py="13px">
+                  <Box
+                    bg="$text"
+                    boxSize="24px"
+                    h={['32px', null, null, '50px']}
+                    maskImage="url(/images/kakao.svg)"
+                    maskPosition="center"
+                    maskRepeat="no-repeat"
+                    maskSize="contain"
+                    zIndex="1"
+                  />
+                </Center>
+              </Link>
               <Center px="10px" py="13px">
-                <IconGithub />
-              </Center>
-              <Center px="10px" py="13px">
-                <IconDiscord />
-              </Center>
-              <Center px="10px" py="13px">
-                <IconKakao />
-              </Center>
-              <Center px="10px" py="13px">
-                <IconColorTheme />
+                <ThemeSwitch />
               </Center>
             </Flex>
-            <Box onClick={() => router.push(`?menuOpen=false`)} p="10px">
-              <Image alt="close icon" boxSize="32px" src="/images/close.svg" />
-            </Box>
+            <Center onClick={() => router.push(`?menuOpen=false`)} p="10px">
+              <Box
+                bg="$text"
+                boxSize="32px"
+                maskImage="url(/images/close.svg)"
+                maskPosition="center"
+                maskRepeat="no-repeat"
+                maskSize="contain"
+              />
+            </Center>
           </Flex>
           <MobileMenuProvider>
             <MobileMenuItem>
