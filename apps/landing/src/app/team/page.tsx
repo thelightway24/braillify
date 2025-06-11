@@ -7,9 +7,12 @@ export default function TeamPage() {
     <VStack
       flex="1"
       gap="40px"
+      maxW="1920px"
       minH="calc(100vh - 100px)"
+      mx="auto"
       px={['16px', null, '30px', '60px']}
       py={['30px', null, null, '40px']}
+      w="100%"
     >
       <VStack gap="20px">
         <Text color="$title" typography="docsTitle">

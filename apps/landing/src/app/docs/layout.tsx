@@ -9,7 +9,7 @@ export default function DocsLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Flex minH="calc(100vh - 500px)" w="100%">
+    <Flex maxW="1920px" minH="calc(100vh - 500px)" mx="auto" w="100%">
       <Box display={['none', null, 'initial']} p="20px 16px" w="220px">
         <Box pos="sticky" top={['70px', null, '90px']}>
           <LeftMenu />

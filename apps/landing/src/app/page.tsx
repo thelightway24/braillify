@@ -56,6 +56,8 @@ export default function HomePage() {
       <Flex
         flexDirection={['column', null, null, 'row']}
         gap="80px"
+        maxW="1920px"
+        mx="auto"
         px={['16px', null, null, '60px']}
         py={['30px', null, null, '80px']}
       >

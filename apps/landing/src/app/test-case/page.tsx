@@ -20,7 +20,7 @@ export default async function TestCasePage() {
   )) as Record<string, { title: string; description: string }>
 
   return (
-    <Box pb="100px">
+    <Box maxW="1920px" mx="auto" pb="100px" w="100%">
       <VStack
         px={['16px', null, null, '60px']}
         py={['30px', null, null, '40px']}
