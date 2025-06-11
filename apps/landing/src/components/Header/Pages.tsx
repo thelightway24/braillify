@@ -24,7 +24,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
       >
         <Link
           className={css({
-            color: 'inherit',
+            color: '$text',
           })}
           href="/docs/overview"
         >
@@ -44,13 +44,19 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 h="12px"
                 transition="all 0.2s ease"
               />
-              <Text>문서</Text>
+              <Text
+                typography={
+                  pathname.startsWith('/docs') ? 'gnbMenuBold' : 'gnbMenu'
+                }
+              >
+                문서
+              </Text>
             </Center>
           </Flex>
         </Link>
         <Link
           className={css({
-            color: 'inherit',
+            color: '$text',
           })}
           href="/test-case"
         >
@@ -70,13 +76,19 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 h="12px"
                 transition="all 0.2s ease"
               />
-              <Text>테스트 케이스</Text>
+              <Text
+                typography={
+                  pathname.startsWith('/test-case') ? 'gnbMenuBold' : 'gnbMenu'
+                }
+              >
+                테스트 케이스
+              </Text>
             </Center>
           </Flex>
         </Link>
         <Link
           className={css({
-            color: 'inherit',
+            color: '$text',
           })}
           href="/team"
         >
@@ -96,7 +108,13 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 h="12px"
                 transition="all 0.2s ease"
               />
-              <Text>팀 소개</Text>
+              <Text
+                typography={
+                  pathname.startsWith('/team') ? 'gnbMenuBold' : 'gnbMenu'
+                }
+              >
+                팀 소개
+              </Text>
             </Center>
           </Flex>
         </Link>
