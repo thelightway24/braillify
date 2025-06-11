@@ -22,21 +22,21 @@ export default function PillButton({
           <Box boxSize="16px" position="relative">
             <Box
               _groupActive={{
-                bg: 'url(/images/home/button-arrow.svg)',
+                bg: 'url(/images/home/button-arrow.svg) #FFF',
                 bgPosition: 'center',
-                bgRepeat: 'no-repeat',
-                bgSize: 'contain',
                 boxSize: '32px',
+                bgSize: 'contain',
               }}
               _groupHover={{
-                bg: 'url(/images/home/button-arrow.svg)',
-                bgPosition: 'center',
-                bgRepeat: 'no-repeat',
-                bgSize: 'contain',
                 boxSize: '40px',
+                bg: 'url(/images/home/button-arrow.svg) #FFF',
+                bgPosition: 'center',
+                bgSize: 'contain',
               }}
               aspectRatio="1"
-              bg="#FFF"
+              bg="url(/images/home/button-arrow.svg) #FFF"
+              bgRepeat="no-repeat"
+              bgSize="0%"
               borderRadius="50%"
               boxSize="100%"
               left="50%"
