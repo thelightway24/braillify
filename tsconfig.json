@@ -30,9 +30,7 @@
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".df/*.d.ts"
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules",

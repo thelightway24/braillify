@@ -1,5 +1,5 @@
 {
-  "name": "braillify",
+  "name": "braillify-workspace",
   "private": true,
   "version": "1.0.0",
   "description": "Braillify is a library for converting text to braille.",

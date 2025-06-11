@@ -39,7 +39,7 @@ export function OpenMenuItem({
           color={selected ? '$title' : '$text'}
           flex="1"
           opacity={selected ? '1' : '0.8'}
-          typography={selected ? 'buttonS' : 'buttonSmid'}
+          typography={selected ? 'buttonLg' : 'button'}
         >
           {children}
         </Text>
@@ -78,7 +78,7 @@ export function OpenMenuItem({
                     color={selected ? '$title' : '$text'}
                     flex="1"
                     opacity={selected ? '1' : '0.8'}
-                    typography={selected ? 'buttonS' : 'buttonSmid'}
+                    typography={selected ? 'buttonLg' : 'button'}
                   >
                     {children}
                   </Text>

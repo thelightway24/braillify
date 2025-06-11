@@ -51,7 +51,7 @@ export function MenuItem(props: MenuItemProps) {
         color={selected ? '$title' : '$text'}
         flex="1"
         opacity={selected ? '1' : '0.8'}
-        typography={selected ? 'buttonS' : 'buttonSmid'}
+        typography={selected ? 'buttonLg' : 'button'}
       >
         {children}
       </Text>

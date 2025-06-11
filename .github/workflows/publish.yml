@@ -50,7 +50,6 @@ jobs:
           pnpm test
       - name: Build Landing
         run: pnpm -F landing build
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

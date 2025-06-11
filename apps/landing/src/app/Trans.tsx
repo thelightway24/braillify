@@ -40,7 +40,7 @@ export function Trans() {
               opacity: 0.5,
             },
           }}
-          typography="braillie"
+          typography="braille"
           value={input}
           w="100%"
         />
@@ -79,7 +79,7 @@ export function Trans() {
               opacity: 0.5,
             },
           }}
-          typography="braillie"
+          typography="braille"
           value={translateToUnicode(input)}
           w="100%"
         />

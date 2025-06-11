@@ -1,4 +1,4 @@
-import { translateToUnicode } from '../packages/node/pkg'
+import { translateToUnicode } from 'braillify'
 
 describe('index', () => {
   it('should translate to unicode', () => {
