@@ -2,26 +2,30 @@ import { Box, Grid, Text, VStack } from '@devup-ui/react'
 import { readFile } from 'fs/promises'
 
 export default async function TestCasePage() {
-  const testStatus = (await readFile('../../test_status.json', 'utf-8').then(
-    (data) => JSON.parse(data),
-  )) as Record<
-    string,
-    [
-      success: number,
-      fail: number,
-      Array<
-        [text: string, expected: string, actual: string, isSuccess: boolean]
-      >,
-    ]
-  >
-
-  const ruleMap = (await readFile('../../rule_map.json', 'utf-8').then((data) =>
-    JSON.parse(data),
-  )) as Record<string, { title: string; description: string }>
+  const [testStatus, ruleMap] = await Promise.all([
+    readFile('../../test_status.json', 'utf-8').then((data) =>
+      JSON.parse(data),
+    ) as Promise<
+      Record<
+        string,
+        [
+          success: number,
+          fail: number,
+          Array<
+            [text: string, expected: string, actual: string, isSuccess: boolean]
+          >,
+        ]
+      >
+    >,
+    readFile('../../rule_map.json', 'utf-8').then((data) =>
+      JSON.parse(data),
+    ) as Promise<Record<string, { title: string; description: string }>>,
+  ])
 
   return (
     <Box maxW="1920px" mx="auto" pb="100px" w="100%">
       <VStack
+        gap="20px"
         px={['16px', null, null, '60px']}
         py={['30px', null, null, '40px']}
       >
@@ -29,7 +33,7 @@ export default async function TestCasePage() {
           테스트 케이스
         </Text>
         <Text color="$text" typography="body">
-          모든 테스트케이스는{' '}
+          모든 테스트 케이스는{' '}
           <Text
             _hover={{
               textDecoration: 'underline',

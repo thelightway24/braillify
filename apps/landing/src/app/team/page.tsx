@@ -19,41 +19,19 @@ export default function TeamPage() {
           팀 소개
         </Text>
         <Text color="$text" typography="body">
-          때 노래였네 고이 봅니다. 빈 척 생명들 있으랴 쌓인 알리라, 청명한
-          가시옵소서. 노래를 까닭입니다.
+          Braillify 를 주도하는 팀원들입니다.
         </Text>
       </VStack>
       <Box bg="$text" h="1px" />
-      <Flex justifyContent="center" w="100%">
-        <Flex
-          flexWrap="wrap"
-          gap="20px"
-          justifyContent="center"
-          px={[null, null, null, '20px']}
-        >
+      <Flex w="100%">
+        <Flex flexWrap="wrap" gap="20px" px={[null, null, null, '20px']}>
           <TeamMemberCard
             bgImage="/images/team/image-01.jpg"
-            name="Gildong Hong"
-            position="FULL-STACK"
-            profileImage="/images/team/profile-01.jpg"
-          />
-          <TeamMemberCard
-            bgImage="/images/team/image-02.jpg"
-            name="Jieun Lee"
-            position="FRONT-END"
-            profileImage="/images/team/profile-02.jpg"
-          />
-          <TeamMemberCard
-            bgImage="/images/team/image-03.jpg"
-            name="Chunhyang Seong"
-            position="BACK-END"
-            profileImage="/images/team/profile-03.jpg"
-          />
-          <TeamMemberCard
-            bgImage="/images/team/image-03.jpg"
-            name="Chunhyang Seong"
-            position="BACK-END"
-            profileImage="/images/team/profile-03.jpg"
+            githubUrl="https://github.com/owjs3901"
+            instagramUrl="https://www.instagram.com/owjs3901"
+            name="Jeong Min Oh"
+            position="LEAD"
+            profileImage="https://avatars.githubusercontent.com/u/12480623?v=4"
           />
         </Flex>
       </Flex>
