@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <head>
         <ThemeScript auto />
+        <link href="/favicon.svg" rel="shortcut icon" />
       </head>
       <body>
         <Header />
