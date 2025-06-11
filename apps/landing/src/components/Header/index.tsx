@@ -2,6 +2,7 @@
 
 import { Box, Flex } from '@devup-ui/react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Suspense, useRef } from 'react'
 
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
@@ -23,6 +24,10 @@ export default function Header() {
     true,
   )
 
+  const pathname = usePathname()
+
+  const isIntersectingHome = pathname === '/' && isIntersecting
+
   return (
     <>
       <Box
@@ -41,7 +46,7 @@ export default function Header() {
             '$containerBackground',
             null,
             null,
-            isIntersecting ? 'transparent' : '$containerBackground',
+            isIntersectingHome ? 'transparent' : '$containerBackground',
           ]}
           borderRadius={['10px', null, null, '20px']}
           flex="1"
@@ -51,17 +56,21 @@ export default function Header() {
           px={['16px', null, null, '40px']}
           transition="background-color 0.3s ease"
         >
-          <Link href="/">
+          <Link
+            href="/"
+            style={{ display: isIntersectingHome ? 'none' : 'block' }}
+          >
             <Box
               aspectRatio="122.87/50.00"
               bg="$text"
               h={['32px', null, null, '50px']}
               maskImage="url(/images/home/hero.svg)"
               maskSize="contain"
+              position="relative"
               zIndex="1"
             />
           </Link>
-          <Pages isIntersecting={isIntersecting} />
+          <Pages isIntersecting={isIntersectingHome} />
           <Flex
             alignItems="center"
             display={['none', null, null, 'flex']}
