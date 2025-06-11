@@ -20,11 +20,14 @@ export default function HomePage() {
         />
         <VStack gap="80px" position="relative" zIndex="1">
           <VStack alignItems={['center', null, null, 'flex-start']}>
-            <Image
+            <Box
+              bg="$text"
               h={[null, null, '288px', '341px']}
+              maskImage="url(/images/home/hero.svg)"
+              maskPosition="start"
+              maskRepeat="no-repeat"
+              maskSize="contain"
               mb={['30px', null, null, '60px']}
-              objectFit="contain"
-              src="/images/home/hero.svg"
               w={['100%', null]}
             />
             <VStack gap={['20px', null, null, '40px']}>
