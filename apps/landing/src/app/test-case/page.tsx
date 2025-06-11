@@ -1,131 +1,216 @@
-import { Box, Flex, Text, VStack } from '@devup-ui/react'
+import { Box, Grid, Text, VStack } from '@devup-ui/react'
+import { readFile } from 'fs/promises'
 
-export default function TestCasePage() {
+export default async function TestCasePage() {
+  const testStatus = (await readFile('../../test_status.json', 'utf-8').then(
+    (data) => JSON.parse(data),
+  )) as Record<
+    string,
+    [
+      success: number,
+      fail: number,
+      Array<
+        [text: string, expected: string, actual: string, isSuccess: boolean]
+      >,
+    ]
+  >
+
+  const ruleMap = (await readFile('../../rule_map.json', 'utf-8').then((data) =>
+    JSON.parse(data),
+  )) as Record<string, { title: string; description: string }>
+
   return (
-    <VStack
-      flex="1"
-      gap={['30px', null, null, '40px']}
-      minH="100vh"
-      px={['16px', null, null, '60px']}
-      py={['30px', null, null, '40px']}
-    >
-      <VStack gap="20px">
-        <Text color="$title" typography="docsTitle">
+    <Box pb="100px">
+      <VStack
+        px={['16px', null, null, '60px']}
+        py={['30px', null, null, '40px']}
+      >
+        <Text color="$title" typography="title">
           테스트 케이스
         </Text>
         <Text color="$text" typography="body">
-          때 노래였네 고이 봅니다. 빈 척 생명들 있으랴 쌓인 알리라, 청명한
-          가시옵소서. 노래를 까닭입니다.
+          모든 테스트케이스는{' '}
+          <Text
+            _hover={{
+              textDecoration: 'underline',
+            }}
+            as="a"
+            color="$link"
+            href="/2024 개정 한국 점자 규정.pdf"
+            target="_blank"
+          >
+            2024 개정 한국 점자 규정
+          </Text>
+          을 기반으로 작성되었습니다.
         </Text>
       </VStack>
-      <Box bg="$text" h="1px" />
-      <VStack gap="8px">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <VStack key={index} gap="8px">
-            <Flex
-              justifyContent="space-between"
-              px={[null, null, null, '20px']}
+      {Object.entries(ruleMap).map(([key, value]) => {
+        return (
+          <VStack
+            key={key}
+            flex="1"
+            gap={['30px', null, null, '40px']}
+            px={['16px', null, null, '60px']}
+            py={['30px', null, null, '40px']}
+          >
+            <VStack gap="20px">
+              <Text color="$title" typography="docsTitle">
+                {value.title} ({testStatus[key][0]}/
+                {testStatus[key][1] + testStatus[key][0]})
+              </Text>
+              <Text color="$text" typography="body">
+                {value.description}
+              </Text>
+            </VStack>
+            <Box bg="$text" h="1px" />
+            <Grid
+              gap="8px"
+              gridTemplateColumns="repeat(auto-fill, minmax(16px, 1fr))"
             >
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-              <Box
-                aspectRatio="1/1"
-                bg="$text"
-                borderRadius="100px"
-                boxSize="16px"
-              />
-            </Flex>
+              {testStatus[key][2].map(([text, expected, actual, isSuccess]) => (
+                <Box key={text} role="group">
+                  <Box
+                    aspectRatio="1/1"
+                    bg={isSuccess ? '$success' : '$error'}
+                    borderRadius="100px"
+                    boxSize="16px"
+                    cursor="pointer"
+                  />
+                  <VStack
+                    _groupHover={{
+                      display: 'flex',
+                    }}
+                    bg="rgba(0, 0, 0, 0.75)"
+                    borderRadius="4px"
+                    display="none"
+                    justifyContent="center"
+                    pos="absolute"
+                    px="10px"
+                    py="8px"
+                    transform="translateY(10px)"
+                  >
+                    <Text color="#FFF" typography="body">
+                      {text}
+                      <br />
+                      정답 : {expected}
+                      <br />
+                      결과 : {actual}
+                      <br />
+                      {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
+                    </Text>
+                  </VStack>
+                </Box>
+              ))}
+
+              {/* {Array.from({ length: 20 }).map((_, index) => (
+            <VStack key={index} gap="8px">
+              <Flex
+                justifyContent="space-between"
+                px={[null, null, null, '20px']}
+              >
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+                <Box
+                  aspectRatio="1/1"
+                  bg="$text"
+                  borderRadius="100px"
+                  boxSize="16px"
+                />
+              </Flex>
+            </VStack>
+          ))} */}
+            </Grid>
           </VStack>
-        ))}
-      </VStack>
-    </VStack>
+        )
+      })}
+    </Box>
   )
 }

@@ -354,7 +354,7 @@ pub fn decode(text: &str) -> String {
 
 #[cfg(test)]
 mod test {
-    use std::fs::File;
+    use std::{collections::HashMap, fs::File};
 
     use crate::unicode::encode_unicode;
 
@@ -476,45 +476,63 @@ mod test {
         let mut failed = 0;
         let mut failed_cases = Vec::new();
         let mut file_stats = std::collections::HashMap::new();
+        let files = dir
+            .map(|entry| entry.unwrap().path())
+            .filter(|path| path.extension().unwrap_or_default() == "csv")
+            .collect::<Vec<_>>();
 
-        for entry in dir {
-            let entry = entry.unwrap();
-            let path = entry.path();
-            if path.extension().unwrap_or_default() == "csv" {
-                let file = File::open(&path).unwrap();
-                let reader = csv::ReaderBuilder::new()
-                    .has_headers(false)
-                    .from_reader(file);
+        // read rule_map.json
+        let rule_map: HashMap<String, HashMap<String, String>> = serde_json::from_str(
+            &std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/../../rule_map.json"))
+                .unwrap(),
+        )
+        .unwrap();
 
-                let filename = path.file_name().unwrap().to_string_lossy();
-                let mut file_total = 0;
-                let mut file_failed = 0;
+        let rule_map_keys: std::collections::HashSet<String> = rule_map.keys().cloned().collect();
+        let file_keys: std::collections::HashSet<_> = files
+            .iter()
+            .map(|path| {
+                path.file_name()
+                    .unwrap()
+                    .to_string_lossy()
+                    .split('.')
+                    .next()
+                    .unwrap()
+                    .to_string()
+            })
+            .collect();
+        let missing_keys = rule_map_keys.difference(&file_keys).collect::<Vec<_>>();
+        let extra_keys = file_keys.difference(&rule_map_keys).collect::<Vec<_>>();
+        if !missing_keys.is_empty() || extra_keys.len() != 1 {
+            panic!("rule_map.json 파일이 올바르지 않습니다.");
+        }
 
-                for (line_num, result) in reader.into_records().enumerate() {
-                    total += 1;
-                    file_total += 1;
-                    let record = result.unwrap();
-                    let input = &record[0];
-                    let expected = record[2].replace(" ", "⠀");
-                    match encode(input) {
-                        Ok(actual) => {
-                            if actual.iter().map(|c| c.to_string()).collect::<String>() != expected
-                            {
-                                failed += 1;
-                                file_failed += 1;
-                                failed_cases.push((
-                                    filename.to_string(),
-                                    line_num + 1,
-                                    input.to_string(),
-                                    expected.to_string(),
-                                    actual.iter().map(|c| c.to_string()).collect::<String>(),
-                                    encode_to_unicode(input).unwrap(),
-                                    record[3].to_string(),
-                                ));
-                            }
-                        }
-                        Err(e) => {
-                            println!("Error: {}", e);
+        for path in files {
+            let file = File::open(&path).unwrap();
+            let filename = path.file_name().unwrap().to_string_lossy();
+            let reader = csv::ReaderBuilder::new()
+                .has_headers(false)
+                .from_reader(file);
+
+            let mut file_total = 0;
+            let mut file_failed = 0;
+            // input, expected, actual, is_success
+            let mut test_status: Vec<(String, String, String, bool)> = Vec::new();
+
+            for (line_num, result) in reader.into_records().enumerate() {
+                total += 1;
+                file_total += 1;
+                let record = result.unwrap();
+                let input = &record[0];
+                let expected = record[2].replace(" ", "⠀");
+                match encode(input) {
+                    Ok(actual) => {
+                        let braille_expected = actual
+                            .iter()
+                            .map(|c| unicode::encode_unicode(*c))
+                            .collect::<String>();
+                        let actual_str = actual.iter().map(|c| c.to_string()).collect::<String>();
+                        if actual_str != expected {
                             failed += 1;
                             file_failed += 1;
                             failed_cases.push((
@@ -522,15 +540,46 @@ mod test {
                                 line_num + 1,
                                 input.to_string(),
                                 expected.to_string(),
-                                "".to_string(),
-                                e.to_string(),
+                                actual_str.clone(),
+                                braille_expected.clone(),
                                 record[3].to_string(),
                             ));
                         }
+
+                        test_status.push((
+                            input.to_string(),
+                            record[3].to_string(),
+                            braille_expected.clone(),
+                            record[3].to_string() == braille_expected,
+                        ));
+                    }
+                    Err(e) => {
+                        println!("Error: {}", e);
+                        failed += 1;
+                        file_failed += 1;
+                        failed_cases.push((
+                            filename.to_string(),
+                            line_num + 1,
+                            input.to_string(),
+                            expected.to_string(),
+                            "".to_string(),
+                            e.to_string(),
+                            record[3].to_string(),
+                        ));
+
+                        test_status.push((
+                            input.to_string(),
+                            record[3].to_string(),
+                            e.to_string(),
+                            false,
+                        ));
                     }
                 }
-                file_stats.insert(filename.to_string(), (file_total, file_failed));
             }
+            file_stats.insert(
+                path.file_stem().unwrap().to_string_lossy().to_string(),
+                (file_total, file_failed, test_status),
+            );
         }
 
         if !failed_cases.is_empty() {
@@ -584,9 +633,21 @@ mod test {
                 println!();
             }
         }
+
+        // write test_status to file
+        serde_json::to_writer_pretty(
+            File::create(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../test_status.json"
+            ))
+            .unwrap(),
+            &file_stats,
+        )
+        .unwrap();
+
         println!("\n파일별 테스트 결과:");
         println!("=================");
-        for (filename, (file_total, file_failed)) in file_stats {
+        for (filename, (file_total, file_failed, _)) in file_stats {
             let success_rate =
                 ((file_total - file_failed) as f64 / file_total as f64 * 100.0) as i32;
             let color = if success_rate == 100 {

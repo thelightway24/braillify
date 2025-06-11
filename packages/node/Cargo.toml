@@ -1,7 +1,7 @@
 [package]
 name = "node"
 version = "0.1.0"
-authors = ["owjs3901 <owjs3901@naver.com>"]
+authors = ["owjs3901 <owjs3901@gmail.com>"]
 edition = "2024"
 
 [lib]

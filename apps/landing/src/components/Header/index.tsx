@@ -2,7 +2,7 @@
 
 import { Box, Flex } from '@devup-ui/react'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { Suspense, useRef } from 'react'
 
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
@@ -110,14 +110,18 @@ export default function Header() {
             display={['flex', null, null, 'none']}
             gap="10px"
           >
-            <MobileMenuButton>
-              <IconHamburger />
-            </MobileMenuButton>
+            <Suspense>
+              <MobileMenuButton>
+                <IconHamburger />
+              </MobileMenuButton>
+            </Suspense>
           </Flex>
         </Flex>
       </Box>
       <Box ref={headerRef} h={['60px', null, null, '100px']} />
-      <MobileMenu />
+      <Suspense>
+        <MobileMenu />
+      </Suspense>
     </>
   )
 }

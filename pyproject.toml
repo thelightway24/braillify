@@ -1,19 +1,10 @@
 [project]
-name = "braillify"
+name = "braillify-workspace"
 version = "0.1.0"
 description = ""
-authors = [{ name = "owjs3901", email = "owjs3901@naver.com" }]
+authors = [{ name = "owjs3901", email = "owjs3901@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13"
 
 [tool.uv.workspace]
-members = ["packages/python"]
-
-
-[dependency-groups]
-dev = [
-    "pytest>=8.3.5",
-    "pytest-aiohttp>=1.1.0",
-    "pytest-asyncio>=0.25.3",
-    "uvicorn>=0.34.0",
-]
+members = ["packages/python", "py-test"]

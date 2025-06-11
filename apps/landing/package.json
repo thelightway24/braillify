@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@devup-ui/react": "^1.0.1",
+    "@devup-ui/react": "^1.0.2",
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@next/mdx": "^15.3.3",
@@ -20,8 +20,8 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@devup-ui/next-plugin": "^1.0.1",
-    "@types/node": "^22",
+    "@devup-ui/next-plugin": "^1.0.2",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"
