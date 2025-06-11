@@ -21,6 +21,9 @@ export default function RootLayout({
       <head>
         <ThemeScript auto />
         <link href="/favicon.svg" rel="shortcut icon" />
+        <meta content="Braillify" property="og:title" />
+        <meta content="Braillify" property="og:description" />
+        <meta content="https://braillify.kr/og.png" property="og:image" />
       </head>
       <body>
         <Header />
