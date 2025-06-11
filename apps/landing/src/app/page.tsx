@@ -1,6 +1,8 @@
-import { Box, css, Flex, Image, Text, VStack } from '@devup-ui/react'
+import { Box, Flex, Image, Text, VStack } from '@devup-ui/react'
 
+import PillButton from '@/components/home/PillButton'
 import IconDiscord from '@/components/icons/IconDiscord'
+import IconKakao from '@/components/icons/IconKakao'
 
 export default function HomePage() {
   return (
@@ -34,25 +36,11 @@ export default function HomePage() {
               <Text color="$text" typography="mainText">
                 실시간 한글 점역 라이브러리
               </Text>
-              <Flex
-                alignItems="center"
-                bg="#2B2B2B"
-                borderRadius="1000px"
-                justifyContent="space-between"
-                px={['20px', null, null, '40px']}
-                py={['16px', null, null, '20px']}
-                w={['240px', null, null, '300px']}
-              >
+              <PillButton>
                 <Text color="#FFF" typography="buttonLg">
                   지금 시작하기
                 </Text>
-                <Box
-                  aspectRatio="1"
-                  bg="#FFF"
-                  borderRadius="50%"
-                  boxSize="16px"
-                />
-              </Flex>
+              </PillButton>
             </VStack>
           </VStack>
           <Flex
@@ -264,65 +252,22 @@ export default function HomePage() {
             </Text>
           </VStack>
           <VStack gap="20px" justifyContent="center" pt="80px">
-            <Flex
-              alignItems="center"
-              bg="#2B2B2B"
-              borderRadius="1000px"
-              h="70px"
-              justifyContent="space-between"
-              px="40px"
-              py="20px"
-            >
-              <Flex alignItems="center" gap="16px">
-                <svg
-                  className={css({ color: '$title' })}
-                  fill="none"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clipRule="evenodd"
-                    d="M12.0001 4C7.02919 4 3 7.15002 3 11.035C3 13.4512 4.55841 15.5812 6.93154 16.8481L5.93304 20.5391C5.84482 20.8652 6.21343 21.1252 6.49648 20.9362L10.8734 18.0131C11.2427 18.0491 11.6181 18.0702 12.0001 18.0702C16.9705 18.0702 21 14.9203 21 11.035C21 7.15002 16.9705 4 12.0001 4Z"
-                    fill="white"
-                    fillRule="evenodd"
-                  />
-                </svg>
+            <PillButton>
+              <Flex gap="16px">
+                <IconKakao color="#FFF" />
                 <Text color="#FFF" typography="button">
                   카카오톡 오픈 채팅
                 </Text>
               </Flex>
-              <Box
-                aspectRatio="1/1"
-                bg="#FFF"
-                borderRadius="50%"
-                boxSize="16px"
-              />
-            </Flex>
-            <Flex
-              alignItems="center"
-              bg="#2B2B2B"
-              borderRadius="1000px"
-              h="70px"
-              justifyContent="space-between"
-              px="40px"
-              py="20px"
-              w="320px"
-            >
-              <Flex alignItems="center" gap="16px">
+            </PillButton>
+            <PillButton>
+              <Flex gap="16px">
                 <IconDiscord color="#FFF" />
                 <Text color="#FFF" typography="button">
                   디스코드 서버
                 </Text>
               </Flex>
-              <Box
-                aspectRatio="1/1"
-                bg="#FFF"
-                borderRadius="50%"
-                boxSize="16px"
-              />
-            </Flex>
+            </PillButton>
           </VStack>
         </Flex>
       </Flex>
