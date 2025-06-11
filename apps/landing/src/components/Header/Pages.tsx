@@ -22,7 +22,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
         transform={isIntersecting ? 'translateX(0)' : 'translateX(50%)'}
         transition="all 0.3s ease"
       >
-        <Link href="/docs">
+        <Link href="/docs/overview">
           <Flex alignItems="center" p="40px">
             <Center gap="10px" role="group">
               <Box
