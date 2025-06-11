@@ -15,7 +15,7 @@ export default function DocsLayout({
           <LeftMenu />
         </Box>
       </Box>
-      <Box className="markdown-body" flex={1} px="60px" py="40px">
+      <Box className="markdown-body" color="$text" flex={1} px="60px" py="40px">
         {children}
       </Box>
       <Box display={['none', null, null, 'initial']}>

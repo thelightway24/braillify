@@ -1,14 +1,11 @@
-import { Box, Flex, Image } from '@devup-ui/react'
+import { Box, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 
-import IconColorTheme from '../icons/IconColorTheme'
-import IconDiscord from '../icons/IconDiscord'
-import IconGithub from '../icons/IconGithub'
 import IconHamburger from '../icons/IconHamburger'
-import IconKakao from '../icons/IconKakao'
 import MobileMenu from './MobileMenu'
 import MobileMenuButton from './MobileMenuButton'
 import Pages from './Pages'
+import ThemeSwitch from './ThemeSwitch'
 
 export default function Header() {
   return (
@@ -34,10 +31,13 @@ export default function Header() {
           px={['16px', null, null, '40px']}
         >
           <Link href="/">
-            <Image
+            <Box
               aspectRatio="122.87/50.00"
+              bg="$text"
               h={['32px', null, null, '50px']}
-              src="/images/home/hero.svg"
+              maskImage="url(/images/home/hero.svg)"
+              maskSize="contain"
+              zIndex="1"
             />
           </Link>
           <Pages />
@@ -47,15 +47,42 @@ export default function Header() {
             gap="32px"
           >
             <Link href="https://github.com/dev-five-git/braillify">
-              <IconGithub />
+              <Box
+                bg="$text"
+                boxSize="24px"
+                h={['32px', null, null, '50px']}
+                maskImage="url(/images/github.svg)"
+                maskPosition="center"
+                maskRepeat="no-repeat"
+                maskSize="contain"
+                zIndex="1"
+              />
             </Link>
             <Link href="#">
-              <IconDiscord />
+              <Box
+                bg="$text"
+                boxSize="24px"
+                h={['32px', null, null, '50px']}
+                maskImage="url(/images/discord.svg)"
+                maskPosition="center"
+                maskRepeat="no-repeat"
+                maskSize="contain"
+                zIndex="1"
+              />
             </Link>
             <Link href="#">
-              <IconKakao />
+              <Box
+                bg="$text"
+                boxSize="24px"
+                h={['32px', null, null, '50px']}
+                maskImage="url(/images/kakao.svg)"
+                maskPosition="center"
+                maskRepeat="no-repeat"
+                maskSize="contain"
+                zIndex="1"
+              />
             </Link>
-            <IconColorTheme />
+            <ThemeSwitch />
           </Flex>
           <Flex
             alignItems="center"

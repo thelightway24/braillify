@@ -8,7 +8,12 @@ export default function Pages() {
   const pathname = usePathname()
 
   return (
-    <Flex alignItems="center" display={['none', null, null, 'flex']} gap="40px">
+    <Flex
+      alignItems="center"
+      color="$text"
+      display={['none', null, null, 'flex']}
+      gap="40px"
+    >
       <Link href="/docs">
         <Flex alignItems="center" gap="10px" p="40px">
           <Box

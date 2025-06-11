@@ -1,5 +1,6 @@
 import './globals.css'
 
+import { ThemeScript } from '@devup-ui/react'
 import type { Metadata } from 'next'
 
 import Footer from '@/components/Footer'
@@ -16,7 +17,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <ThemeScript auto />
+      </head>
       <body>
         <Header />
         {children}
