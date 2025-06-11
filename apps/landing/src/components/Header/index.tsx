@@ -76,7 +76,10 @@ export default function Header() {
             display={['none', null, null, 'flex']}
             gap="32px"
           >
-            <Link href="https://github.com/dev-five-git/braillify">
+            <Link
+              href="https://github.com/dev-five-git/braillify"
+              target="_blank"
+            >
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -88,7 +91,7 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://discord.gg/8zjcGc7cWh">
+            <Link href="https://discord.gg/8zjcGc7cWh" target="_blank">
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -100,7 +103,7 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://open.kakao.com/o/gzeq4eBh">
+            <Link href="https://open.kakao.com/o/gzeq4eBh" target="_blank">
               <Box
                 bg="$text"
                 boxSize="24px"
