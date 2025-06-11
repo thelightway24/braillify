@@ -30,7 +30,11 @@ mod word_shortcut;
 
 pub fn encode(text: &str) -> Result<Vec<u8>, String> {
     let mut result: Vec<u8> = Vec::new();
-    let words = text.split(' ').collect::<Vec<&str>>();
+    let words = text
+        .split(' ')
+        .filter(|word| !word.is_empty())
+        .collect::<Vec<&str>>();
+
     let word_count = words.len();
     let mut is_english = false;
     // 한국어가 존재할 경우 english_indicator 가 true 가 됩니다.
@@ -361,6 +365,7 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(encode_to_unicode("상상이상의 ").unwrap(), "⠇⠶⠇⠶⠕⠇⠶⠺");
         assert_eq!(encode_to_unicode("안녕\n반가워").unwrap(), "⠣⠒⠉⠻\n⠘⠒⠫⠏");
         assert_eq!(encode_to_unicode("BMI(지수)").unwrap(), "⠴⠠⠠⠃⠍⠊⠦⠄⠨⠕⠠⠍⠠⠴");
         assert_eq!(encode_to_unicode("지수(BMI)").unwrap(), "⠨⠕⠠⠍⠦⠄⠴⠠⠠⠃⠍⠊⠠⠴");
