@@ -1,3 +1,11 @@
 target/
 .vscode/
 .idea/
+node_modules
+.df
+test_status.json
+.venv
+__pycache__
+.pytest_cache
+coverage
+cobertura.xml
