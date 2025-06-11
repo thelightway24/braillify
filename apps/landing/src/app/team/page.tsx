@@ -1,4 +1,4 @@
-import { Box, Flex, Text, VStack } from '@devup-ui/react'
+import { Box, Grid, Text, VStack } from '@devup-ui/react'
 
 import TeamMemberCard from '@/components/team/TeamMemberCard'
 
@@ -21,10 +21,14 @@ export default function TeamPage() {
         </Text>
       </VStack>
       <Box bg="$text" h="1px" />
-      <Flex
-        flexWrap="wrap"
+      <Grid
         gap="20px"
-        justifyContent="center"
+        gridTemplateColumns={[
+          'repeat(1, 1fr)',
+          null,
+          'repeat(2, 1fr)',
+          'repeat(4, 1fr)',
+        ]}
         overflowX="auto"
         px={[null, null, null, '20px']}
       >
@@ -52,7 +56,7 @@ export default function TeamPage() {
           position="BACK-END"
           profileImage="/images/team/profile-03.jpg"
         />
-      </Flex>
+      </Grid>
     </VStack>
   )
 }
