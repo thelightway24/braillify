@@ -1,6 +1,6 @@
 # Braillify
 
-Rust 기반 한국어 점역 모듈
+Rust 기반 크로스플랫폼 한국어 점역 라이브러리
 
 <img src='https://img.shields.io/npm/v/braillify'>
 <img src='https://img.shields.io/bundlephobia/minzip/braillify'>
@@ -18,3 +18,14 @@ Rust 기반 한국어 점역 모듈
 <a href="https://codecov.io/gh/dev-five-git/braillify" > 
  <img src="https://codecov.io/gh/dev-five-git/braillify/graph/badge.svg?token=8I5GMB2X5B"/> 
 </a>
+
+
+## 설치
+
+```bash
+npm install braillify # node
+```
+
+```bash
+pip install braillify # python
+```

@@ -8,7 +8,7 @@ import Header from '@/components/Header'
 
 export const metadata: Metadata = {
   title: 'Braillify',
-  description: 'Braillify',
+  description: '크로스플랫폼 한국어 점역 라이브러리',
 }
 
 export default function RootLayout({
