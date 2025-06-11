@@ -1,5 +1,10 @@
+'use client'
+
 import { Box, Flex } from '@devup-ui/react'
 import Link from 'next/link'
+import { useRef } from 'react'
+
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 import IconHamburger from '../icons/IconHamburger'
 import MobileMenu from './MobileMenu'
@@ -8,6 +13,12 @@ import Pages from './Pages'
 import ThemeSwitch from './ThemeSwitch'
 
 export default function Header() {
+  const headerRef = useRef<HTMLDivElement>(null)
+  const isIntersecting = useIntersectionObserver(headerRef, {
+    rootMargin: '-50px',
+    threshold: 0,
+  })
+
   return (
     <>
       <Box
@@ -22,7 +33,7 @@ export default function Header() {
       >
         <Flex
           alignItems="center"
-          bg="$containerBackground"
+          bg={isIntersecting ? 'transparent' : '$containerBackground'}
           borderRadius={['10px', null, null, '20px']}
           flex="1"
           h="100%"
@@ -95,7 +106,7 @@ export default function Header() {
           </Flex>
         </Flex>
       </Box>
-      <Box h={['60px', null, null, '100px']} />
+      <Box ref={headerRef} h={['60px', null, null, '100px']} />
       <MobileMenu />
     </>
   )
