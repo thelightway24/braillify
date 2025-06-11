@@ -54,4 +54,88 @@ pub fn is_symbol_char(text: char) -> bool {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    pub fn test_is_symbol_char() {
+        assert!(is_symbol_char('"'));
+        assert!(is_symbol_char('\''));
+        assert!(is_symbol_char('~'));
+        assert!(is_symbol_char('…'));
+        assert!(is_symbol_char('!'));
+        assert!(is_symbol_char('.'));
+        assert!(is_symbol_char(','));
+        assert!(is_symbol_char('?'));
+        assert!(is_symbol_char(':'));
+        assert!(is_symbol_char(';'));
+        assert!(is_symbol_char('_'));
+        assert!(is_symbol_char('*'));
+        assert!(is_symbol_char('('));
+        assert!(is_symbol_char(')'));
+        assert!(is_symbol_char('{'));
+        assert!(is_symbol_char('}'));
+    }
+
+    #[test]
+    pub fn test_encode_char_symbol_shortcut() {
+        assert_eq!(
+            encode_char_symbol_shortcut('"').unwrap(),
+            &[decode_unicode('⠦')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('\'').unwrap(),
+            &[decode_unicode('⠠'), decode_unicode('⠦')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('~').unwrap(),
+            &[decode_unicode('⠈'), decode_unicode('⠔')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('…').unwrap(),
+            &[
+                decode_unicode('⠲'),
+                decode_unicode('⠲'),
+                decode_unicode('⠲')
+            ]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('!').unwrap(),
+            &[decode_unicode('⠖')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('.').unwrap(),
+            &[decode_unicode('⠲')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut(',').unwrap(),
+            &[decode_unicode('⠐')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('?').unwrap(),
+            &[decode_unicode('⠦')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut(':').unwrap(),
+            &[decode_unicode('⠐'), decode_unicode('⠂')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut(';').unwrap(),
+            &[decode_unicode('⠰'), decode_unicode('⠆')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('_').unwrap(),
+            &[decode_unicode('⠤')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('*').unwrap(),
+            &[decode_unicode('⠐'), decode_unicode('⠔')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut('(').unwrap(),
+            &[decode_unicode('⠦'), decode_unicode('⠄')]
+        );
+        assert_eq!(
+            encode_char_symbol_shortcut(')').unwrap(),
+            &[decode_unicode('⠠'), decode_unicode('⠴')]
+        );
+    }
 }
