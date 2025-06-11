@@ -33,7 +33,6 @@ export default function RootLayout({
           fontFamily: 'Spoqa Han Sans Neo, Arial, Helvetica, sans-serif',
           selectors: {
             '& a': {
-              color: '$link',
               textDecoration: 'none',
             },
             '& *::placeholder': {
