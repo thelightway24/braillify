@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text, VStack } from '@devup-ui/react'
+import { Box, Flex, Image, Input, Text, VStack } from '@devup-ui/react'
 
 import PillButton from '@/components/home/PillButton'
 import IconDiscord from '@/components/icons/IconDiscord'
@@ -10,6 +10,7 @@ export default function HomePage() {
       <Box
         px={['16px', null, '30px', '80px']}
         py={['40px', null, null, '100px']}
+        w="100%"
       >
         <Image
           display={['none', null, null, 'block']}
@@ -20,7 +21,7 @@ export default function HomePage() {
           top="145px"
           w="236.82798767089844px"
         />
-        <VStack gap="80px" position="relative" zIndex="1">
+        <VStack gap="80px" position="relative" w="100%" zIndex="1">
           <VStack alignItems={['center', null, null, 'flex-start']}>
             <Box
               aspectRatio="838/341"
@@ -32,7 +33,11 @@ export default function HomePage() {
               mb={['30px', null, null, '60px']}
               w={['100%', null, null, '838px']}
             />
-            <VStack gap={['20px', null, null, '40px']}>
+            <VStack
+              alignItems="center"
+              gap={['20px', null, null, '40px']}
+              w="100%"
+            >
               <Text color="$text" typography="mainText">
                 실시간 한글 점역 라이브러리
               </Text>
@@ -49,20 +54,29 @@ export default function HomePage() {
             gap={['12px', null, null, '30px']}
             h={['auto', null, null, '500px']}
           >
-            <Flex
-              bg="$containerBackground"
-              borderRadius={['16px', null, null, '30px']}
-              flex="1"
-              gap="10px"
-              h="100%"
-              p={['16px', null, null, '40px']}
-            >
-              <Text color="$text" opacity="0.5" typography="braille">
-                braillify는 한글 점역을 빠르고 안정적으로 처리하는 Rust 기반
-                라이브러리입니다. Node.js, WebAssembly, Python 등 다양한
-                환경에서 사용할 수 있어요.점역하고 싶은 문장이나 단어를 여기에
-                입력해 직접 확인해보세요!
-              </Text>
+            <Flex flex="1" h="100%" w="100%">
+              <Input
+                as="textarea"
+                bg="$containerBackground"
+                border="none"
+                borderRadius={['16px', null, null, '30px']}
+                color="$text"
+                h={['400px', null, null, 'auto']}
+                p={['16px', null, null, '40px']}
+                placeholder={
+                  'braillify는 한글 점역을 빠르고 안정적으로 처리하는 Rust 기반 라이브러리입니다.\nNode.js, WebAssembly, Python 등 다양한 환경에서 사용할 수 있어요.\n점역하고 싶은 문장이나 단어를 여기에 입력해 직접 확인해보세요!'
+                }
+                resize="none"
+                selectors={{
+                  '&::placeholder': {
+                    color: '$text',
+                    typography: 'braille',
+                    opacity: 0.5,
+                  },
+                }}
+                typography="braille"
+                w="100%"
+              />
             </Flex>
             <Flex>
               <Image
@@ -77,23 +91,29 @@ export default function HomePage() {
                 w={['16px', null, null, '24px']}
               />
             </Flex>
-            <Flex
-              bg="$containerBackground"
-              borderRadius={['16px', null, null, '30px']}
-              flex="1"
-              gap="10px"
-              h="100%"
-              p={['16px', null, null, '40px']}
-            >
-              <Text
+            <Flex flex="1" h="100%" w="100%">
+              <Input
+                as="textarea"
+                bg="$containerBackground"
+                border="none"
+                borderRadius={['16px', null, null, '30px']}
                 color="$text"
-                flex="1"
-                lineBreak="anywhere"
-                opacity="0.5"
+                h={['400px', null, null, 'auto']}
+                p={['16px', null, null, '40px']}
+                placeholder={
+                  '⠴⠃⠗⠁⠊⠇⠇⠊⠋⠽⠲⠉⠵ ⠚⠒⠈⠮ ⠨⠎⠢⠱⠁⠮ ⠠⠘⠐⠪⠈⠥ ⠣⠒⠨⠻⠨⠹⠪⠐⠥ ⠰⠎⠐⠕⠚⠉⠵ ⠴⠠⠗⠥⠌⠲ ⠈⠕⠘⠒ ⠐⠣⠕⠘⠪⠐⠎⠐⠕⠕⠃⠉⠕⠊⠲\n⠴⠠⠝⠕⠙⠑⠲⠚⠎⠂ ⠠⠺⠑⠃⠠⠁⠎⠎⠑⠍⠃⠇⠽⠂ ⠠⠏⠽⠹⠕⠝⠲ ⠊⠪⠶ ⠊⠣⠜⠶⠚⠒ ⠚⠧⠒⠈⠻⠝⠠⠎ ⠇⠬⠶⠚⠂ ⠠⠍ ⠕⠌⠎⠬⠲\n⠨⠎⠢⠱⠁⠚⠈⠥ ⠠⠕⠲⠵ ⠑⠛⠨⠶⠕⠉ ⠊⠒⠎⠐⠮ ⠱⠈⠕⠝ ⠕⠃⠐⠱⠁⠚⠗ ⠨⠕⠁⠨⠎⠃ ⠚⠧⠁⠟⠚⠗⠘⠥⠠⠝⠬⠖'
+                }
+                resize="none"
+                selectors={{
+                  '&::placeholder': {
+                    color: '$text',
+                    typography: 'braille',
+                    opacity: 0.5,
+                  },
+                }}
                 typography="braille"
-              >
-                ⠴⠃⠗⠁⠊⠇⠇⠊⠋⠽⠲⠉⠵⠀⠚⠒⠈⠮⠀⠨⠎⠢⠱⠁⠮⠀⠠⠘⠐⠪⠈⠥⠀⠣⠒⠨⠻⠨⠹⠪⠐⠥⠀⠰⠎⠐⠕⠚⠉⠵⠀⠴⠠⠗⠥⠌⠲⠀⠈⠕⠘⠒⠀⠐⠣⠕⠘⠪⠐⠎⠐⠕⠕⠃⠉⠕⠊⠲⠴⠠⠝⠕⠙⠑⠲⠚⠎⠂⠀⠠⠺⠑⠃⠠⠁⠎⠎⠑⠍⠃⠇⠽⠂⠀⠠⠏⠽⠹⠕⠝⠲⠀⠊⠪⠶⠀⠊⠣⠜⠶⠚⠒⠀⠚⠧⠒⠈⠻⠝⠠⠎⠀⠇⠬⠶⠚⠂⠀⠠⠍⠀⠕⠌⠎⠬⠲⠨⠎⠢⠱⠁⠚⠈⠥⠀⠠⠕⠲⠵⠀⠑⠛⠨⠶⠕⠉⠀⠊⠒⠎⠐⠮⠀⠱⠈⠕⠝⠀⠕⠃⠐⠱⠁⠚⠗⠀⠨⠕⠁⠨⠎⠃⠀⠚⠧⠁⠟⠚⠗⠘⠥⠠⠝⠬⠖
-              </Text>
+                w="100%"
+              />
             </Flex>
           </Flex>
         </VStack>

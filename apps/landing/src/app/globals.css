@@ -26,6 +26,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*::placeholder {
+  font-family: 'Spoqa Han Sans Neo', Arial, Helvetica, sans-serif;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
