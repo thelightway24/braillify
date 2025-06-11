@@ -79,7 +79,7 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="#">
+            <Link href="https://discord.gg/8zjcGc7cWh">
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -91,7 +91,7 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="#">
+            <Link href="https://open.kakao.com/o/gzeq4eBh">
               <Box
                 bg="$text"
                 boxSize="24px"

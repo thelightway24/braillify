@@ -49,7 +49,7 @@ export default function MobileMenu() {
                   />
                 </Center>
               </Link>
-              <Link href="#">
+              <Link href="https://discord.gg/8zjcGc7cWh">
                 <Center px="10px" py="13px">
                   <Box
                     bg="$text"
@@ -63,7 +63,7 @@ export default function MobileMenu() {
                   />
                 </Center>
               </Link>
-              <Link href="#">
+              <Link href="https://open.kakao.com/o/gzeq4eBh">
                 <Center px="10px" py="13px">
                   <Box
                     bg="$text"

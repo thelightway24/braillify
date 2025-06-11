@@ -272,7 +272,7 @@ export default function HomePage() {
             </Text>
           </VStack>
           <VStack gap="20px" justifyContent="center" pt="80px">
-            <PillButton href="#">
+            <PillButton href="https://open.kakao.com/o/gzeq4eBh">
               <Flex gap="16px">
                 <IconKakao color="#FFF" />
                 <Text color="#FFF" typography="button">
