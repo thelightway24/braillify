@@ -57,8 +57,8 @@ export default function Header() {
           transition="background-color 0.3s ease"
         >
           <Link
-            href="/"
-            style={{ display: isIntersectingHome ? 'none' : 'block' }}
+            href={isIntersectingHome ? '#' : '/'}
+            style={{ cursor: isIntersectingHome ? 'default' : 'pointer' }}
           >
             <Box
               aspectRatio="122.87/50.00"
@@ -66,7 +66,9 @@ export default function Header() {
               h={['32px', null, null, '50px']}
               maskImage="url(/images/home/hero.svg)"
               maskSize="contain"
+              opacity={isIntersectingHome ? 0 : 1}
               position="relative"
+              transition="opacity 0.3s ease"
               zIndex="1"
             />
           </Link>
