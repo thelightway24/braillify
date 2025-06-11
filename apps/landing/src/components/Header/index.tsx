@@ -6,6 +6,8 @@ import IconDiscord from '../icons/IconDiscord'
 import IconGithub from '../icons/IconGithub'
 import IconHamburger from '../icons/IconHamburger'
 import IconKakao from '../icons/IconKakao'
+import MobileMenu from './MobileMenu'
+import MobileMenuButton from './MobileMenuButton'
 
 export default function Header() {
   return (
@@ -91,11 +93,14 @@ export default function Header() {
             display={['flex', null, null, 'none']}
             gap="10px"
           >
-            <IconHamburger />
+            <MobileMenuButton>
+              <IconHamburger />
+            </MobileMenuButton>
           </Flex>
         </Flex>
       </Box>
       <Box h={['60px', null, null, '100px']} />
+      <MobileMenu />
     </>
   )
 }
