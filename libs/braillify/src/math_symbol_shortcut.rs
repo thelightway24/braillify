@@ -27,4 +27,52 @@ pub fn is_math_symbol_char(text: char) -> bool {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    pub fn test_is_math_symbol_char() {
+        assert!(is_math_symbol_char('+'));
+        assert!(is_math_symbol_char('−'));
+        assert!(is_math_symbol_char('×'));
+        assert!(is_math_symbol_char('÷'));
+        assert!(is_math_symbol_char('='));
+        assert!(is_math_symbol_char('>'));
+        assert!(is_math_symbol_char('<'));
+        assert!(!is_math_symbol_char('a'));
+    }
+
+    #[test]
+    pub fn test_encode_char_math_symbol_shortcut() {
+        assert_eq!(
+            encode_char_math_symbol_shortcut('+').unwrap(),
+            &[decode_unicode('⠢')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('−').unwrap(),
+            &[decode_unicode('⠔')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('×').unwrap(),
+            &[decode_unicode('⠡')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('÷').unwrap(),
+            &[decode_unicode('⠌'), decode_unicode('⠌')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('=').unwrap(),
+            &[decode_unicode('⠒'), decode_unicode('⠒')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('>').unwrap(),
+            &[decode_unicode('⠢'), decode_unicode('⠢')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('<').unwrap(),
+            &[decode_unicode('⠔'), decode_unicode('⠔')]
+        );
+        assert_eq!(
+            encode_char_math_symbol_shortcut('a').unwrap_err(),
+            "Invalid math symbol character"
+        );
+    }
 }

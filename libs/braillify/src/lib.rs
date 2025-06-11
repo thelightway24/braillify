@@ -30,7 +30,7 @@ mod word_shortcut;
 
 pub fn encode(text: &str) -> Result<Vec<u8>, String> {
     let mut result: Vec<u8> = Vec::new();
-    let words = text.split_whitespace().collect::<Vec<&str>>();
+    let words = text.split(' ').collect::<Vec<&str>>();
     let word_count = words.len();
     let mut is_english = false;
     // 한국어가 존재할 경우 english_indicator 가 true 가 됩니다.
@@ -268,8 +268,8 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                             result.extend(symbol_shortcut::encode_char_symbol_shortcut(c)?);
                         }
                     }
-                    CharType::Space => {
-                        result.push(0);
+                    CharType::Space(c) => {
+                        result.push(if c == '\n' { 255 } else { 0 });
                     }
                     CharType::MathSymbol(c) => {
                         if i > 0
@@ -361,6 +361,7 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
+        assert_eq!(encode_to_unicode("안녕\n반가워").unwrap(), "⠣⠒⠉⠻\n⠘⠒⠫⠏");
         assert_eq!(encode_to_unicode("BMI(지수)").unwrap(), "⠴⠠⠠⠃⠍⠊⠦⠄⠨⠕⠠⠍⠠⠴");
         assert_eq!(encode_to_unicode("지수(BMI)").unwrap(), "⠨⠕⠠⠍⠦⠄⠴⠠⠠⠃⠍⠊⠠⠴");
         assert_eq!(

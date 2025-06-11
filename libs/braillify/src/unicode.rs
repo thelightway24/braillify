@@ -1,4 +1,7 @@
 pub fn encode_unicode(text: u8) -> char {
+    if text == 255 {
+        return '\n';
+    }
     char::from_u32(text as u32 + 0x2800).unwrap()
 }
 
@@ -78,5 +81,6 @@ mod test {
         assert_eq!(encode_unicode(61), '⠽');
         assert_eq!(encode_unicode(62), '⠾');
         assert_eq!(encode_unicode(63), '⠿');
+        assert_eq!(encode_unicode(255), '\n');
     }
 }
