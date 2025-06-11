@@ -58,7 +58,7 @@ pub enum CharType {
     Number(char),
     Symbol(char),
     MathSymbol(char),
-    Space,
+    Space(char),
 }
 
 impl CharType {
@@ -86,7 +86,7 @@ impl CharType {
             return Ok(Self::Korean(KoreanChar::new(c)?));
         }
         if c.is_whitespace() {
-            return Ok(Self::Space);
+            return Ok(Self::Space(c));
         }
         Err("Invalid character".to_string())
     }
@@ -108,6 +108,6 @@ mod test {
             CharType::new('ㄱ').unwrap(),
             CharType::KoreanPart('ㄱ')
         ));
-        assert!(matches!(CharType::new(' ').unwrap(), CharType::Space));
+        assert!(matches!(CharType::new(' ').unwrap(), CharType::Space(' ')));
     }
 }
