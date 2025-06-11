@@ -60,7 +60,7 @@ export default function MobileMenu() {
               </Box>
             </MobileMenuItem>
             <MobileMenuSubItem>
-              <VStack bg="$background" px="16px" typography="docsMenu">
+              <VStack bg="$background" pt="4px" px="16px" typography="docsMenu">
                 <MobileMenuItemBox
                   onClick={() => router.push(`/docs/overview`)}
                   selected={pathname === '/docs/overview'}
@@ -72,11 +72,6 @@ export default function MobileMenu() {
                     w="100%"
                   >
                     <Text>개요</Text>
-                    <Image
-                      alt="arrow icon"
-                      boxSize="16px"
-                      src="/images/docs/menu-arrow.svg"
-                    />
                   </Flex>
                 </MobileMenuItemBox>
                 <MobileMenuItemBox
@@ -90,11 +85,6 @@ export default function MobileMenu() {
                     w="100%"
                   >
                     <Text>설치</Text>
-                    <Image
-                      alt="arrow icon"
-                      boxSize="16px"
-                      src="/images/docs/menu-arrow.svg"
-                    />
                   </Flex>
                 </MobileMenuItemBox>
                 <MobileMenuProvider>
