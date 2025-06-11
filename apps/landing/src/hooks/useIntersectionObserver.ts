@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react'
 export const useIntersectionObserver = (
   ref: React.RefObject<HTMLElement | null>,
   options: IntersectionObserverInit,
+  defaultIntersecting?: boolean,
 ) => {
-  const [isIntersecting, setIsIntersecting] = useState(false)
+  const [isIntersecting, setIsIntersecting] = useState(
+    defaultIntersecting ?? false,
+  )
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {

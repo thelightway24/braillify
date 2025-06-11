@@ -14,10 +14,14 @@ import ThemeSwitch from './ThemeSwitch'
 
 export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null)
-  const isIntersecting = useIntersectionObserver(headerRef, {
-    rootMargin: '-50px',
-    threshold: 0,
-  })
+  const isIntersecting = useIntersectionObserver(
+    headerRef,
+    {
+      rootMargin: '-50px',
+      threshold: 0,
+    },
+    true,
+  )
 
   return (
     <>
