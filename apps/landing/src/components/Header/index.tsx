@@ -40,6 +40,7 @@ export default function Header() {
           justifyContent="space-between"
           position="relative"
           px={['16px', null, null, '40px']}
+          transition="background-color 0.3s ease"
         >
           <Link href="/">
             <Box
@@ -51,7 +52,7 @@ export default function Header() {
               zIndex="1"
             />
           </Link>
-          <Pages />
+          <Pages isIntersecting={isIntersecting} />
           <Flex
             alignItems="center"
             display={['none', null, null, 'flex']}
@@ -95,15 +96,15 @@ export default function Header() {
             </Link>
             <ThemeSwitch />
           </Flex>
-          <Flex
-            alignItems="center"
-            display={['flex', null, null, 'none']}
-            gap="10px"
-          >
-            <MobileMenuButton>
-              <IconHamburger />
-            </MobileMenuButton>
-          </Flex>
+        </Flex>
+        <Flex
+          alignItems="center"
+          display={['flex', null, null, 'none']}
+          gap="10px"
+        >
+          <MobileMenuButton>
+            <IconHamburger />
+          </MobileMenuButton>
         </Flex>
       </Box>
       <Box ref={headerRef} h={['60px', null, null, '100px']} />
