@@ -2,12 +2,14 @@ import { Box, Button, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 
 export default function PillButton({
+  href,
   children,
 }: {
+  href: string
   children: React.ReactNode
 }) {
   return (
-    <Link href="/docs/overview">
+    <Link href={href} scroll={false}>
       <Button bg="transparent" border="none" cursor="pointer" role="group">
         <Flex
           alignItems="center"

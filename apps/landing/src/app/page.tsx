@@ -41,7 +41,7 @@ export default function HomePage() {
               <Text color="$text" typography="mainText">
                 실시간 한글 점역 라이브러리
               </Text>
-              <PillButton>
+              <PillButton href="/docs/overview">
                 <Text color="#FFF" typography="buttonLg">
                   지금 시작하기
                 </Text>
@@ -272,7 +272,7 @@ export default function HomePage() {
             </Text>
           </VStack>
           <VStack gap="20px" justifyContent="center" pt="80px">
-            <PillButton>
+            <PillButton href="#">
               <Flex gap="16px">
                 <IconKakao color="#FFF" />
                 <Text color="#FFF" typography="button">
@@ -280,7 +280,7 @@ export default function HomePage() {
                 </Text>
               </Flex>
             </PillButton>
-            <PillButton>
+            <PillButton href="https://discord.gg/8zjcGc7cWh">
               <Flex gap="16px">
                 <IconDiscord color="#FFF" />
                 <Text color="#FFF" typography="button">
