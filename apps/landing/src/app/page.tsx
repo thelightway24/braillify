@@ -23,14 +23,14 @@ export default function HomePage() {
         <VStack gap="80px" position="relative" zIndex="1">
           <VStack alignItems={['center', null, null, 'flex-start']}>
             <Box
+              aspectRatio="838/341"
               bg="$text"
-              h={[null, null, '288px', '341px']}
               maskImage="url(/images/home/hero.svg)"
               maskPosition="start"
               maskRepeat="no-repeat"
               maskSize="contain"
               mb={['30px', null, null, '60px']}
-              w={['100%', null]}
+              w={['100%', null, null, '838px']}
             />
             <VStack gap={['20px', null, null, '40px']}>
               <Text color="$text" typography="mainText">
