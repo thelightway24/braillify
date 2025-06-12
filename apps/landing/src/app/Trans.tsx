@@ -9,7 +9,14 @@ export function Trans() {
   >(() => () => '')
   useEffect(() => {
     import('braillify').then((mod) => {
-      setTranslateToUnicode(() => mod.translateToUnicode)
+      setTranslateToUnicode(() => (input: string) => {
+        try {
+          return mod.translateToUnicode(input)
+        } catch (e) {
+          console.error(e)
+          return '점역할 수 없는 문자가 있습니다.'
+        }
+      })
     })
   }, [input])
   return (
