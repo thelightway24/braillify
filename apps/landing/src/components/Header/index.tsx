@@ -43,7 +43,7 @@ export default function Header() {
         <Flex
           alignItems="center"
           bg={[
-            '$containerBackground',
+            isIntersectingHome ? 'transparent' : '$containerBackground',
             null,
             null,
             isIntersectingHome ? 'transparent' : '$containerBackground',
@@ -58,6 +58,11 @@ export default function Header() {
         >
           <Link
             href={isIntersectingHome ? '#' : '/'}
+            onClick={(e) => {
+              if (!isIntersectingHome && pathname === '/') {
+                e.preventDefault()
+              }
+            }}
             style={{ cursor: isIntersectingHome ? 'default' : 'pointer' }}
           >
             <Box
@@ -66,7 +71,17 @@ export default function Header() {
               h={['32px', null, null, '50px']}
               maskImage="url(/images/home/hero.svg)"
               maskSize="contain"
-              opacity={isIntersectingHome ? 0 : 1}
+              onClick={() => {
+                if (!isIntersectingHome && pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+              }}
+              opacity={[
+                isIntersectingHome ? 0 : 1,
+                null,
+                null,
+                isIntersectingHome ? 0 : 1,
+              ]}
               position="relative"
               transition="opacity 0.3s ease"
               zIndex="1"
