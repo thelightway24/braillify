@@ -100,6 +100,7 @@ export function RightIndex() {
             color="$caption"
             flex="1"
             textAlign="right"
+            typography="docsSmall"
           >
             이 페이지 편집하기
           </Text>
