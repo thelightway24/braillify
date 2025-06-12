@@ -9,6 +9,31 @@ import Header from '@/components/Header'
 export const metadata: Metadata = {
   title: 'Braillify',
   description: '크로스플랫폼 한국어 점역 라이브러리',
+  keywords: [
+    '한글 점역',
+    '한글 점역 라이브러리',
+    '한글 점역 라이브러리 추천',
+    'Braillify',
+    '브레일리파이',
+    '점자 번역',
+    '점자 번역기',
+    '점자 통역',
+    '점자 통역기',
+    '점역기',
+    '점자 번역 라이브러리',
+    '점자 통역 라이브러리',
+    '점자 번역 라이브러리 추천',
+    '점자 통역 라이브러리 추천',
+    'braille translator',
+    '한글 점자',
+    '영어 점자',
+    '점역 서비스',
+    '점자 ↔ 한글',
+    '점자 ↔ 영어',
+    'braille english',
+    'braille korean',
+    'braille translator',
+  ],
 }
 
 export default function RootLayout({
