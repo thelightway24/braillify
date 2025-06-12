@@ -352,9 +352,6 @@ pub fn encode_to_braille_font(text: &str) -> Result<String, String> {
         .map(|c| unicode::encode_unicode(*c))
         .collect::<String>())
 }
-pub fn decode(text: &str) -> String {
-    text.to_string()
-}
 
 #[cfg(test)]
 mod test {
