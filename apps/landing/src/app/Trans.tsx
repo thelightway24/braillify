@@ -1,5 +1,5 @@
 'use client'
-import { Flex, Image, Input, Text, VStack } from '@devup-ui/react'
+import { Box, Flex, Image, Input, Text, VStack } from '@devup-ui/react'
 import { useEffect, useState } from 'react'
 
 export function Trans() {
@@ -22,9 +22,13 @@ export function Trans() {
   return (
     <VStack gap="30px">
       <Flex alignItems="flex-start" gap="20px">
-        <Image
-          alt="Finger point image"
-          src="/images/home/finger-point.svg"
+        <Box
+          aria-label="Finger pointing image"
+          bg="$text"
+          h="32px"
+          maskImage="url(/images/home/finger-point.svg)"
+          maskPosition="center"
+          maskRepeat="no-repeat"
           w="28px"
         />
         <Text color="$text" pos="relative" top="-2px" typography="mainTextSm">
