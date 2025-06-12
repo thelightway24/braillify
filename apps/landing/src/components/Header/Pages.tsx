@@ -23,6 +23,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
         transition="all 0.3s ease"
       >
         <Link
+          aria-label="Overview page link"
           className={css({
             color: '$text',
           })}
@@ -37,7 +38,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 _groupHover={{
                   bg: '$text',
                 }}
-                aspectRatio="1/1"
+                aspectRatio="1"
                 bg={pathname.startsWith('/docs') ? '$text' : 'transparent'}
                 border="1px solid $text"
                 borderRadius="50%"
@@ -55,6 +56,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
           </Flex>
         </Link>
         <Link
+          aria-label="Test case page link"
           className={css({
             color: '$text',
           })}
@@ -69,7 +71,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 _groupHover={{
                   bg: '$text',
                 }}
-                aspectRatio="1/1"
+                aspectRatio="1"
                 bg={pathname.startsWith('/test-case') ? '$text' : 'transparent'}
                 border="1px solid $text"
                 borderRadius="50%"
@@ -87,6 +89,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
           </Flex>
         </Link>
         <Link
+          aria-label="Team page link"
           className={css({
             color: '$text',
           })}
@@ -101,7 +104,7 @@ export default function Pages({ isIntersecting }: { isIntersecting: boolean }) {
                 _groupHover={{
                   bg: '$text',
                 }}
-                aspectRatio="1/1"
+                aspectRatio="1"
                 bg={pathname.startsWith('/team') ? '$text' : 'transparent'}
                 border="1px solid $text"
                 borderRadius="50%"

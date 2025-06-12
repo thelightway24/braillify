@@ -15,6 +15,7 @@ export default function HomePage() {
         w="100%"
       >
         <Image
+          alt="Braille background image"
           display={['none', null, null, null, 'block']}
           h="1019px"
           pos="absolute"
@@ -43,9 +44,9 @@ export default function HomePage() {
               <Text color="$text" typography="mainText">
                 실시간 한글 점역 라이브러리
               </Text>
-              <PillButton href="/docs/overview">
+              <PillButton aria-label="Start now button" href="/docs/overview">
                 <Text color="#FFF" typography="buttonLg">
-                  지금 시작하기
+                  문서 둘러보기
                 </Text>
               </PillButton>
             </VStack>
@@ -66,7 +67,7 @@ export default function HomePage() {
             <Text color="$text" typography="title">
               braillify의 특징
             </Text>
-            <Box aspectRatio="1/1" bg="$text" borderRadius="50%" h="16px" />
+            <Box aspectRatio="1" bg="$text" borderRadius="50%" h="16px" />
           </Flex>
           <Text color="$text" typography="bodyLg">
             ‘Braille(점자)’에 ‘-ify(~화化하다)’를 더해
@@ -100,7 +101,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -131,7 +132,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -163,7 +164,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -197,7 +198,7 @@ export default function HomePage() {
               <Text color="#FFF" typography="title" whiteSpace="nowrap">
                 공식 커뮤니티 참여하기
               </Text>
-              <Box aspectRatio="1/1" bg="#FFF" borderRadius="50%" h="16px" />
+              <Box aspectRatio="1" bg="#FFF" borderRadius="50%" h="16px" />
             </Flex>
             <Text
               color="#FFF"
@@ -210,6 +211,7 @@ export default function HomePage() {
           </VStack>
           <VStack gap="20px" justifyContent="center" pt="80px">
             <PillButton
+              aria-label="Kakao Open Chat button"
               href="https://open.kakao.com/o/gzeq4eBh"
               target="_blank"
             >
@@ -220,7 +222,11 @@ export default function HomePage() {
                 </Text>
               </Flex>
             </PillButton>
-            <PillButton href="https://discord.gg/8zjcGc7cWh" target="_blank">
+            <PillButton
+              aria-label="Discord server button"
+              href="https://discord.gg/8zjcGc7cWh"
+              target="_blank"
+            >
               <Flex gap="16px">
                 <IconDiscord color="#FFF" />
                 <Text color="#FFF" typography="button">

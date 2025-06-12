@@ -1,6 +1,8 @@
 import { Box, Grid, Text, VStack } from '@devup-ui/react'
 import { readFile } from 'fs/promises'
 
+import TestCaseCircle from '@/components/test-case/TestCaseCircle'
+
 export default async function TestCasePage() {
   const [testStatus, ruleMap] = await Promise.all([
     readFile('../../test_status.json', 'utf-8').then((data) =>
@@ -71,29 +73,15 @@ export default async function TestCasePage() {
               gap="8px"
               gridTemplateColumns="repeat(auto-fill, minmax(16px, 1fr))"
             >
-              {testStatus[key][2].map(([text, expected, actual, isSuccess]) => (
-                <Box key={text} role="group">
-                  <Box
-                    aspectRatio="1/1"
-                    bg={isSuccess ? '$success' : '$error'}
-                    borderRadius="100px"
-                    boxSize="16px"
-                    cursor="pointer"
-                  />
-                  <VStack
-                    _groupHover={{
-                      display: 'flex',
-                    }}
-                    bg="rgba(0, 0, 0, 0.75)"
-                    borderRadius="4px"
-                    display="none"
-                    justifyContent="center"
-                    pos="absolute"
-                    px="10px"
-                    py="8px"
-                    transform="translateY(10px)"
-                  >
-                    <Text color="#FFF" typography="body">
+              {testStatus[key][2].map(
+                ([text, expected, actual, isSuccess], idx) => (
+                  <TestCaseCircle key={text + idx} isSuccess={isSuccess}>
+                    <Text
+                      color="#FFF"
+                      typography="body"
+                      whiteSpace="nowrap"
+                      wordBreak="keep-all"
+                    >
                       {text}
                       <br />
                       정답 : {expected}
@@ -102,115 +90,9 @@ export default async function TestCasePage() {
                       <br />
                       {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
                     </Text>
-                  </VStack>
-                </Box>
-              ))}
-
-              {/* {Array.from({ length: 20 }).map((_, index) => (
-            <VStack key={index} gap="8px">
-              <Flex
-                justifyContent="space-between"
-                px={[null, null, null, '20px']}
-              >
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-                <Box
-                  aspectRatio="1/1"
-                  bg="$text"
-                  borderRadius="100px"
-                  boxSize="16px"
-                />
-              </Flex>
-            </VStack>
-          ))} */}
+                  </TestCaseCircle>
+                ),
+              )}
             </Grid>
           </VStack>
         )

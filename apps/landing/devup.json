@@ -83,6 +83,14 @@
                     "letterSpacing": "-0.06em"
                 }
             ],
+            "mainTextSm": {
+                "fontFamily": "Spoqa Han Sans Neo",
+                "fontStyle": "normal",
+                "fontWeight": 500,
+                "fontSize": "24px",
+                "lineHeight": "normal",
+                "letterSpacing": "-0.06em"
+            },
             "braille": [
                 {
                     "fontFamily": "Spoqa Han Sans Neo",
@@ -99,7 +107,7 @@
                     "fontFamily": "Spoqa Han Sans Neo",
                     "fontStyle": "normal",
                     "fontWeight": 500,
-                    "fontSize": "20px",
+                    "fontSize": "22px",
                     "lineHeight": 1.8,
                     "letterSpacing": "-0.06em"
                 }
@@ -251,14 +259,27 @@
                     "letterSpacing": "-0.06em"
                 }
             ],
-            "gnbMenu": {
-                "fontFamily": "Spoqa Han Sans Neo",
-                "fontStyle": "normal",
-                "fontWeight": 500,
-                "fontSize": "18px",
-                "lineHeight": "normal",
-                "letterSpacing": "-0.06em"
-            },
+            "gnbMenu": [
+                {
+                    "fontFamily": "Spoqa Han Sans Neo",
+                    "fontStyle": "normal",
+                    "fontWeight": 500,
+                    "fontSize": "15px",
+                    "lineHeight": "normal",
+                    "letterSpacing": "-0.06em"
+                },
+                null,
+                null,
+                null,
+                {
+                    "fontFamily": "Spoqa Han Sans Neo",
+                    "fontStyle": "normal",
+                    "fontWeight": 500,
+                    "fontSize": "18px",
+                    "lineHeight": "normal",
+                    "letterSpacing": "-0.06em"
+                }
+            ],
             "docsMenu": [
                 {
                     "fontFamily": "Spoqa Han Sans Neo",
