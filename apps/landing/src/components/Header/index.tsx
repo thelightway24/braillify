@@ -33,12 +33,11 @@ export default function Header() {
       <Box
         h={['60px', null, null, '100px']}
         left="0"
-        overflow="hidden"
         p={['4px', null, null, '10px']}
         position="fixed"
         right="0"
         top="0"
-        w="100vw"
+        w="100%"
         zIndex="10"
       >
         <Flex
