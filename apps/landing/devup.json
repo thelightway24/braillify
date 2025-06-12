@@ -251,14 +251,27 @@
                     "letterSpacing": "-0.06em"
                 }
             ],
-            "gnbMenu": {
-                "fontFamily": "Spoqa Han Sans Neo",
-                "fontStyle": "normal",
-                "fontWeight": 500,
-                "fontSize": "18px",
-                "lineHeight": "normal",
-                "letterSpacing": "-0.06em"
-            },
+            "gnbMenu": [
+                {
+                    "fontFamily": "Spoqa Han Sans Neo",
+                    "fontStyle": "normal",
+                    "fontWeight": 500,
+                    "fontSize": "15px",
+                    "lineHeight": "normal",
+                    "letterSpacing": "-0.06em"
+                },
+                null,
+                null,
+                null,
+                {
+                    "fontFamily": "Spoqa Han Sans Neo",
+                    "fontStyle": "normal",
+                    "fontWeight": 500,
+                    "fontSize": "18px",
+                    "lineHeight": "normal",
+                    "letterSpacing": "-0.06em"
+                }
+            ],
             "docsMenu": [
                 {
                     "fontFamily": "Spoqa Han Sans Neo",
