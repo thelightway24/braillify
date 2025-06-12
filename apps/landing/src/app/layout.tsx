@@ -34,6 +34,14 @@ export const metadata: Metadata = {
     'braille korean',
     'braille translator',
   ],
+  openGraph: {
+    title: 'Braillify',
+    description: '크로스플랫폼 한국어 점역 라이브러리',
+    images: ['https://braillify.kr/og-image.png'],
+    siteName: 'Braillify',
+    type: 'website',
+    url: 'https://braillify.kr',
+  },
 }
 
 export default function RootLayout({
@@ -56,9 +64,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
         <ThemeScript auto />
         <link href="/favicon.svg" rel="shortcut icon" />
-        <meta content="Braillify" property="og:title" />
-        <meta content="Braillify" property="og:description" />
-        <meta content="https://braillify.kr/og-image.png" property="og:image" />
       </head>
       <body
         className={css({
