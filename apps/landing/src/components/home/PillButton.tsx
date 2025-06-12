@@ -21,6 +21,11 @@ export default function PillButton({
           justifyContent="space-between"
           px={['20px', null, null, '40px']}
           py={['16px', null, null, '20px']}
+          selectors={{
+            '& span': {
+              alignSelf: 'center',
+            },
+          }}
           w={['240px', null, null, '300px']}
         >
           {children}
