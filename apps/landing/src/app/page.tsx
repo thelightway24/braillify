@@ -67,7 +67,7 @@ export default function HomePage() {
             <Text color="$text" typography="title">
               braillify의 특징
             </Text>
-            <Box aspectRatio="1/1" bg="$text" borderRadius="50%" h="16px" />
+            <Box aspectRatio="1" bg="$text" borderRadius="50%" h="16px" />
           </Flex>
           <Text color="$text" typography="bodyLg">
             ‘Braille(점자)’에 ‘-ify(~화化하다)’를 더해
@@ -101,7 +101,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -132,7 +132,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -164,7 +164,7 @@ export default function HomePage() {
               </Text>
             </VStack>
             <Box
-              aspectRatio="1/1"
+              aspectRatio="1"
               bg="$text"
               borderRadius="50%"
               boxSize={['12px', null, null, '16px']}
@@ -198,7 +198,7 @@ export default function HomePage() {
               <Text color="#FFF" typography="title" whiteSpace="nowrap">
                 공식 커뮤니티 참여하기
               </Text>
-              <Box aspectRatio="1/1" bg="#FFF" borderRadius="50%" h="16px" />
+              <Box aspectRatio="1" bg="#FFF" borderRadius="50%" h="16px" />
             </Flex>
             <Text
               color="#FFF"

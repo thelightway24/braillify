@@ -17,7 +17,7 @@ export default function TestCaseCircle({
   return (
     <Box role="group">
       <Box
-        aspectRatio="1/1"
+        aspectRatio="1"
         bg={isSuccess ? '$success' : '$error'}
         borderRadius="100px"
         boxSize="16px"

@@ -101,97 +101,97 @@ export default async function TestCasePage() {
                 px={[null, null, null, '20px']}
               >
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
                 />
                 <Box
-                  aspectRatio="1/1"
+                  aspectRatio="1"
                   bg="$text"
                   borderRadius="100px"
                   boxSize="16px"
