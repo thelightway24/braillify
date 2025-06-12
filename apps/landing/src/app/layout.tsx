@@ -23,7 +23,7 @@ export default function RootLayout({
         <link href="/favicon.svg" rel="shortcut icon" />
         <meta content="Braillify" property="og:title" />
         <meta content="Braillify" property="og:description" />
-        <meta content="https://braillify.kr/og.png" property="og:image" />
+        <meta content="https://braillify.kr/og-image.png" property="og:image" />
       </head>
       <body
         className={css({
