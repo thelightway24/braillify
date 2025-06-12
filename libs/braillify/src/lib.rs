@@ -28,31 +28,55 @@ mod unicode;
 mod utils;
 mod word_shortcut;
 
-pub fn encode(text: &str) -> Result<Vec<u8>, String> {
-    let mut result: Vec<u8> = Vec::new();
-    let words = text
-        .split(' ')
-        .filter(|word| !word.is_empty())
-        .collect::<Vec<&str>>();
+pub struct Encoder {
+    is_english: bool,
+    triple_big_english: bool,
+    english_indicator: bool,
+    has_processed_word: bool,
+}
 
-    let word_count = words.len();
-    let mut is_english = false;
-    // 한국어가 존재할 경우 english_indicator 가 true 가 됩니다.
-    let english_indicator = words.iter().any(|word| {
-        word.chars().any(|c| {
-            return (c as u32 >= 0x3131 && c as u32 <= 0x3163)
-                || (0xAC00 <= c as u32 && c as u32 <= 0xD7A3);
-        })
-    });
-    let mut triple_big_english = false;
+impl Encoder {
+    pub fn new(english_indicator: bool) -> Self {
+        Self {
+            english_indicator,
+            is_english: false,
+            triple_big_english: false,
+            has_processed_word: false,
+        }
+    }
 
-    for (idx, word) in words.iter().enumerate() {
-        let mut skip_count = 0;
+    pub fn encode(&mut self, text: &str, result: &mut Vec<u8>) -> Result<(), String> {
+        let words = text
+            .split(' ')
+            .filter(|word| !word.is_empty())
+            .collect::<Vec<&str>>();
 
+        let mut word: &str = "";
+        let mut remaining_words = &words[..];
+        while !remaining_words.is_empty() {
+            let prev_word = word;
+            (word, remaining_words) = remaining_words.split_first().unwrap();
+
+            let mut skip_count = 0;
+
+            self.encode_word(word, prev_word, remaining_words, &mut skip_count, result)?;
+        }
+        Ok(())
+    }
+
+    fn encode_word(
+        &mut self,
+        word: &str,
+        prev_word: &str,
+        remaining_words: &[&str],
+        skip_count: &mut usize,
+        result: &mut Vec<u8>,
+    ) -> Result<(), String> {
         if let Some((_, code, rest)) = word_shortcut::split_word_shortcut(word) {
             result.extend(code);
             if !rest.is_empty() {
-                result.extend(encode(rest.as_str())?);
+                // Recursively encode the rest using the current encoder state
+                self.encode(rest.as_str(), result)?;
             }
         } else {
             let word_chars = word.chars().collect::<Vec<char>>();
@@ -62,20 +86,20 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                 .iter()
                 .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3));
 
-            if english_indicator && !is_english && word_chars[0].is_ascii_alphabetic() {
+            if self.english_indicator && !self.is_english && word_chars[0].is_ascii_alphabetic() {
                 // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
 
-                is_english = true;
+                self.is_english = true;
                 result.push(52);
             }
 
-            if is_all_uppercase && !triple_big_english {
-                if (idx == 0 || !words[idx - 1].chars().all(|c| c.is_ascii_alphabetic()))
-                    && word_count - idx > 2
-                    && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic())
-                    && words[idx + 2].chars().all(|c| c.is_ascii_alphabetic())
+            if is_all_uppercase && !self.triple_big_english {
+                if (!self.has_processed_word || !prev_word.chars().all(|c| c.is_ascii_alphabetic()))
+                    && remaining_words.len() >= 2
+                    && remaining_words[0].chars().all(|c| c.is_ascii_alphabetic())
+                    && remaining_words[1].chars().all(|c| c.is_ascii_alphabetic())
                 {
-                    triple_big_english = true;
+                    self.triple_big_english = true;
                     result.push(32);
                     result.push(32);
                     result.push(32);
@@ -94,20 +118,20 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
             // let mut over_three_big_english = false;
 
             for (i, c) in word_chars.iter().enumerate() {
-                if skip_count > 0 {
-                    skip_count -= 1;
+                if *skip_count > 0 {
+                    *skip_count -= 1;
                     continue;
                 }
 
                 let char_type = CharType::new(*c)?;
 
-                if english_indicator && i > 0 && !c.is_ascii_alphabetic() {
+                if self.english_indicator && i > 0 && !c.is_ascii_alphabetic() {
                     // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
-                    if is_english && !['"', ')', '('].contains(c) {
+                    if self.is_english && !['"', ')', '('].contains(c) {
                         // 제34항 로마자가 따옴표나 괄호 등으로 묶일 때에는 로마자 종료표를 적지 않는다.
                         result.push(50);
                     }
-                    is_english = false;
+                    self.is_english = false;
                 }
 
                 match char_type {
@@ -146,8 +170,8 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
 
                         if i < word_len - 1 {
                             // 11 - 모음자에 ‘예’가 붙어 나올 때에는 그 사이에 구분표 -을 적어 나타낸다
-                            rule_11(&korean, word_chars[i + 1], &mut result)?;
-                            rule_12(&korean, word_chars[i + 1], &mut result)?;
+                            rule_11(&korean, word_chars[i + 1], result)?;
+                            rule_12(&korean, word_chars[i + 1], result)?;
                         }
                     }
                     CharType::KoreanPart(c) => {
@@ -202,7 +226,7 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                         }
                     }
                     CharType::English(c) => {
-                        if english_indicator && !is_english {
+                        if self.english_indicator && !self.is_english {
                             // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
 
                             result.push(52);
@@ -225,17 +249,17 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                                 }
                             }
                         }
-                        if !is_english || i == 0 {
+                        if !self.is_english || i == 0 {
                             if let Some((code, len)) = rule_en_10_6(
                                 &word_chars[i..].iter().collect::<String>().to_lowercase(),
                             ) {
                                 result.push(code);
-                                skip_count = len;
+                                *skip_count = len;
                             } else if let Some((code, len)) = rule_en_10_4(
                                 &word_chars[i..].iter().collect::<String>().to_lowercase(),
                             ) {
                                 result.push(code);
-                                skip_count = len;
+                                *skip_count = len;
                             } else {
                                 result.push(english::encode_english(c)?);
                             }
@@ -243,11 +267,11 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
                             rule_en_10_4(&word_chars[i..].iter().collect::<String>().to_lowercase())
                         {
                             result.push(code);
-                            skip_count = len;
+                            *skip_count = len;
                         } else {
                             result.push(english::encode_english(c)?);
                         }
-                        is_english = true;
+                        self.is_english = true;
                     }
                     CharType::Number(c) => {
                         if !is_number {
@@ -313,27 +337,67 @@ pub fn encode(text: &str) -> Result<Vec<u8>, String> {
             }
         }
 
-        if triple_big_english {
-            if !(word_count - idx > 1 && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic())) {
+        if self.triple_big_english {
+            if !(remaining_words
+                .first()
+                .is_some_and(|w| w.chars().all(|c| c.is_ascii_alphabetic())))
+            {
                 // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
                 // ⠠⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
                 // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
                 result.push(32);
                 result.push(4);
+                self.triple_big_english = false; // Reset after adding terminator
             }
         }
-        if idx != word_count - 1 {
-            if english_indicator && !words[idx + 1].chars().next().unwrap().is_ascii_alphabetic() {
+        if !remaining_words.is_empty() {
+            if self.english_indicator
+                && !remaining_words[0]
+                    .chars()
+                    .next()
+                    .unwrap()
+                    .is_ascii_alphabetic()
+            {
                 // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
-                if is_english {
+                if self.is_english {
                     result.push(50);
                 }
-                is_english = false;
+                self.is_english = false;
             }
 
             result.push(0);
         }
+
+        // Update state for next iteration
+        if !self.has_processed_word {
+            self.has_processed_word = true;
+        }
+        Ok(())
     }
+
+    pub fn finish(&mut self, result: &mut Vec<u8>) -> Result<(), String> {
+        // Handle any end-of-stream processing
+        if self.triple_big_english {
+            // Close triple big english if still active
+            result.push(32); // ⠠
+            result.push(4); // ⠄
+        }
+        Ok(())
+    }
+}
+
+pub fn encode(text: &str) -> Result<Vec<u8>, String> {
+    // 한국어가 존재할 경우 english_indicator 가 true 가 됩니다.
+    let english_indicator = text.split(' ').filter(|word| !word.is_empty()).any(|word| {
+        word.chars().any(|c| {
+            (c as u32 >= 0x3131 && c as u32 <= 0x3163) || (0xAC00 <= c as u32 && c as u32 <= 0xD7A3)
+        })
+    });
+
+    let mut encoder = Encoder::new(english_indicator);
+    let mut result = Vec::new();
+    encoder.encode(text, &mut result)?;
+    encoder.finish(&mut result)?;
     Ok(result)
 }
 
@@ -689,13 +753,15 @@ mod test {
             let result = encode(&s);
             let _encoded = match result {
                 Ok(encoded) => {
-                    assert!(!encoded.is_empty() || s.is_empty());
+                    // Empty result is valid for strings that contain only spaces
+                    let is_only_spaces = s.chars().all(|c| c == ' ');
+                    assert!(!encoded.is_empty() || s.is_empty() || is_only_spaces);
 
                     let unicode_result = encode_to_unicode(&s);
                     assert!(unicode_result.is_ok());
 
                     let unicode_string = unicode_result.unwrap();
-                    assert!(!unicode_string.is_empty() || s.is_empty());
+                    assert!(!unicode_string.is_empty() || s.is_empty() || is_only_spaces);
 
                     encoded
                 }
@@ -705,7 +771,23 @@ mod test {
             };
 
             // let decoded = decode(&encoded);
-            // assert_eq!(s, decoded, "Decoded string does not match original input: {}", s);            
+            // assert_eq!(s, decoded, "Decoded string does not match original input: {}", s);
         }
+    }
+
+    #[test]
+    fn test_encoder_streaming() {
+        // Test encoder can be reused
+        let mut encoder = Encoder::new(false); // English only test
+        let mut buffer = Vec::new();
+
+        // Encode multiple times with same encoder
+        encoder.encode("test", &mut buffer).unwrap();
+        encoder.encode("ing", &mut buffer).unwrap();
+        encoder.finish(&mut buffer).unwrap();
+
+        // Should produce same result as one-shot
+        let expected = encode("testing").unwrap();
+        assert_eq!(buffer, expected);
     }
 }
