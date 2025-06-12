@@ -59,6 +59,7 @@ export function MenuItem(props: MenuItemProps) {
   )
   return to ? (
     <Link
+      aria-label={`${children} link`}
       className={css({
         textDecoration: 'none',
       })}

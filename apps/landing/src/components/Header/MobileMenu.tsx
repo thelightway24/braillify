@@ -36,6 +36,7 @@ export default function MobileMenu() {
           >
             <Flex alignItems="center">
               <Link
+                aria-label="GitHub link"
                 href="https://github.com/dev-five-git/braillify"
                 target="_blank"
               >
@@ -52,7 +53,11 @@ export default function MobileMenu() {
                   />
                 </Center>
               </Link>
-              <Link href="https://discord.gg/8zjcGc7cWh" target="_blank">
+              <Link
+                aria-label="Discord link"
+                href="https://discord.gg/8zjcGc7cWh"
+                target="_blank"
+              >
                 <Center px="10px" py="13px">
                   <Box
                     bg="$text"
@@ -66,7 +71,11 @@ export default function MobileMenu() {
                   />
                 </Center>
               </Link>
-              <Link href="https://open.kakao.com/o/gzeq4eBh" target="_blank">
+              <Link
+                aria-label="Kakao Open Chat link"
+                href="https://open.kakao.com/o/gzeq4eBh"
+                target="_blank"
+              >
                 <Center px="10px" py="13px">
                   <Box
                     bg="$text"

@@ -45,6 +45,7 @@ export function OpenMenuItem({
         </Text>
         {subMenu && (
           <Image
+            alt="Menu arrow icon"
             boxSize="16px"
             src="/images/docs/menu-arrow.svg"
             transform={open ? 'rotate(0deg)' : 'rotate(-90deg)'}
@@ -88,6 +89,7 @@ export function OpenMenuItem({
               return to ? (
                 <Link
                   key={idx}
+                  aria-label={`${children} link`}
                   className={css({
                     textDecoration: 'none',
                   })}

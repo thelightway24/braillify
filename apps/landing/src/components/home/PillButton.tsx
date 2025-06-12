@@ -1,19 +1,34 @@
-import { Box, Button, Flex } from '@devup-ui/react'
+import { Box, Button, DevupProps, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 import { HTMLAttributeAnchorTarget } from 'react'
 
+import { Merge } from '@/types'
+
 export default function PillButton({
   href,
-  children,
   target = '_self',
+  children,
+  ...props
 }: {
   href: string
   target?: HTMLAttributeAnchorTarget
   children: React.ReactNode
+  props?: Merge<React.ComponentProps<typeof Button>, DevupProps<typeof Button>>
 }) {
   return (
-    <Link href={href} scroll={false} target={target}>
-      <Button bg="transparent" border="none" cursor="pointer" role="group">
+    <Link
+      aria-label={`${children} link`}
+      href={href}
+      scroll={false}
+      target={target}
+    >
+      <Button
+        bg="transparent"
+        border="none"
+        cursor="pointer"
+        role="group"
+        {...props}
+      >
         <Flex
           alignItems="center"
           bg="#2B2B2B"

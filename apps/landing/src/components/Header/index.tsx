@@ -58,6 +58,7 @@ export default function Header() {
           transition="background-color 0.3s ease"
         >
           <Link
+            aria-label="Home link"
             href={isIntersectingHome ? '#' : '/'}
             onClick={(e) => {
               if (!isIntersectingHome && pathname === '/') {
@@ -95,6 +96,7 @@ export default function Header() {
             gap="32px"
           >
             <Link
+              aria-label="GitHub link"
               href="https://github.com/dev-five-git/braillify"
               target="_blank"
             >
@@ -109,7 +111,11 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://discord.gg/8zjcGc7cWh" target="_blank">
+            <Link
+              aria-label="Discord link"
+              href="https://discord.gg/8zjcGc7cWh"
+              target="_blank"
+            >
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -121,7 +127,11 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://open.kakao.com/o/gzeq4eBh" target="_blank">
+            <Link
+              aria-label="Kakao Open Chat link"
+              href="https://open.kakao.com/o/gzeq4eBh"
+              target="_blank"
+            >
               <Box
                 bg="$text"
                 boxSize="24px"

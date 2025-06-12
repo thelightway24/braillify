@@ -83,6 +83,7 @@ export function RightIndex() {
       </VStack>
       <Box bg="$border" h="1px" />
       <Link
+        aria-label="Edit this page"
         className={css({
           textDecoration: 'none',
           _hover: {

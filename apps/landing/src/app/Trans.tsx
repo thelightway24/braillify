@@ -54,12 +54,14 @@ export function Trans() {
       </Flex>
       <Flex>
         <Image
+          alt=""
           display={['none', null, null, 'block']}
           mr="10px"
           src="/images/home/translate-arrow-circle.svg"
           w="16px"
         />
         <Image
+          alt=""
           src="/images/home/translate-arrow.svg"
           transform={['rotate(0deg)', null, null, 'rotate(-90deg)']}
           w={['16px', null, null, '24px']}
