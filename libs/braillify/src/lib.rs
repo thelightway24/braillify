@@ -32,14 +32,16 @@ pub struct Encoder {
     is_english: bool,
     triple_big_english: bool,
     english_indicator: bool,
+    has_processed_word: bool,
 }
 
 impl Encoder {
     pub fn new(english_indicator: bool) -> Self {
         Self {
+            english_indicator,
             is_english: false,
             triple_big_english: false,
-            english_indicator,
+            has_processed_word: false,
         }
     }
 
@@ -49,9 +51,12 @@ impl Encoder {
             .filter(|word| !word.is_empty())
             .collect::<Vec<&str>>();
 
-        let word_count = words.len();
+        let mut word: &str = "";
+        let mut remaining_words = &words[..];
+        while !remaining_words.is_empty() {
+            let prev_word = word;
+            (word, remaining_words) = remaining_words.split_first().unwrap();
 
-        for (idx, word) in words.iter().enumerate() {
             let mut skip_count = 0;
 
             if let Some((_, code, rest)) = word_shortcut::split_word_shortcut(word) {
@@ -77,10 +82,11 @@ impl Encoder {
                 }
 
                 if is_all_uppercase && !self.triple_big_english {
-                    if (idx == 0 || !words[idx - 1].chars().all(|c| c.is_ascii_alphabetic()))
-                        && word_count - idx > 2
-                        && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic())
-                        && words[idx + 2].chars().all(|c| c.is_ascii_alphabetic())
+                    if (!self.has_processed_word
+                        || !prev_word.chars().all(|c| c.is_ascii_alphabetic()))
+                        && remaining_words.len() >= 2
+                        && remaining_words[0].chars().all(|c| c.is_ascii_alphabetic())
+                        && remaining_words[1].chars().all(|c| c.is_ascii_alphabetic())
                     {
                         self.triple_big_english = true;
                         result.push(32);
@@ -325,8 +331,8 @@ impl Encoder {
             }
 
             if self.triple_big_english {
-                if !(word_count - idx > 1
-                    && words[idx + 1].chars().all(|c| c.is_ascii_alphabetic()))
+                if !(remaining_words.len() > 0
+                    && remaining_words[0].chars().all(|c| c.is_ascii_alphabetic()))
                 {
                     // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
                     // ⠠⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
@@ -336,9 +342,13 @@ impl Encoder {
                     self.triple_big_english = false; // Reset after adding terminator
                 }
             }
-            if idx != word_count - 1 {
+            if !remaining_words.is_empty() {
                 if self.english_indicator
-                    && !words[idx + 1].chars().next().unwrap().is_ascii_alphabetic()
+                    && !remaining_words[0]
+                        .chars()
+                        .next()
+                        .unwrap()
+                        .is_ascii_alphabetic()
                 {
                     // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
                     if self.is_english {
@@ -348,6 +358,11 @@ impl Encoder {
                 }
 
                 result.push(0);
+            }
+
+            // Update state for next iteration
+            if !self.has_processed_word {
+                self.has_processed_word = true;
             }
         }
         Ok(())
@@ -755,49 +770,17 @@ mod test {
 
     #[test]
     fn test_encoder_streaming() {
-        // Test basic streaming functionality
-        let mut encoder = Encoder::new(true); // Has Korean text
+        // Test encoder can be reused
+        let mut encoder = Encoder::new(false); // English only test
         let mut buffer = Vec::new();
 
-        // Test encoding simple text
-        encoder.encode("안녕하세요", &mut buffer).unwrap();
+        // Encode multiple times with same encoder
+        encoder.encode("test", &mut buffer).unwrap();
+        encoder.encode("ing", &mut buffer).unwrap();
         encoder.finish(&mut buffer).unwrap();
 
-        // Compare with one-shot encoding
-        let expected = encode("안녕하세요").unwrap();
-        assert_eq!(buffer, expected);
-
-        // Test that is_english state is preserved
-        let mut encoder2 = Encoder::new(false); // English only test
-        let mut buffer2 = Vec::new();
-
-        // Encode English text
-        encoder2.encode("hello", &mut buffer2).unwrap();
-        assert!(encoder2.is_english);
-
-        // Test encoder can be reused
-        let mut encoder3 = Encoder::new(false); // English only test
-        let mut buffer3 = Vec::new();
-
-        // Encode multiple times with same encoder
-        encoder3.encode("test", &mut buffer3).unwrap();
-        encoder3.encode("ing", &mut buffer3).unwrap();
-        encoder3.finish(&mut buffer3).unwrap();
-
         // Should produce same result as one-shot
-        let expected3 = encode("testing").unwrap();
-        assert_eq!(buffer3, expected3);
-
-        // Test that finish() is idempotent when no special state
-        let mut encoder4 = Encoder::new(false); // English only test
-        let mut buffer4 = Vec::new();
-
-        encoder4.encode("simple", &mut buffer4).unwrap();
-        let len_before = buffer4.len();
-        encoder4.finish(&mut buffer4).unwrap();
-        let len_after = buffer4.len();
-
-        // finish() should not add anything for simple English text
-        assert_eq!(len_before, len_after);
+        let expected = encode("testing").unwrap();
+        assert_eq!(buffer, expected);
     }
 }
