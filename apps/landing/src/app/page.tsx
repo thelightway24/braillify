@@ -46,7 +46,7 @@ export default function HomePage() {
               </Text>
               <PillButton aria-label="Start now button" href="/docs/overview">
                 <Text color="#FFF" typography="buttonLg">
-                  지금 시작하기
+                  문서 둘러보기
                 </Text>
               </PillButton>
             </VStack>
