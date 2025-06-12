@@ -51,7 +51,7 @@ export function MenuItem(props: MenuItemProps) {
         color={selected ? '$title' : '$text'}
         flex="1"
         opacity={selected ? '1' : '0.8'}
-        typography={selected ? 'buttonLg' : 'button'}
+        typography={selected ? 'docsMenuBold' : 'docsMenu'}
       >
         {children}
       </Text>
@@ -59,6 +59,7 @@ export function MenuItem(props: MenuItemProps) {
   )
   return to ? (
     <Link
+      aria-label={`${children} link`}
       className={css({
         textDecoration: 'none',
       })}

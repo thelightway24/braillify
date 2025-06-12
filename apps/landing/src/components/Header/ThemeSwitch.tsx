@@ -5,6 +5,7 @@ import { Box, Button, getTheme, setTheme } from '@devup-ui/react'
 export default function ThemeSwitch() {
   return (
     <Button
+      aria-label="Toggle theme"
       bg="transparent"
       border="none"
       cursor="pointer"

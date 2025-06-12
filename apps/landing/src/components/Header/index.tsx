@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Flex } from '@devup-ui/react'
+import { Box, Center, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Suspense, useRef } from 'react'
@@ -43,7 +43,7 @@ export default function Header() {
         <Flex
           alignItems="center"
           bg={[
-            '$containerBackground',
+            isIntersectingHome ? 'transparent' : '$containerBackground',
             null,
             null,
             isIntersectingHome ? 'transparent' : '$containerBackground',
@@ -57,7 +57,13 @@ export default function Header() {
           transition="background-color 0.3s ease"
         >
           <Link
+            aria-label="Home link"
             href={isIntersectingHome ? '#' : '/'}
+            onClick={(e) => {
+              if (!isIntersectingHome && pathname === '/') {
+                e.preventDefault()
+              }
+            }}
             style={{ cursor: isIntersectingHome ? 'default' : 'pointer' }}
           >
             <Box
@@ -66,7 +72,17 @@ export default function Header() {
               h={['32px', null, null, '50px']}
               maskImage="url(/images/home/hero.svg)"
               maskSize="contain"
-              opacity={isIntersectingHome ? 0 : 1}
+              onClick={() => {
+                if (!isIntersectingHome && pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+              }}
+              opacity={[
+                isIntersectingHome ? 0 : 1,
+                null,
+                null,
+                isIntersectingHome ? 0 : 1,
+              ]}
               position="relative"
               transition="opacity 0.3s ease"
               zIndex="1"
@@ -79,6 +95,7 @@ export default function Header() {
             gap="32px"
           >
             <Link
+              aria-label="GitHub link"
               href="https://github.com/dev-five-git/braillify"
               target="_blank"
             >
@@ -93,7 +110,11 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://discord.gg/8zjcGc7cWh" target="_blank">
+            <Link
+              aria-label="Discord link"
+              href="https://discord.gg/8zjcGc7cWh"
+              target="_blank"
+            >
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -105,7 +126,11 @@ export default function Header() {
                 zIndex="1"
               />
             </Link>
-            <Link href="https://open.kakao.com/o/gzeq4eBh" target="_blank">
+            <Link
+              aria-label="Kakao Open Chat link"
+              href="https://open.kakao.com/o/gzeq4eBh"
+              target="_blank"
+            >
               <Box
                 bg="$text"
                 boxSize="24px"
@@ -126,7 +151,9 @@ export default function Header() {
           >
             <Suspense>
               <MobileMenuButton>
-                <IconHamburger />
+                <Center>
+                  <IconHamburger />
+                </Center>
               </MobileMenuButton>
             </Suspense>
           </Flex>

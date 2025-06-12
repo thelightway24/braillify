@@ -352,15 +352,13 @@ pub fn encode_to_braille_font(text: &str) -> Result<String, String> {
         .map(|c| unicode::encode_unicode(*c))
         .collect::<String>())
 }
-pub fn decode(text: &str) -> String {
-    text.to_string()
-}
 
 #[cfg(test)]
 mod test {
     use std::{collections::HashMap, fs::File};
 
     use crate::unicode::encode_unicode;
+    use proptest::prelude::*;
 
     use super::*;
     #[test]
@@ -682,6 +680,32 @@ mod test {
                 "{}개 중 {}개의 테스트 케이스가 실패했습니다.",
                 total, failed
             );
+        }
+    }
+
+    proptest! {
+        #[test]
+        fn test_encode_proptest(s: String) {
+            let result = encode(&s);
+            let _encoded = match result {
+                Ok(encoded) => {
+                    assert!(!encoded.is_empty() || s.is_empty());
+
+                    let unicode_result = encode_to_unicode(&s);
+                    assert!(unicode_result.is_ok());
+
+                    let unicode_string = unicode_result.unwrap();
+                    assert!(!unicode_string.is_empty() || s.is_empty());
+
+                    encoded
+                }
+                Err(_) => {
+                    return Ok(()); // ok
+                }
+            };
+
+            // let decoded = decode(&encoded);
+            // assert_eq!(s, decoded, "Decoded string does not match original input: {}", s);            
         }
     }
 }

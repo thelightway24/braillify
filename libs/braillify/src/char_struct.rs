@@ -96,6 +96,8 @@ impl CharType {
 mod test {
 
     use super::*;
+    use proptest::prelude::*;
+
     #[test]
     pub fn test_char_type() {
         assert!(matches!(
@@ -109,5 +111,40 @@ mod test {
             CharType::KoreanPart('ㄱ')
         ));
         assert!(matches!(CharType::new(' ').unwrap(), CharType::Space(' ')));
+    }
+
+    proptest! {
+        #[test]
+        fn test_char_type_proptest(c: char) {
+            let Ok(c) = CharType::new(c) else {
+                // 지원하지 않는 문자이므로
+                return Ok(());
+            };
+            match c {
+                CharType::Korean(korean_char) => {
+                    assert!(korean_char.cho != '\0');
+                    assert!(korean_char.jung != '\0');
+                }
+                CharType::KoreanPart(ch) => {
+                    let code = ch as u32;
+                    assert!(0x3131 <= code && code <= 0x3163);
+                }
+                CharType::English(ch) => {
+                    assert!(ch.is_ascii_alphabetic());
+                }
+                CharType::Number(ch) => {
+                    assert!(ch.is_ascii_digit());
+                }
+                CharType::Symbol(ch) => {
+                    assert!(is_symbol_char(ch));
+                }
+                CharType::MathSymbol(ch) => {
+                    assert!(is_math_symbol_char(ch));
+                }
+                CharType::Space(ch) => {
+                    assert!(ch.is_whitespace());
+                }
+            }
+        }
     }
 }
