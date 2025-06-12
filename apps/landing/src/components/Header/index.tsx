@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Flex } from '@devup-ui/react'
+import { Box, Center, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Suspense, useRef } from 'react'
@@ -141,7 +141,9 @@ export default function Header() {
           >
             <Suspense>
               <MobileMenuButton>
-                <IconHamburger />
+                <Center>
+                  <IconHamburger />
+                </Center>
               </MobileMenuButton>
             </Suspense>
           </Flex>
