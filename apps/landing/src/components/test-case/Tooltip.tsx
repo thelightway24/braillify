@@ -56,11 +56,6 @@ export default function Tooltip({
       px="10px"
       py="8px"
       style={{
-        // transform: `translateY(10px) translateX(-${
-        //   tooltipRect && tooltipRect.x + tooltipRect.width > viewportWidth
-        //     ? tooltipRect.x + tooltipRect.width - viewportWidth + 16
-        //     : 0
-        // }px)`,
         right:
           tooltipRect && tooltipRect.x + tooltipRect.width > viewportWidth
             ? '16px'
