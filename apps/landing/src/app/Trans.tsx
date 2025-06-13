@@ -20,16 +20,22 @@ export function Trans() {
     })
   }, [input])
   return (
-    <VStack gap="30px">
-      <Flex alignItems="flex-start" gap="20px">
+    <VStack gap={['16px', null, null, '30px']}>
+      <Flex
+        alignItems="flex-start"
+        gap={['10px', null, null, '20px']}
+        justifyContent={['center', null, null, 'flex-start']}
+      >
         <Box
           aria-label="Finger pointing image"
           bg="$text"
-          h="32px"
+          flexShrink={0}
+          h={['20px', null, null, '32px']}
           maskImage="url(/images/home/finger-point.svg)"
           maskPosition="center"
           maskRepeat="no-repeat"
-          w="28px"
+          maskSize="contain"
+          w={['17px', null, null, '28px']}
         />
         <Text color="$text" pos="relative" top="-2px" typography="mainTextSm">
           직접 입력해 실시간 점자 번역을 체험해보세요!
