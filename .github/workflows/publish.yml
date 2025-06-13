@@ -48,6 +48,9 @@ jobs:
           pnpm build
           pnpm lint
           pnpm test
+      - run: cargo test test_by_testcase
+        # 실패하지만 어느정도 맞았는지 알려주므로 무시해야합니다.
+        continue-on-error: true
       - name: Build Landing
         run: pnpm build:landing
       - name: Upload artifact
