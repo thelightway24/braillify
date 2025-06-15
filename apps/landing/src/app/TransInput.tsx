@@ -1,6 +1,7 @@
 'use client'
 
 import { Box, DevupProps, Flex, Input, Text } from '@devup-ui/react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Merge } from '@/types'
 
@@ -14,6 +15,15 @@ export function TransInput({
   focusPlaceholder: string
   isFocused?: boolean
 } & Merge<React.ComponentProps<'textarea'>, DevupProps<'textarea'>>) {
+  const [boxHeight, setBoxHeight] = useState(0)
+  const placeholderRef = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    if (placeholderRef.current) {
+      setBoxHeight(placeholderRef.current.clientHeight)
+    }
+  }, [isFocused])
+
   const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     props.onBlur?.(e)
   }
@@ -31,10 +41,11 @@ export function TransInput({
       <Box
         bg="$containerBackground"
         borderRadius={['16px', null, null, '30px']}
-        h="100%"
         minH="25dvh"
-        opacity={0.5}
+        onClick={(e) => e.currentTarget.querySelector('textarea')?.focus()}
+        overflow="hidden"
         p={['16px', null, null, '40px']}
+        style={{ height: boxHeight + 32 }}
         transition="height 0.3s ease-in-out"
         w="100%"
       >
@@ -60,10 +71,12 @@ export function TransInput({
         />
         {(!props.value || (props.value as string).length === 0) && (
           <Text
+            ref={placeholderRef}
             color="$text"
+            display="inline-block"
             h="fit-content"
             lineBreak="anywhere"
-            transition="height 0.3s ease-in-out"
+            opacity={0.5}
             typography="braille"
             whiteSpace="pre-line"
           >
