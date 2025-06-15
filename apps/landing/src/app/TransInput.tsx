@@ -39,7 +39,7 @@ export function TransInput({
   return (
     <Flex flex="1" h="100%" pos="relative" w="100%">
       <Box
-        bg="$containerBackground"
+        bg="transparent"
         borderRadius={['16px', null, null, '30px']}
         minH="25dvh"
         onClick={(e) => e.currentTarget.querySelector('textarea')?.focus()}
@@ -51,7 +51,7 @@ export function TransInput({
       >
         <Input
           as="textarea"
-          bg="transparent"
+          bg="$containerBackground"
           border="none"
           borderRadius={['16px', null, null, '30px']}
           color="$text"
