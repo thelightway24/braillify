@@ -19,7 +19,7 @@
   ],
   "version": "1.0.1",
   "scripts": {
-    "build": "wasm-pack build --target bundler --out-dir ./pkg --out-name index && node script.js",
+    "build": "wasm-pack build --target bundler --out-dir ./pkg --out-name index",
     "test": "wasm-pack test --node"
   },
   "publishConfig": {
@@ -31,7 +31,6 @@
   "files": [
     "pkg/index.d.ts",
     "pkg/index.js",
-    "pkg/package.json",
     "pkg/index_bg.wasm",
     "pkg/index_bg.wasm.d.ts"
   ],
