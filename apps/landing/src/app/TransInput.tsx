@@ -24,18 +24,6 @@ export function TransInput({
     }
   }, [isFocused])
 
-  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    props.onBlur?.(e)
-  }
-
-  const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    props.onFocus?.(e)
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    props.onChange?.(e)
-  }
-
   return (
     <Flex flex="1" h="100%" pos="relative" w="100%">
       <Box
@@ -57,9 +45,9 @@ export function TransInput({
           color="$text"
           h="100%"
           left="0"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          onFocus={handleFocus}
+          onBlur={props.onBlur}
+          onChange={props.onChange}
+          onFocus={props.onFocus}
           p={['16px', null, null, '40px']}
           pos="absolute"
           resize="none"
