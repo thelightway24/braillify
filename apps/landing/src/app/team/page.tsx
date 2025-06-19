@@ -5,7 +5,7 @@ import TeamMemberCard from '@/components/team/TeamMemberCard'
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://braillify.kr/team',
+    canonical: '/team',
   },
 }
 

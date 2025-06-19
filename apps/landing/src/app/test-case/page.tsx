@@ -6,7 +6,7 @@ import TestCaseCircle from '@/components/test-case/TestCaseCircle'
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://braillify.kr/test-case',
+    canonical: '/test-case',
   },
 }
 
