@@ -1,6 +1,13 @@
 import { Box, Flex, Text, VStack } from '@devup-ui/react'
+import { Metadata } from 'next'
 
 import TeamMemberCard from '@/components/team/TeamMemberCard'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/team',
+  },
+}
 
 export default function TeamPage() {
   return (

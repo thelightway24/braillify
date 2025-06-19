@@ -1,7 +1,14 @@
 import { Box, Grid, Text, VStack } from '@devup-ui/react'
 import { readFile } from 'fs/promises'
+import { Metadata } from 'next'
 
 import TestCaseCircle from '@/components/test-case/TestCaseCircle'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/test-case',
+  },
+}
 
 export default async function TestCasePage() {
   const [testStatus, ruleMap] = await Promise.all([

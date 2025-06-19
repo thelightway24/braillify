@@ -42,6 +42,10 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://braillify.kr',
   },
+  metadataBase: new URL('https://braillify.kr'),
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function RootLayout({
