@@ -32,7 +32,8 @@
     "pkg/index.d.ts",
     "pkg/index.js",
     "pkg/index_bg.wasm",
-    "pkg/index_bg.wasm.d.ts"
+    "pkg/index_bg.wasm.d.ts",
+    "pkg/index_bg.js"
   ],
   "type": "module",
   "exports": {
