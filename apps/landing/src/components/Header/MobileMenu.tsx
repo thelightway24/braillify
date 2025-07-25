@@ -156,6 +156,7 @@ export default function MobileMenu() {
           </MobileMenuProvider>
           <Box
             borderBottom="1px solid $border"
+            cursor="pointer"
             onClick={() => router.push(`/test-case`)}
             px="16px"
             py="20px"
@@ -164,6 +165,7 @@ export default function MobileMenu() {
           </Box>
           <Box
             borderBottom="1px solid $border"
+            cursor="pointer"
             onClick={() => router.push(`/team`)}
             px="16px"
             py="20px"

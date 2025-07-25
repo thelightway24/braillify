@@ -16,6 +16,7 @@ export default function MobileMenuButton({
     <Button
       bg="transparent"
       border="none"
+      cursor="pointer"
       onClick={() => {
         router.push(`?menuOpen=${menuOpen === 'true' ? 'false' : 'true'}`)
       }}

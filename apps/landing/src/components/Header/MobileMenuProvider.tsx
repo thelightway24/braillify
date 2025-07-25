@@ -34,7 +34,11 @@ export const MobileMenuItem = ({ children }: { children: React.ReactNode }) => {
     setIsOpen((prev) => !prev)
   }
 
-  return <Box onClick={handleToggleOpen}>{children}</Box>
+  return (
+    <Box cursor="pointer" onClick={handleToggleOpen}>
+      {children}
+    </Box>
+  )
 }
 
 export const MobileMenuSubItem = ({
@@ -61,6 +65,7 @@ export const MobileMenuItemBox = ({
       alignItems="center"
       bg={selected ? '$menuActive' : 'transparent'}
       borderRadius="6px"
+      cursor="pointer"
       gap="10px"
       onClick={onClick}
       opacity={selected ? 1 : 0.8}
