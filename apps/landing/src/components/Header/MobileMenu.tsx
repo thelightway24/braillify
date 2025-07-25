@@ -93,7 +93,11 @@ export default function MobileMenu() {
                 <ThemeSwitch />
               </Center>
             </Flex>
-            <Center onClick={() => router.push(`?menuOpen=false`)} p="10px">
+            <Center
+              cursor="pointer"
+              onClick={() => router.push(`?menuOpen=false`)}
+              p="10px"
+            >
               <Box
                 bg="$text"
                 boxSize="32px"
