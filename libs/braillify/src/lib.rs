@@ -210,17 +210,15 @@ impl Encoder {
                                     // 8항 - 단독으로 쓰인 자모
                                     result.push(63);
                                     result.extend(korean_part::encode_korean_part(c)?);
+                                } else if has_korean_char {
+                                    // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
+                                    result.push(56);
+                                    result.extend(korean_part::encode_korean_part(c)?);
                                 } else {
-                                    if has_korean_char {
-                                        // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
-                                        result.push(56);
-                                        result.extend(korean_part::encode_korean_part(c)?);
-                                    } else {
-                                        // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
-                                        // 8항 - 단독으로 쓰인 자모
-                                        result.push(63);
-                                        result.extend(korean_part::encode_korean_part(c)?);
-                                    }
+                                    // 10항 - 단독으로 쓰인 자음자가 단어에 붙어 나올 때
+                                    // 8항 - 단독으로 쓰인 자모
+                                    result.push(63);
+                                    result.extend(korean_part::encode_korean_part(c)?);
                                 }
                             }
                         }
@@ -337,8 +335,8 @@ impl Encoder {
             }
         }
 
-        if self.triple_big_english {
-            if !(remaining_words
+        if self.triple_big_english
+            && !(remaining_words
                 .first()
                 .is_some_and(|w| w.chars().all(|c| c.is_ascii_alphabetic())))
             {
@@ -349,7 +347,6 @@ impl Encoder {
                 result.push(4);
                 self.triple_big_english = false; // Reset after adding terminator
             }
-        }
         if !remaining_words.is_empty() {
             if self.english_indicator
                 && !remaining_words[0]
@@ -590,7 +587,8 @@ mod test {
             for (line_num, result) in reader.into_records().enumerate() {
                 total += 1;
                 file_total += 1;
-                let record = result.unwrap();
+                let error = format!("CSV 레코드를 읽는 중 오류 발생: {:?} at {}", result, line_num);
+                let record = result.expect(&error);
                 let input = &record[0];
                 let expected = record[2].replace(" ", "⠀");
                 match encode(input) {
