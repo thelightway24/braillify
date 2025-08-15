@@ -161,7 +161,7 @@ const parseTextWithLaTeX = (input: string) => {
   }
 
   // if no LaTeX found, return the original text as a single text part:
-  if (parts.length === 0) {
+  if (!parts.length) {
     parts.push({ type: 'text', content: input })
   }
 
