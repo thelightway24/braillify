@@ -1,4 +1,4 @@
-pattern = " a1b'k2l`cif/msp\"e3h9o6r^djg>ntq,*5<-u8v.%[$+x!&;:4\\0z7(_?w]#y)="
+pattern = " a1b'k2l@cif/msp\"e3h9o6r^djg>ntq,*5<-u8v.%[$+x!&;:4\\0z7(_?w]#y)="
 braille = "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿"
 
 
@@ -20,9 +20,9 @@ def main():
                 elif inp[i] == "~":
                     output_num += "24"
                     output_braille += braille[24]
-                elif inp[i] == "@":
-                    output_num += "8"
-                    output_braille += braille[8]
+                elif inp[i] == "`":
+                    output_num += "0"
+                    output_braille += braille[0]
                 elif inp[i] == "|":
                     output_num += "51"
                     output_braille += braille[51]

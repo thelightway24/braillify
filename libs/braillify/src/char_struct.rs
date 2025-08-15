@@ -14,7 +14,7 @@ pub struct KoreanChar {
 impl KoreanChar {
     pub fn new(c: char) -> Result<Self, String> {
         let code = c as u32;
-        if !(0xAC00 <= code && code <= 0xD7A3) {
+        if !(0xAC00..=0xD7A3).contains(&code) {
             return Err("Invalid Korean character".to_string());
         }
 
@@ -76,13 +76,13 @@ impl CharType {
             return Ok(Self::MathSymbol(c));
         }
         let code = c as u32;
-        if 0x3131 <= code && code <= 0x3163 {
+        if (0x3131..=0x3163).contains(&code) {
             return Ok(Self::KoreanPart(c));
         }
         // if !(0xAC00 <= code && code <= 0xD7A3) {
         //     return Ok(Self::Char(c));
         // }
-        if 0xAC00 <= code && code <= 0xD7A3 {
+        if (0xAC00..=0xD7A3).contains(&code) {
             return Ok(Self::Korean(KoreanChar::new(c)?));
         }
         if c.is_whitespace() {

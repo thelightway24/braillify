@@ -1,6 +1,9 @@
+import 'katex/dist/katex.min.css'
+
 import { Box, Grid, Text, VStack } from '@devup-ui/react'
 import { readFile } from 'fs/promises'
 import { Metadata } from 'next'
+import Latex from 'react-latex-next'
 
 import TestCaseCircle from '@/components/test-case/TestCaseCircle'
 
@@ -81,24 +84,34 @@ export default async function TestCasePage() {
               gridTemplateColumns="repeat(auto-fill, minmax(16px, 1fr))"
             >
               {testStatus[key][2].map(
-                ([text, expected, actual, isSuccess], idx) => (
-                  <TestCaseCircle key={text + idx} isSuccess={isSuccess}>
-                    <Text
-                      color="#FFF"
-                      typography="body"
-                      whiteSpace="nowrap"
-                      wordBreak="keep-all"
-                    >
-                      {text}
-                      <br />
-                      정답 : {expected}
-                      <br />
-                      결과 : {actual}
-                      <br />
-                      {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
-                    </Text>
-                  </TestCaseCircle>
-                ),
+                ([text, expected, actual, isSuccess], idx) => {
+                  const textParts = parseTextWithLaTeX(text)
+
+                  return (
+                    <TestCaseCircle key={text + idx} isSuccess={isSuccess}>
+                      <Text
+                        color="#FFF"
+                        typography="body"
+                        whiteSpace="nowrap"
+                        wordBreak="keep-all"
+                      >
+                        {textParts.map((part, partIdx) =>
+                          part.type === 'latex' ? (
+                            <Latex key={partIdx}>${part.content}$</Latex>
+                          ) : (
+                            <span key={partIdx}>{part.content}</span>
+                          ),
+                        )}
+                        <br />
+                        정답 : {expected}
+                        <br />
+                        결과 : {actual}
+                        <br />
+                        {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
+                      </Text>
+                    </TestCaseCircle>
+                  )
+                },
               )}
             </Grid>
           </VStack>
@@ -106,4 +119,51 @@ export default async function TestCasePage() {
       })}
     </Box>
   )
+}
+
+/**
+ * This function parses text with LaTeX expressions and returns an array of parts.
+ * It assumes that LaTeX is wrapped in double dollar delimiters ($$...$$).
+ * Note that single dollar delimiters ($...$) are not rendered.
+ * @param input - The input text to parse.
+ * @returns An array of parts, where each part is either a text or a LaTeX expression.
+ */
+const parseTextWithLaTeX = (input: string) => {
+  const parts: Array<{
+    type: 'text' | 'latex'
+    content: string
+  }> = []
+  const latexRegex = /\$\$([^$]+(?:\$(?!\$)[^$]*)*)\$\$/g
+  let lastIndex = 0
+  let match
+
+  while ((match = latexRegex.exec(input)) !== null) {
+    // if there is text before the LaTeX expression, add it as a text part:
+    if (match.index > lastIndex) {
+      const textContent = input.slice(lastIndex, match.index)
+      if (textContent) {
+        parts.push({ type: 'text', content: textContent })
+      }
+    }
+
+    // add the LaTeX expression from double dollars:
+    const latexContent = match[1]
+    parts.push({ type: 'latex', content: latexContent })
+    lastIndex = match.index + match[0].length
+  }
+
+  // add remaining text after the last LaTeX expression:
+  if (lastIndex < input.length) {
+    const remainingText = input.slice(lastIndex)
+    if (remainingText) {
+      parts.push({ type: 'text', content: remainingText })
+    }
+  }
+
+  // if no LaTeX found, return the original text as a single text part:
+  if (!parts.length) {
+    parts.push({ type: 'text', content: input })
+  }
+
+  return parts
 }

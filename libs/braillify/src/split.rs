@@ -60,13 +60,13 @@ pub fn split_korean_jauem(text: char) -> Result<(char, Option<char>), String> {
 pub fn split_korean_char(text: char) -> Result<Vec<KoreanChar>, String> {
     // check korean char
     let code = text as u32;
-    if 0x3131 <= code && code <= 0x314E {
+    if (0x3131..=0x314E).contains(&code) {
         return Ok(vec![KoreanChar::Choseong(text)]);
     }
-    if 0x314F <= code && code <= 0x3163 {
+    if (0x314F..=0x3163).contains(&code) {
         return Ok(vec![KoreanChar::Jungseong(text)]);
     }
-    if !(0xAC00 <= code && code <= 0xD7A3) {
+    if !(0xAC00..=0xD7A3).contains(&code) {
         return Err("Invalid Korean character".to_string());
     }
 
