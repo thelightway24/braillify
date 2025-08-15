@@ -14,6 +14,9 @@ def main():
                 if inp[i] == "{":
                     output_num += "42"
                     output_braille += braille[42]
+                elif inp[i] == "}":
+                    output_num += "59"
+                    output_braille += braille[59]
                 elif inp[i] == "@":
                     output_num += "8"
                     output_braille += braille[8]
