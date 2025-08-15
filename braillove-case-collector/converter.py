@@ -11,7 +11,13 @@ def main():
                 output_num += str(pattern.index(inp[i]))
                 output_braille += braille[pattern.index(inp[i])]
             else:
-                if inp[i] == "@":
+                if inp[i] == "{":
+                    output_num += "42"
+                    output_braille += braille[42]
+                elif inp[i] == "}":
+                    output_num += "59"
+                    output_braille += braille[59]
+                elif inp[i] == "@":
                     output_num += "8"
                     output_braille += braille[8]
                 elif inp[i] == "|":
