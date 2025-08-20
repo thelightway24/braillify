@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "pnpm -r lint",
     "test": "cargo tarpaulin --out xml --out stdout -- --skip test_by_testcase && vitest test --run && pnpm -r test && cd py-test && uv run pytest __init__.py",
-    "preinstall": "uv sync && cargo install wasm-pack && pip install maturin",
+    "preinstall": "uv sync",
     "build": "cargo build --release && pnpm -F braillify build && cd packages/python && maturin build --release --out dist",
     "build:landing": "pnpm build && (cargo test test_by_testcase || node -e \"process.exit(0)\") && pnpm -F landing build"
   },
