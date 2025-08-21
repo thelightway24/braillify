@@ -1,8 +1,6 @@
-import { Box, Button, DevupProps, Flex } from '@devup-ui/react'
+import { Box, Button, Flex } from '@devup-ui/react'
 import Link from 'next/link'
 import { HTMLAttributeAnchorTarget } from 'react'
-
-import { Merge } from '@/types'
 
 export default function PillButton({
   href,
@@ -13,7 +11,7 @@ export default function PillButton({
   href: string
   target?: HTMLAttributeAnchorTarget
   children: React.ReactNode
-  props?: Merge<React.ComponentProps<typeof Button>, DevupProps<typeof Button>>
+  props?: React.ComponentProps<typeof Button>
 }) {
   return (
     <Link
