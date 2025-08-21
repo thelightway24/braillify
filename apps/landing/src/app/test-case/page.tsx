@@ -33,6 +33,67 @@ export default async function TestCasePage() {
       JSON.parse(data),
     ) as Promise<Record<string, { title: string; description: string }>>,
   ])
+  let totalTest = 0
+  let totalFail = 0
+  const cases = Object.entries(ruleMap).map(([key, value]) => {
+    totalTest += testStatus[key][0]
+    totalFail += testStatus[key][1]
+    return (
+      <VStack
+        key={key}
+        flex="1"
+        gap={['30px', null, null, '40px']}
+        px={['16px', null, null, '60px']}
+        py={['30px', null, null, '40px']}
+      >
+        <VStack gap="20px">
+          <Text color="$title" typography="docsTitle">
+            {value.title} ({testStatus[key][0] - testStatus[key][1]}/
+            {testStatus[key][0]})
+          </Text>
+          <Text color="$text" typography="body">
+            {value.description}
+          </Text>
+        </VStack>
+        <Box bg="$text" h="1px" />
+        <Grid
+          gap="8px"
+          gridTemplateColumns="repeat(auto-fill, minmax(16px, 1fr))"
+        >
+          {testStatus[key][2].map(
+            ([text, expected, actual, isSuccess], idx) => {
+              const textParts = parseTextWithLaTeX(text)
+
+              return (
+                <TestCaseCircle key={text + idx} isSuccess={isSuccess}>
+                  <Text
+                    color="#FFF"
+                    typography="body"
+                    whiteSpace="nowrap"
+                    wordBreak="keep-all"
+                  >
+                    {textParts.map((part, partIdx) =>
+                      part.type === 'latex' ? (
+                        <Latex key={partIdx}>${part.content}$</Latex>
+                      ) : (
+                        <span key={partIdx}>{part.content}</span>
+                      ),
+                    )}
+                    <br />
+                    정답 : {expected}
+                    <br />
+                    결과 : {actual}
+                    <br />
+                    {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
+                  </Text>
+                </TestCaseCircle>
+              )
+            },
+          )}
+        </Grid>
+      </VStack>
+    )
+  })
 
   return (
     <Box maxW="1920px" mx="auto" pb="100px" w="100%">
@@ -42,7 +103,8 @@ export default async function TestCasePage() {
         py={['30px', null, null, '40px']}
       >
         <Text color="$title" typography="title">
-          테스트 케이스
+          테스트 케이스 ({(totalTest - totalFail).toLocaleString()}/
+          {totalTest.toLocaleString()})
         </Text>
         <Text color="$text" typography="body">
           모든 테스트 케이스는{' '}
@@ -60,63 +122,7 @@ export default async function TestCasePage() {
           을 기반으로 작성되었습니다.
         </Text>
       </VStack>
-      {Object.entries(ruleMap).map(([key, value]) => {
-        return (
-          <VStack
-            key={key}
-            flex="1"
-            gap={['30px', null, null, '40px']}
-            px={['16px', null, null, '60px']}
-            py={['30px', null, null, '40px']}
-          >
-            <VStack gap="20px">
-              <Text color="$title" typography="docsTitle">
-                {value.title} ({testStatus[key][0]}/
-                {testStatus[key][1] + testStatus[key][0]})
-              </Text>
-              <Text color="$text" typography="body">
-                {value.description}
-              </Text>
-            </VStack>
-            <Box bg="$text" h="1px" />
-            <Grid
-              gap="8px"
-              gridTemplateColumns="repeat(auto-fill, minmax(16px, 1fr))"
-            >
-              {testStatus[key][2].map(
-                ([text, expected, actual, isSuccess], idx) => {
-                  const textParts = parseTextWithLaTeX(text)
-
-                  return (
-                    <TestCaseCircle key={text + idx} isSuccess={isSuccess}>
-                      <Text
-                        color="#FFF"
-                        typography="body"
-                        whiteSpace="nowrap"
-                        wordBreak="keep-all"
-                      >
-                        {textParts.map((part, partIdx) =>
-                          part.type === 'latex' ? (
-                            <Latex key={partIdx}>${part.content}$</Latex>
-                          ) : (
-                            <span key={partIdx}>{part.content}</span>
-                          ),
-                        )}
-                        <br />
-                        정답 : {expected}
-                        <br />
-                        결과 : {actual}
-                        <br />
-                        {isSuccess ? '✅ 테스트 성공' : '❌ 테스트 실패'}
-                      </Text>
-                    </TestCaseCircle>
-                  )
-                },
-              )}
-            </Grid>
-          </VStack>
-        )
-      })}
+      {cases}
     </Box>
   )
 }
