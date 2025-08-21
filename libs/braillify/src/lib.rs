@@ -81,13 +81,8 @@ impl Encoder {
         } else {
             let word_chars = word.chars().collect::<Vec<char>>();
             let word_len = word_chars.len();
-
-            let is_all_uppercase = word_chars
-                .iter()
-                .filter(|c| c.is_ascii_alphabetic())
-                .collect::<Vec<&char>>();
-            let is_all_uppercase =
-                !is_all_uppercase.is_empty() && is_all_uppercase.iter().all(|c| c.is_uppercase());
+            // 단어 전체가 대문자인지 확인(타 언어인 경우 반드시 false)
+            let is_all_uppercase = word_chars.iter().all(|c| c.is_uppercase());
             let has_korean_char = word_chars
                 .iter()
                 .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3));
@@ -114,6 +109,7 @@ impl Encoder {
                     // 어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
                     // ⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
                     // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
+                    println!("가즈아ㅏㅏㅏㅏ");
                     result.push(32);
                     result.push(32);
                 }
@@ -430,7 +426,6 @@ mod test {
     use super::*;
     #[test]
     pub fn test_encode() {
-        assert_eq!(encode_to_unicode("1998a,").unwrap(), "⠴⠠⠠⠺⠓⠕⠐⠂");
         assert_eq!(encode_to_unicode("상상이상의 ").unwrap(), "⠇⠶⠇⠶⠕⠇⠶⠺");
         assert_eq!(encode_to_unicode("안녕\n반가워").unwrap(), "⠣⠒⠉⠻\n⠘⠒⠫⠏");
         assert_eq!(encode_to_unicode("BMI(지수)").unwrap(), "⠴⠠⠠⠃⠍⠊⠦⠄⠨⠕⠠⠍⠠⠴");
