@@ -81,6 +81,7 @@ impl Encoder {
         } else {
             let word_chars = word.chars().collect::<Vec<char>>();
             let word_len = word_chars.len();
+            // 단어 전체가 대문자인지 확인(타 언어인 경우 반드시 false)
             let is_all_uppercase = word_chars.iter().all(|c| c.is_uppercase());
             let has_korean_char = word_chars
                 .iter()
@@ -127,9 +128,12 @@ impl Encoder {
 
                 if self.english_indicator && i > 0 && !c.is_ascii_alphabetic() {
                     // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
-                    if self.is_english && !['"', ')', '('].contains(c) {
+                    if self.is_english {
+                        // 제33항 ｢통일영어점자 규정｣과 ｢한글 점자｣의 점형이 다른 문장 부호(, : ; ―)가 로마자와 한글 사이에 나올 때에는 로마자 종료표를 적지 않고 문장 부호는 「한글 점자」에 따라 적는다.
                         // 제34항 로마자가 따옴표나 괄호 등으로 묶일 때에는 로마자 종료표를 적지 않는다.
-                        result.push(50);
+                        if !['"', ')', '('].contains(c) && ![',', ':', ';', '―'].contains(c) {
+                            result.push(50);
+                        }
                     }
                     self.is_english = false;
                 }
@@ -253,9 +257,11 @@ impl Encoder {
                             ) {
                                 result.push(code);
                                 *skip_count = len;
-                            } else if let Some((code, len)) = rule_en_10_4(
-                                &word_chars[i..].iter().collect::<String>().to_lowercase(),
-                            ) {
+                            } else if !is_all_uppercase
+                                && let Some((code, len)) = rule_en_10_4(
+                                    &word_chars[i..].iter().collect::<String>().to_lowercase(),
+                                )
+                            {
                                 result.push(code);
                                 *skip_count = len;
                             } else {
@@ -298,18 +304,14 @@ impl Encoder {
                         result.push(if c == '\n' { 255 } else { 0 });
                     }
                     CharType::MathSymbol(c) => {
-                        if i > 0
-                            && word_chars[..i]
-                                .iter()
-                                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3))
-                        {
+                        if i > 0 && word_chars[..i].iter().any(|c| utils::is_korean_char(*c)) {
                             result.push(0);
                         }
                         result.extend(math_symbol_shortcut::encode_char_math_symbol_shortcut(c)?);
                         if i < word_len - 1 {
                             let mut korean = vec![];
                             for wc in word_chars[i..].iter() {
-                                if 0xAC00 <= *wc as u32 && *wc as u32 <= 0xD7A3 {
+                                if utils::is_korean_char(*wc) {
                                     korean.push(*wc);
                                 } else if !korean.is_empty() {
                                     break;
@@ -339,14 +341,14 @@ impl Encoder {
             && !(remaining_words
                 .first()
                 .is_some_and(|w| w.chars().all(|c| c.is_ascii_alphabetic())))
-            {
-                // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
-                // ⠠⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
-                // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
-                result.push(32);
-                result.push(4);
-                self.triple_big_english = false; // Reset after adding terminator
-            }
+        {
+            // 28항 [붙임] 로마자가 한 글자만 대문자일 때에는 대문자 기호표 ⠠을 그 앞에 적고, 단어 전체가 대문자이거나 두 글자 이상 연속해서 대문자일 때에는 대문자 단어표
+            // ⠠⠠을 그 앞에 적는다. 세 개 이상의 연속된 단어가 모두 대문자일 때에는 첫 단어
+            // 앞에 대문자 구절표 ⠠⠠⠠을 적고, 마지막 단어 뒤에 대문자 종료표 ⠠⠄을 적는다.
+            result.push(32);
+            result.push(4);
+            self.triple_big_english = false; // Reset after adding terminator
+        }
         if !remaining_words.is_empty() {
             if self.english_indicator
                 && !remaining_words[0]
@@ -385,11 +387,10 @@ impl Encoder {
 
 pub fn encode(text: &str) -> Result<Vec<u8>, String> {
     // 한국어가 존재할 경우 english_indicator 가 true 가 됩니다.
-    let english_indicator = text.split(' ').filter(|word| !word.is_empty()).any(|word| {
-        word.chars().any(|c| {
-            (c as u32 >= 0x3131 && c as u32 <= 0x3163) || (0xAC00 <= c as u32 && c as u32 <= 0xD7A3)
-        })
-    });
+    let english_indicator = text
+        .split(' ')
+        .filter(|word| !word.is_empty())
+        .any(|word| word.chars().any(utils::is_korean_char));
 
     let mut encoder = Encoder::new(english_indicator);
     let mut result = Vec::new();
@@ -540,7 +541,7 @@ mod test {
         let mut total = 0;
         let mut failed = 0;
         let mut failed_cases = Vec::new();
-        let mut file_stats = std::collections::HashMap::new();
+        let mut file_stats = std::collections::BTreeMap::new();
         let files = dir
             .map(|entry| entry.unwrap().path())
             .filter(|path| path.extension().unwrap_or_default() == "csv")
@@ -587,7 +588,10 @@ mod test {
             for (line_num, result) in reader.into_records().enumerate() {
                 total += 1;
                 file_total += 1;
-                let error = format!("CSV 레코드를 읽는 중 오류 발생: {:?} at {}", result, line_num);
+                let error = format!(
+                    "CSV 레코드를 읽는 중 오류 발생: {:?} at {}",
+                    result, line_num
+                );
                 let record = result.expect(&error);
                 let input = &record[0];
                 let expected = record[2].replace(" ", "⠀");
