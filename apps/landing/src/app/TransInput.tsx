@@ -1,9 +1,7 @@
 'use client'
 
-import { Box, DevupProps, Flex, Input, Text } from '@devup-ui/react'
+import { Box, Flex, Input, Text } from '@devup-ui/react'
 import { useEffect, useRef, useState } from 'react'
-
-import { Merge } from '@/types'
 
 export function TransInput({
   blurPlaceholder,
@@ -14,7 +12,7 @@ export function TransInput({
   blurPlaceholder: string
   focusPlaceholder: string
   isFocused?: boolean
-} & Merge<React.ComponentProps<'textarea'>, DevupProps<'textarea'>>) {
+} & React.ComponentProps<'textarea'>) {
   const [boxHeight, setBoxHeight] = useState(0)
   const placeholderRef = useRef<HTMLSpanElement>(null)
 
