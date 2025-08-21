@@ -14,15 +14,15 @@
   "devDependencies": {
     "braillify": "workspace:*",
     "eslint-plugin-devup": "^2.0.5",
-    "eslint": "^9.28.0",
-    "vitest": "^3.2.3",
-    "@vitest/coverage-v8": "^3.2.3",
-    "@changesets/cli": "^2.29.4",
-    "@types/node": "^24.0.0",
-    "vite-plugin-wasm": "^3.4.1"
+    "eslint": "^9.33.0",
+    "vitest": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@changesets/cli": "^2.29.6",
+    "@types/node": "^24.3.0",
+    "vite-plugin-wasm": "^3.5.0"
   },
   "author": "devfive",
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.15.0",
   "resolutions": {
     "vite": "^6"
   }
