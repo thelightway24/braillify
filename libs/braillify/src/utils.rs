@@ -28,6 +28,10 @@ pub fn has_choseong_o(ch: char) -> bool {
     false
 }
 
+pub fn is_korean_char(c: char) -> bool {
+    (c as u32 >= 0x3131 && c as u32 <= 0x3163) || (0xAC00 <= c as u32 && c as u32 <= 0xD7A3)
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
