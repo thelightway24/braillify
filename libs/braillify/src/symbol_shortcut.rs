@@ -34,9 +34,15 @@ static SHORTCUT_MAP: phf::Map<char, &'static [u8]> = phf_map! {
     '〉' => &[decode_unicode('⠶'), decode_unicode('⠂')],
     '《' => &[decode_unicode('⠰'), decode_unicode('⠶')],
     '》' => &[decode_unicode('⠶'), decode_unicode('⠆')],
+    '―' => &[decode_unicode('⠤'), decode_unicode('⠤')],
+    '-' => &[decode_unicode('⠤')],
+    '∼' => &[decode_unicode('⠈'), decode_unicode('⠔')],
     '‘' => &[decode_unicode('⠠'), decode_unicode('⠦')],
     '’' => &[decode_unicode('⠴'), decode_unicode('⠄')],
-    '-' => &[decode_unicode('⠤')],
+    '○' => &[decode_unicode('⠸'),decode_unicode('⠴'), decode_unicode('⠇')],
+    // '×' => &[decode_unicode('⠸'),decode_unicode('⠭'), decode_unicode('⠇')],
+    '△' => &[decode_unicode('⠸'),decode_unicode('⠬'), decode_unicode('⠇')],
+    '□' => &[decode_unicode('⠸'),decode_unicode('⠶'), decode_unicode('⠇')],
 };
 
 pub fn encode_char_symbol_shortcut(text: char) -> Result<&'static [u8], String> {
