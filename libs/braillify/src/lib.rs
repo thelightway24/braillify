@@ -297,7 +297,25 @@ impl Encoder {
                             // 제41항 숫자 사이에 붙어 나오는 쉼표와 자릿점은 ⠂으로 적는다.
                             result.push(2);
                         } else {
-                            result.extend(symbol_shortcut::encode_char_symbol_shortcut(c)?);
+                            // 제58항 빠짐표가 여러 개 붙어 나올 때에는 _과 l 사이에 7을 묵자의 개수만큼적어 나타낸다.
+                            if c == '□' {
+                                let mut count = 0;
+                                for wc in word_chars[i..].iter() {
+                                    if *wc == '□' {
+                                        count += 1;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                result.push(56);
+                                for _ in 0..count {
+                                    result.push(54);
+                                }
+                                result.push(7);
+                                *skip_count = count - 1;
+                            } else {
+                                result.extend(symbol_shortcut::encode_char_symbol_shortcut(c)?);
+                            }
                         }
                     }
                     CharType::Space(c) => {
