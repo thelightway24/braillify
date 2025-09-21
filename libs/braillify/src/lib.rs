@@ -85,7 +85,7 @@ impl Encoder {
             let is_all_uppercase = word_chars.iter().all(|c| c.is_uppercase());
             let has_korean_char = word_chars
                 .iter()
-                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3));
+                .any(|c| (0xAC00 <= *c as u32 && *c as u32 <= 0xD7A3);
 
             if self.english_indicator && !self.is_english && word_chars[0].is_ascii_alphabetic() {
                 // 제31항 국어 문장 안에 그리스 문자가 나올 때에는 그 앞에 로마자표 ⠴을 적고 그 뒤에 로마자 종료표 ⠲을 적는다
