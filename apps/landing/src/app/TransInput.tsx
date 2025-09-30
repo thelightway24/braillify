@@ -34,6 +34,7 @@ export function TransInput({
         style={{ height: boxHeight + 32 }}
         transition="height 0.3s ease-in-out"
         w="100%"
+        wordBreak="keep-all"
       >
         <Input
           as="textarea"
@@ -61,7 +62,6 @@ export function TransInput({
             color="$text"
             display="inline-block"
             h="fit-content"
-            lineBreak="anywhere"
             opacity={0.5}
             typography="braille"
             whiteSpace="pre-line"

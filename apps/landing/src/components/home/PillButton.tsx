@@ -6,12 +6,10 @@ export default function PillButton({
   href,
   target = '_self',
   children,
-  ...props
 }: {
   href: string
   target?: HTMLAttributeAnchorTarget
   children: React.ReactNode
-  props?: React.ComponentProps<typeof Button>
 }) {
   return (
     <Link
@@ -20,13 +18,7 @@ export default function PillButton({
       scroll={false}
       target={target}
     >
-      <Button
-        bg="transparent"
-        border="none"
-        cursor="pointer"
-        role="group"
-        {...props}
-      >
+      <Button bg="transparent" border="none" cursor="pointer" role="group">
         <Flex
           alignItems="center"
           bg="#2B2B2B"

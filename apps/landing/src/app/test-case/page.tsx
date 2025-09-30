@@ -51,7 +51,7 @@ export default async function TestCasePage() {
             {value.title} ({testStatus[key][0] - testStatus[key][1]}/
             {testStatus[key][0]})
           </Text>
-          <Text color="$text" typography="body">
+          <Text color="$text" typography="body" wordBreak="keep-all">
             {value.description}
           </Text>
         </VStack>
@@ -96,7 +96,7 @@ export default async function TestCasePage() {
   })
 
   return (
-    <Box maxW="1920px" mx="auto" pb="100px" w="100%">
+    <Box maxW="1520px" mx="auto" pb="100px" w="100%">
       <VStack
         gap="20px"
         px={['16px', null, null, '60px']}
@@ -106,7 +106,7 @@ export default async function TestCasePage() {
           테스트 케이스 ({(totalTest - totalFail).toLocaleString()}/
           {totalTest.toLocaleString()})
         </Text>
-        <Text color="$text" typography="body">
+        <Text color="$text" typography="body" wordBreak="keep-all">
           모든 테스트 케이스는{' '}
           <Text
             _hover={{

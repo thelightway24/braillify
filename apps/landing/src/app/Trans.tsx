@@ -26,7 +26,7 @@ export function Trans() {
   const [translationFocused, setTranslationFocused] = useState(false)
 
   return (
-    <VStack gap={['16px', null, null, '30px']}>
+    <VStack flex="1" gap={['16px', null, null, '30px']}>
       <Flex
         alignItems="flex-start"
         gap={['10px', null, null, '20px']}

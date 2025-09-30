@@ -1,10 +1,28 @@
-import { Box, Flex, Image, Text, VStack } from '@devup-ui/react'
+import { Box, Center, Flex, Image, Text, VStack } from '@devup-ui/react'
 
 import PillButton from '@/components/home/PillButton'
 import IconDiscord from '@/components/icons/IconDiscord'
 import IconKakao from '@/components/icons/IconKakao'
 
 import { Trans } from './Trans'
+
+const DESCRIPTIONS = [
+  {
+    title: '2024 개정 한국 점자 규정 기반 점역기',
+    description:
+      'braillify는 2024년 개정된 한국 점자 규정을 기반으로 설계되고 구현된 점역기입니다.더 이상 유지보수가 어렵고, 레거시 코드에 의존해 최신 규정과 맞지 않는 점역기를 사용할 필요가 없습니다. 글의 문맥을 고려해 다양한 경우의 수를 판단하여 더욱 자연스럽고 정확한 점역 결과를 제공합니다.',
+  },
+  {
+    title: '완전한 오픈소스 프로젝트',
+    description:
+      '기존에도 점사랑, 하상브레일 등 다양한 점역기가 존재했고, 일부는 API를 제공하기도 했습니다.하지만 이들은 대부분 소스가 공개되지 않았고, 점역을 위해 API 서버에 연결해야 했습니다. braillify는 다릅니다. 누구나 접근하고, 함께 개선해 나갈 수 있도록 점자 표준 구현 전 과정을 오픈소스로 제공합니다.',
+  },
+  {
+    title: 'Rust 기반 크로스 플랫폼',
+    description:
+      'braillify는 Rust 언어로 개발되었으며, Node.js, Rust, Python 환경을 모두 지원합니다. 또한 WebAssembly(wasm)도 지원하여, 네트워크나 외부 연결 없이 자신의 PC에서 바로 실행 가능한 구조를 가지고 있습니다. 이를 통해 플랫폼에 구애받지 않고 더 자유롭고 유연한 활용이 가능합니다. 원하는 플랫폼이 있다면 Devfive와 함께 braillify를 확장하고 발전시켜보세요.',
+  },
+]
 
 export default function HomePage() {
   return (
@@ -22,10 +40,16 @@ export default function HomePage() {
           right="47.172px"
           src="/images/home/background-braille.svg"
           top="145px"
-          w="236.82798767089844px"
+          w="236px"
         />
-        <VStack gap="80px" position="relative" w="100%" zIndex="1">
-          <VStack alignItems={['center', null, null, 'flex-start']}>
+        <VStack
+          alignItems="center"
+          gap="80px"
+          position="relative"
+          w="100%"
+          zIndex="1"
+        >
+          <VStack alignItems={['center', null, null, 'flex-start']} w="100%">
             <Box
               aspectRatio="838/341"
               bg="$text"
@@ -33,8 +57,9 @@ export default function HomePage() {
               maskPosition="start"
               maskRepeat="no-repeat"
               maskSize="contain"
+              maxW="1000px"
               mb={['30px', null, null, '60px']}
-              w={['100%', null, null, '838px']}
+              w={['100%', null, null, '60%']}
             />
             <VStack
               alignItems={['center', null, null, 'flex-start']}
@@ -51,16 +76,19 @@ export default function HomePage() {
               </PillButton>
             </VStack>
           </VStack>
-          <Trans />
+          <Flex maxW="1520px" w="100%">
+            <Trans />
+          </Flex>
         </VStack>
       </Box>
       <Flex
         flexDirection={['column', null, null, 'row']}
         gap="80px"
-        maxW="1920px"
+        maxW="1640px"
         mx="auto"
         px={['16px', null, null, '60px']}
         py={['30px', null, null, '80px']}
+        wordBreak="keep-all"
       >
         <VStack gap="20px">
           <Flex gap="16px">
@@ -78,104 +106,40 @@ export default function HomePage() {
           </Text>
         </VStack>
         <VStack flex="1" justifyContent="center">
-          <Flex
-            borderBottom="1px solid $text"
-            borderTop="1px solid $text"
-            gap="50px"
-            p={['16px', null, null, '50px']}
-            position="relative"
-          >
-            <VStack flex="1" gap="12px">
-              <Text color="$text" typography="featureCount">
-                01
-              </Text>
-              <Text color="$text" typography="featureTitle">
-                2024 개정 한국 점자 규정 기반 점역기
-              </Text>
-              <Text color="$text" typography="body">
-                braillify는 2024년 개정된 한국 점자 규정을 기반으로 설계되고
-                구현된 점역기입니다.더 이상 유지보수가 어렵고, 레거시 코드에
-                의존해 최신 규정과 맞지 않는 점역기를 사용할 필요가 없습니다.
-                글의 문맥을 고려해 다양한 경우의 수를 판단하여 더욱 자연스럽고
-                정확한 점역 결과를 제공합니다.
-              </Text>
-            </VStack>
-            <Box
-              aspectRatio="1"
-              bg="$text"
-              borderRadius="50%"
-              boxSize={['12px', null, null, '16px']}
-              position={['absolute', null, null, 'static']}
-              right="20px"
-              top="20px"
-            />
-          </Flex>
-          <Flex
-            borderBottom="1px solid $text"
-            gap="50px"
-            p={['16px', null, null, '50px']}
-            position="relative"
-          >
-            <VStack flex="1" gap="12px">
-              <Text color="$text" typography="featureCount">
-                02
-              </Text>
-              <Text color="$text" typography="featureTitle">
-                완전한 오픈소스 프로젝트
-              </Text>
-              <Text color="$text" typography="body">
-                기존에도 점사랑, 하상브레일 등 다양한 점역기가 존재했고, 일부는
-                API를 제공하기도 했습니다.하지만 이들은 대부분 소스가 공개되지
-                않았고, 점역을 위해 API 서버에 연결해야 했습니다. braillify는
-                다릅니다. 누구나 접근하고, 함께 개선해 나갈 수 있도록 점자 표준
-                구현 전 과정을 오픈소스로 제공합니다.
-              </Text>
-            </VStack>
-            <Box
-              aspectRatio="1"
-              bg="$text"
-              borderRadius="50%"
-              boxSize={['12px', null, null, '16px']}
-              position={['absolute', null, null, 'static']}
-              right="20px"
-              top="20px"
-            />
-          </Flex>
-          <Flex
-            borderBottom="1px solid $text"
-            gap="50px"
-            p={['16px', null, null, '50px']}
-            position="relative"
-          >
-            <VStack flex="1" gap="12px">
-              <Text color="$text" typography="featureCount">
-                03
-              </Text>
-              <Text color="$text" typography="featureTitle">
-                Rust 기반 크로스 플랫폼
-              </Text>
-              <Text color="$text" typography="body">
-                braillify는 Rust 언어로 개발되었으며, Node.js, Rust, Python
-                환경을 모두 지원합니다. 또한 WebAssembly(wasm)도 지원하여,
-                네트워크나 외부 연결 없이 자신의 PC에서 바로 실행 가능한 구조를
-                가지고 있습니다. 이를 통해 플랫폼에 구애받지 않고 더 자유롭고
-                유연한 활용이 가능합니다. 원하는 플랫폼이 있다면 Devfive와 함께
-                braillify를 확장하고 발전시켜보세요.
-              </Text>
-            </VStack>
-            <Box
-              aspectRatio="1"
-              bg="$text"
-              borderRadius="50%"
-              boxSize={['12px', null, null, '16px']}
-              position={['absolute', null, null, 'static']}
-              right="20px"
-              top="20px"
-            />
-          </Flex>
+          {DESCRIPTIONS.map(({ title, description }, index) => (
+            <Flex
+              key={`description-${index}`}
+              borderBottom="1px solid $text"
+              borderTop="1px solid $text"
+              gap="50px"
+              p={['16px', null, null, '50px']}
+              position="relative"
+            >
+              <VStack flex="1" gap="12px">
+                <Text color="$text" typography="featureCount">
+                  {(index + 1).toString().padStart(2, '0')}
+                </Text>
+                <Text color="$text" typography="featureTitle">
+                  {title}
+                </Text>
+                <Text color="$text" typography="body">
+                  {description}
+                </Text>
+              </VStack>
+              <Box
+                aspectRatio="1"
+                bg="$text"
+                borderRadius="50%"
+                boxSize={['12px', null, null, '16px']}
+                position={['absolute', null, null, 'static']}
+                right="20px"
+                top="20px"
+              />
+            </Flex>
+          ))}
         </VStack>
       </Flex>
-      <Flex gap="100px" px={['16px', null, null, '80px']} py="100px" w="100%">
+      <Center gap="100px" px={['16px', null, null, '80px']} py="100px" w="100%">
         <Flex
           alignItems={['center', null, null, 'flex-start']}
           bg="url(/images/home/texture.png)"
@@ -185,6 +149,7 @@ export default function HomePage() {
           flex="1"
           flexDirection={['column', null, null, 'row']}
           justifyContent="space-between"
+          maxW="1520px"
           position="relative"
           px={['50px', null, null, '100px']}
           py={['30px', null, null, '80px']}
@@ -236,7 +201,7 @@ export default function HomePage() {
             </PillButton>
           </VStack>
         </Flex>
-      </Flex>
+      </Center>
     </VStack>
   )
 }
