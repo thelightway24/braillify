@@ -96,7 +96,7 @@ export default async function TestCasePage() {
   })
 
   return (
-    <Box maxW="1920px" mx="auto" pb="100px" w="100%">
+    <Box maxW="1520px" mx="auto" pb="100px" w="100%">
       <VStack
         gap="20px"
         px={['16px', null, null, '60px']}

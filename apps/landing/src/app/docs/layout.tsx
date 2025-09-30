@@ -9,8 +9,8 @@ export default function DocsLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Flex maxW="1920px" minH="calc(100vh - 500px)" mx="auto" w="100%">
-      <Box display={['none', null, 'initial']} p="20px 16px" w="220px">
+    <Flex maxW="1520px" minH="calc(100vh - 500px)" mx="auto" w="100%">
+      <Box display={['none', null, 'initial']} minW="220px" p="20px 16px">
         <Box pos="sticky" top={['70px', null, '90px']}>
           <LeftMenu />
         </Box>
@@ -18,7 +18,6 @@ export default function DocsLayout({
       <Box
         className="markdown-body"
         color="$text"
-        flex={1}
         px={['16px', null, null, '60px']}
         py={['24px', null, null, '40px']}
       >
