@@ -54,10 +54,11 @@ fn run_repl() -> Result<()> {
 
 #[cfg(test)]
 mod tests {
+    use assert_cmd::Command;
+    use predicates::prelude::*;
     use super::*;
-    use std::process::{Command, Stdio};
-    use std::io::Write;
 
+    // 유닛 테스트들
     #[test]
     fn test_run_one_shot_success() {
         let result = run_one_shot("안녕");
@@ -85,107 +86,149 @@ mod tests {
         assert_eq!(cli.input, None);
     }
 
+    // assert_cmd를 사용한 통합 테스트들
     #[test]
     fn test_braillify_integration_single_word() {
-        // 실제 바이너리를 실행하여 테스트
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "안녕"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
-
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        // 점자 유니코드가 출력되는지 확인
-        assert!(!stdout.is_empty());
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("안녕");
+        let assert = cmd.assert().success().stdout(predicate::str::is_empty().not());
+        
+        // 점자 유니코드가 포함되어 있는지 확인
+        let stdout = String::from_utf8_lossy(&assert.get_output().stdout);
         assert!(stdout.chars().any(|c| c as u32 >= 0x2800 && c as u32 <= 0x28FF));
     }
 
     #[test]
     fn test_braillify_integration_english() {
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "hello"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
-
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(!stdout.is_empty());
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("hello");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
     }
 
     #[test]
     fn test_braillify_integration_mixed() {
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "안녕 hello"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
-
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(!stdout.is_empty());
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("안녕 hello");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
     }
 
     #[test]
     fn test_braillify_integration_numbers() {
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "123"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
-
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(!stdout.is_empty());
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("123");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
     }
 
     #[test]
     fn test_braillify_pipe_input() {
-        // 파이프 입력 테스트
-        let mut child = Command::new("cargo")
-            .args(&["run", "--bin", "braillify"])
-            .current_dir("../../")
-            .stdin(Stdio::piped())
-            .stdout(Stdio::piped())
-            .spawn()
-            .expect("Failed to start process");
-
-        if let Some(stdin) = child.stdin.as_mut() {
-            stdin.write_all("안녕\n".as_bytes()).expect("Failed to write to stdin");
-        }
-
-        let output = child.wait_with_output().expect("Failed to read output");
-        assert!(output.status.success());
-
-        // 종료 코드 확인
-        assert_eq!(output.status.code(), Some(0));
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.write_stdin("안녕\n");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
     }
 
     #[test]
     fn test_braillify_help() {
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "--help"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
-
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(stdout.contains("한국어 점자 변환 CLI"));
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("--help");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::contains("한국어 점자 변환 CLI"));
     }
 
     #[test]
     fn test_braillify_version() {
-        let output = Command::new("cargo")
-            .args(&["run", "--bin", "braillify", "--", "--version"])
-            .current_dir("../../")
-            .output()
-            .expect("Failed to execute command");
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("--version");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::contains("braillify"));
+    }
 
-        assert!(output.status.success());
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        assert!(stdout.contains("braillify"));
+    #[test]
+    fn test_braillify_no_args() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        // 인자 없이 실행하면 REPL 모드로 진입
+        cmd.write_stdin("안녕\n");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::contains("braillify REPL"));
+    }
+
+    #[test]
+    fn test_braillify_empty_input() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty());
+    }
+
+    #[test]
+    fn test_braillify_long_text() {
+        let long_text = "안녕하세요 ".repeat(100);
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg(&long_text);
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
+    }
+
+    #[test]
+    fn test_braillify_special_characters() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("!@#$%^&*()");
+        cmd.assert()
+            .failure()
+            .stderr(predicate::str::contains("Invalid character"));
+    }
+
+    #[test]
+    fn test_braillify_korean_sentences() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("안녕하세요. 오늘 날씨가 좋네요.");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
+    }
+
+    #[test]
+    fn test_braillify_multiple_spaces() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("안녕    하세요");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
+    }
+
+    #[test]
+    fn test_braillify_newlines() {
+        let built = escargot::CargoBuild::new().bin("braillify").current_release().current_target().run().unwrap();
+        let mut cmd = Command::new(built.path());
+        cmd.arg("안녕\n하세요");
+        cmd.assert()
+            .success()
+            .stdout(predicate::str::is_empty().not());
     }
 
     // 성능 테스트
