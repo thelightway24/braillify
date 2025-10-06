@@ -1,0 +1,24 @@
+[package]
+name = "braillify-cli"
+version = "0.1.0"
+edition = "2024"
+description = "braillify CLI: 문자열을 한국 점자로 변환하거나 REPL 제공"
+license = "Apache-2.0"
+repository = "https://github.com/dev-five-git/braillify"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+braillify = { path = "../../libs/braillify" }
+anyhow = "1"
+rustyline = "17"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+escargot = "0.5.15"
+
+[[bin]]
+name = "braillify"
+path = "src/main.rs"
+
+
