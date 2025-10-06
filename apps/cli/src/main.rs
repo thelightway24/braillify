@@ -54,7 +54,7 @@ fn run_repl() -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use assert_cmd::{assert::OutputAssertExt, output::OutputOkExt, Command};
+    use assert_cmd::assert::OutputAssertExt;
     use predicates::prelude::*;
     use super::*;
 
