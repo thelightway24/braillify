@@ -30,6 +30,7 @@ escargot = "0.5.15"
 [features]
 default = ["cli"]
 cli = ["clap", "anyhow", "rustyline", "atty"]
+wasm = []
 
 [[bin]]
 name = "braillify"

@@ -1,12 +1,17 @@
+#[cfg(feature = "cli")]
 use std::env;
 
+#[cfg(feature = "cli")]
 use anyhow::Result;
+#[cfg(feature = "cli")]
 use braillify::cli::run_cli;
+
+#[cfg(feature = "cli")]
 fn main() -> Result<()> {
     run_cli(env::args().collect())
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "cli"))]
 mod tests {
     use std::io::Write;
 
