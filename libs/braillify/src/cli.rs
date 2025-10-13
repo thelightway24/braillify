@@ -1,4 +1,4 @@
-use std::io::{self, Read, Write};
+use std::io::{self, IsTerminal, Read, Write};
 
 use anyhow::{Result, bail};
 use clap::Parser;
@@ -14,7 +14,7 @@ struct Cli {
 }
 
 pub fn run_cli(mut args: Vec<String>) -> Result<()> {
-    if args.len() == 1 && !atty::is(atty::Stream::Stdin) {
+    if args.len() == 1 && std::io::stdin().is_terminal() {
         let mut buffer = String::new();
         io::stdin()
             .read_to_string(&mut buffer)
