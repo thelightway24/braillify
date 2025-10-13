@@ -13,6 +13,8 @@ use crate::{
 
 mod char_shortcut;
 mod char_struct;
+#[cfg(feature = "cli")]
+pub mod cli;
 mod english;
 mod jauem;
 mod korean_char;

@@ -112,25 +112,18 @@ checksum = "2261d10cca569e4643e526d8dc2e62e433cc8aba21ab764233731f8d369bf394"
 
 [[package]]
 name = "braillify"
-version = "1.0.1"
-dependencies = [
- "csv",
- "phf",
- "proptest",
- "serde_json",
-]
-
-[[package]]
-name = "braillify-cli"
-version = "0.1.0"
+version = "1.0.2"
 dependencies = [
  "anyhow",
  "assert_cmd",
- "braillify",
  "clap",
+ "csv",
  "escargot",
+ "phf",
  "predicates",
+ "proptest",
  "rustyline",
+ "serde_json",
 ]
 
 [[package]]
@@ -676,7 +669,7 @@ dependencies = [
 
 [[package]]
 name = "python"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "braillify",
  "pyo3",
