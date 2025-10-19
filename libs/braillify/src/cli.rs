@@ -14,7 +14,7 @@ struct Cli {
 }
 
 pub fn run_cli(mut args: Vec<String>) -> Result<()> {
-    if args.len() == 1 && std::io::stdin().is_terminal() {
+    if args.len() == 1 && !std::io::stdin().is_terminal() {
         let mut buffer = String::new();
         io::stdin()
             .read_to_string(&mut buffer)
@@ -42,6 +42,8 @@ fn run_repl() -> Result<()> {
         stdout,
         "braillify REPL - 입력을 점자로 변환합니다. 종료: Ctrl+C or Ctrl+D"
     )?;
+    stdout.flush()?;
+
     loop {
         match rl.readline("> ") {
             Ok(line) => {
@@ -50,9 +52,11 @@ fn run_repl() -> Result<()> {
                     Ok(out) => writeln!(stdout, "{}", out)?,
                     Err(e) => writeln!(stdout, "오류: {}", e)?,
                 }
+                stdout.flush()?;
             }
             Err(ReadlineError::Interrupted) | Err(ReadlineError::Eof) => {
                 writeln!(stdout, "종료합니다.")?;
+                stdout.flush()?;
                 break;
             }
             Err(err) => bail!("입력 오류: {}", err),
