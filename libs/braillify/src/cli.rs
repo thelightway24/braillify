@@ -15,11 +15,11 @@ struct Cli {
 
 pub fn run_cli(mut args: Vec<String>) -> Result<()> {
     if args.len() == 1 && !std::io::stdin().is_terminal() {
-        let mut buffer = String::new();
-        io::stdin()
-            .read_to_string(&mut buffer)
-            .expect("Failed to read stdin");
-        args.push(buffer);
+        let mut buffer = vec![];
+        io::stdin().read(&mut buffer)?;
+        if !buffer.is_empty() {
+            args.push(String::from_utf8(buffer)?);
+        }
     }
     match Cli::parse_from(args).input {
         Some(text) => run_one_shot(&text),
