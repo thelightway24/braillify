@@ -8,6 +8,7 @@ export function LeftMenu() {
       <MenuItem to="/docs/overview">개요</MenuItem>
       <MenuItem to="/docs/installation">설치</MenuItem>
       <MenuItem to="/docs/api">API</MenuItem>
+      <MenuItem to="/docs/contributing">기여하기</MenuItem>
     </VStack>
   )
 }
