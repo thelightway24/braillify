@@ -1,0 +1,10 @@
+[package]
+name = "braillify-java"
+version = "1.0.11"
+
+[dependencies]
+braillify = "1.0.11"
+jni = "0.21.1"
+
+[lib]
+crate-type = ["cdylib"]
